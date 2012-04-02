@@ -34,27 +34,36 @@
   });
 }(jQuery));
 </script>
-<script>
+<script type="text/javascript">
 main("host.get");
+if( localStorage.localhost == null ){
+  localStorage.localhost = "abcdefg";
+}
+function checkLogin(){
+  if( localStorage.localhost == "abcdefg" ){
+    document.getElementById('login').style.display = 'none';
+  }
+}
 </script>
 </head>
-<body>
+<body onLoad="checkLogin()">
+<div id="login">
 <form>
   URL:<input type="text">
   ID:<input type="text">
   Password:<input type="password">
   <input type="button" value="login">
 </form>
+</div>
 <div class="japan-area">
   <div id="form"></div>
 </div>
   <ul id="list">
-    <li><a href="#">ñkäCìπÅiÇŸÇ¡Ç©Ç¢Ç«Ç§Åj</a></li>
-    <li><a href="#">ê¬êXåßÅiÇ†Ç®Ç‡ÇËÅj</a></li>
+    <li><a href="#">abcde</a></li>
+    <li><a href="#">efghi</a></li>
 </ul>
 
 
 <div id="datatable"></div>
-
 </body>
 </html>
