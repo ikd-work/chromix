@@ -4,9 +4,10 @@ function main(method){
     var rpcid = auth.id + 1;
     var filter = new Object(); // ñ¢égópÅB
         filter.status = 0;
-        filter.value = 1;
+    //    filter.value = 1;
     var params = new Object();
         params.output = "extend";
+        params.expandData = 1;
         params.limit = 100;
         params.filter = filter;	
     
@@ -70,23 +71,15 @@ function showResult(response){
     var strTable = "";
     strTable += "<table>";
     for(var index in response.result) {
+        strTable += "<tr><td>";
         for ( var itemname in response.result[index]){
-            strTable += "<tr><td>";
-            if (itemname == "host") {
+            if (itemname == "hostname" || itemname == "description") {
                strTable += response.result[index][itemname];
                strTable += "</td><td>";
             };
-            
-            strTable += "<tr><td>";
-            strTable += itemname;
-            strTable += "</td><td>";
-            if (typeof(response.result[index][itemname]) == "object"){
-                strTable += JSON.stringify(response.result[index][itemname]);
-            } else {
-                strTable += response.result[index][itemname];
-            }
-            strTable += "</td></tr>";
+             
         }
+        strTable += "</td></tr>";
     }
     strTable += "</table><br>";
     document.getElementById("datatable").innerHTML = strTable;
