@@ -3,6 +3,8 @@ function main(method){
     var auth = getAuth("Admin", "zabbix");
     var rpcid = auth.id + 1;
     var filter = new Object(); // –¢g—pB
+        filter.status = 0;
+        filter.value = 1;
     var params = new Object();
         params.output = "extend";
         params.limit = 100;
@@ -62,7 +64,34 @@ function getZabbixData(rpcid, authid, method, params) { // "params"‚ÍJSONŒ`®‚Ì•
     //return dataResult;
 }
 
+
 // æ‚èo‚µ‚½ƒf[ƒ^‚ğƒe[ƒuƒ‹‚Æ‚µ‚Äo—Í
+function showResult(response){
+    var strTable = "";
+    strTable += "<table>";
+    for(var index in response.result) {
+        for ( var itemname in response.result[index]){
+            strTable += "<tr><td>";
+            if (itemname == "host") {
+               strTable += response.result[index][itemname];
+               strTable += "</td><td>";
+            };
+            
+            strTable += "<tr><td>";
+            strTable += itemname;
+            strTable += "</td><td>";
+            if (typeof(response.result[index][itemname]) == "object"){
+                strTable += JSON.stringify(response.result[index][itemname]);
+            } else {
+                strTable += response.result[index][itemname];
+            }
+            strTable += "</td></tr>";
+        }
+    }
+    strTable += "</table><br>";
+    document.getElementById("datatable").innerHTML = strTable;
+}
+/*
 function showResult(response){
     var strTable = "";
     strTable += "<table>";
@@ -88,3 +117,4 @@ function showResult(response){
     strTable += "</table><br>";
     document.getElementById("datatable").innerHTML = strTable;
 }
+*/
