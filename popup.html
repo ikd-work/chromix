@@ -38,10 +38,10 @@
 
 function displayLoginBox(){
   if( $("#login").css('display') == "none" ){
-    $("#login").css('display','block');
+    $("#login").slideDown("slow");
     $("#add").text("Close Box");
   }else{
-    $("#login").css('display','none');
+    $("#login").slideUp("slow");
     $("#add").text("Add Zabbix");
   }
   
@@ -69,6 +69,7 @@ for( var key in localStorage ){
   var token = JSON.parse(localStorage.getItem(key)).token;
   var checktime = JSON.parse(localStorage.getItem(key)).checktime;
   getTriggerList(key,token,checktime);
+  $("#server_url").text(key);
 }
 </script>
 </head>
@@ -104,7 +105,7 @@ for( var key in localStorage ){
     <li><a href="#">efghi</a></li>
 </ul>
 
-
+<div id="server_url"></div>
 <div id="datatable"></div>
 </body>
 </html>
