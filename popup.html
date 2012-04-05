@@ -1,4 +1,4 @@
-<html>
+<html style="min-width:600px;">
 <head>
 <!-- Theme specific CSS files are loaded later by the ThemeManager -->
 <title>Chromix</title>
@@ -35,24 +35,65 @@
 }(jQuery));
 </script>
 <script type="text/javascript">
-main("trigger.get");
-if( localStorage.localhost == null ){
-  localStorage.localhost = "abcdefg";
-}
-function checkLogin(){
-  if( localStorage.localhost == "abcdefg" ){
-    document.getElementById('login').style.display = 'none';
+
+function displayLoginBox(){
+  if( $("#login").css('display') == "none" ){
+    $("#login").css('display','block');
+    $("#add").text("Close Box");
+  }else{
+    $("#login").css('display','none');
+    $("#add").text("Add Zabbix");
   }
+  
+}
+
+function Login(){
+  var url = $("#url").val();
+  var username = $("#username").val();
+  var password = $("#password").val();
+  
+  var auth = getAuth(url,username,password);
+  if( auth.result != null ){
+    var data = {
+      token:auth.result,
+      checktime:parseInt((new Date)/1000)
+    };
+    var json_data = JSON.stringify(data);
+    localStorage.setItem(url,json_data);
+    $("#url").val(JSON.parse(json_data).token);
+    $("#username").val(JSON.parse(json_data).checktime);
+  }
+}
+
+for( var key in localStorage ){
+  var token = JSON.parse(localStorage.getItem(key)).token;
+  var checktime = JSON.parse(localStorage.getItem(key)).checktime;
+  getTriggerList(key,token,checktime);
 }
 </script>
 </head>
-<body onLoad="checkLogin()">
-<div id="login">
+<body>
+<div align="right">
+<a href="#" id="add" onclick="displayLoginBox()">Add Zabbix</a>
+</div>
+<div id="login" style="display:none">
 <form>
-  URL:<input type="text">
-  ID:<input type="text">
-  Password:<input type="password">
-  <input type="button" value="login">
+<table>
+  <tr>
+    <td align="right">URL:</td>
+    <td><input type="text" id="url"></td>
+  </tr><tr>
+    <td align="right">ID:</td>
+    <td><input type="text" id="username"></td>
+  </tr><tr>
+    <td align="right">Password:</td>
+    <td><input type="password" id="password"></td>
+  </tr>
+  <tr>
+  <td></td>
+  <td align="right"><a href="#" onclick="Login()">login</a></td>
+  </tr>
+</table>
 </form>
 </div>
 <div class="japan-area">
