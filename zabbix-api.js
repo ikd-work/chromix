@@ -8,6 +8,7 @@ function getTriggerList(url,token,checktime){
         params.expandData = 1;
         params.limit = 100;
         params.filter = filter;
+    $("#server_url").text(url);
     getZabbixData(rpcid, url, token, "trigger.get", params);
 }
 
@@ -57,7 +58,7 @@ function getZabbixData(rpcid, url, authid, method, params) { // "params"はJSON形
         processData: false,
         data: dataJsonRequest,
         success: function(response){
-            showResult(response);
+            showResult(response,url);
         },
         error: function(response){ alert("failed"); },
     });
@@ -66,7 +67,7 @@ function getZabbixData(rpcid, url, authid, method, params) { // "params"はJSON形
 
 
 // 取り出したデータをテーブルとして出力
-function showResult(response){
+function showResult(response,url){
     var strTable = "";
     strTable += "<table>";
     for(var index in response.result) {
@@ -81,5 +82,7 @@ function showResult(response){
         strTable += "</td></tr>";
     }
     strTable += "</table><br>";
-    document.getElementById("datatable").innerHTML = strTable;
+    //document.getElementById("datatable").innerHTML = strTable;
+    $("#datatable").html(strTable);
+    $("#server_url").text(url);
 }
