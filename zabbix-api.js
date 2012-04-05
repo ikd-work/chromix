@@ -1,3 +1,17 @@
+function getTab(){
+    var tab_str = ""; 
+    var count = 0;
+    for( var key in localStorage ){
+      tab_str += "<div id=tab" + count + " class=tab onclick=changeTab()>" + key + "</div>";
+      count++;
+    }
+    $("#tab").html(tab_str);
+}
+
+function changeTab(){
+  alert($(this).attr('id'));
+  sessionStorage.setItem("selected",$(this).text());
+}
 function getTriggerList(url,token,checktime){
     var rpcid = 1;
     var filter = new Object();
@@ -8,7 +22,7 @@ function getTriggerList(url,token,checktime){
         params.expandData = 1;
         params.limit = 100;
         params.filter = filter;
-    $("#server_url").text(url);
+   // $("#server_url").text(url);
     getZabbixData(rpcid, url, token, "trigger.get", params);
 }
 
@@ -84,5 +98,6 @@ function showResult(response,url){
     strTable += "</table><br>";
     //document.getElementById("datatable").innerHTML = strTable;
     $("#datatable").html(strTable);
-    $("#server_url").text(url);
+    getTab();
+//    $("#server_url").text(url);
 }
