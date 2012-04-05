@@ -1,21 +1,18 @@
-// main
-function main(method){
-    var auth = getAuth("Admin", "zabbix");
-    var rpcid = auth.id + 1;
-    var filter = new Object(); // –¢g—pB
+function getTriggerList(url,token,checktime){
+    var rpcid = 1;
+    var filter = new Object();
         filter.status = 0;
-    //    filter.value = 1;
+        //filter.value = 1;
     var params = new Object();
         params.output = "extend";
         params.expandData = 1;
         params.limit = 100;
-        params.filter = filter;	
-    
-    getZabbixData(rpcid, auth.result, method, params);
+        params.filter = filter;
+    getZabbixData(rpcid, url, token, "trigger.get", params);
 }
 
 //API Access Authentication
-function getAuth(user, password) {
+function getAuth(url, user, password) {
     var params = {"user":user, "password":password};
     var authRequest = new Object();
         authRequest.params = params;
@@ -25,8 +22,9 @@ function getAuth(user, password) {
         authRequest.method = 'user.authenticate';
     var authJsonRequest = JSON.stringify(authRequest);
     var authResult = new Object();
+    var api_url = "http://" + url + "/api_jsonrpc.php";
     $.ajax({
-        url: 'http://localhost/zabbix/api_jsonrpc.php',
+        url: api_url,
         contentType: 'application/json-rpc',
         dataType: 'json',
         type: 'POST',
@@ -42,7 +40,7 @@ function getAuth(user, password) {
 }
 
 // Access Zabbix API and Get Data
-function getZabbixData(rpcid, authid, method, params) { // "params"‚ÍJSONŒ`®‚Ì•¶š—ñƒŠƒeƒ‰ƒ‹‚©JSON‚É•ÏŠ·‰Â”\‚ÈƒIƒuƒWƒFƒNƒg
+function getZabbixData(rpcid, url, authid, method, params) { // "params"‚ÍJSONŒ`®‚Ì•¶š—ñƒŠƒeƒ‰ƒ‹‚©JSON‚É•ÏŠ·‰Â”\‚ÈƒIƒuƒWƒFƒNƒg
     var dataRequest = new Object();
         dataRequest.params = params;
         dataRequest.auth = authid;
@@ -50,9 +48,10 @@ function getZabbixData(rpcid, authid, method, params) { // "params"‚ÍJSONŒ`®‚Ì•
         dataRequest.id = rpcid;
         dataRequest.method = method;
     var dataJsonRequest = JSON.stringify(dataRequest);
+    var api_url = "http://" + url + "/api_jsonrpc.php";
     $.ajax({
         type: 'POST',
-        url: 'http://localhost/zabbix/api_jsonrpc.php',
+        url: api_url,
         contentType: 'application/json-rpc',
         dataType: 'json',
         processData: false,
@@ -84,30 +83,3 @@ function showResult(response){
     strTable += "</table><br>";
     document.getElementById("datatable").innerHTML = strTable;
 }
-/*
-function showResult(response){
-    var strTable = "";
-    strTable += "<table>";
-    for(var index in response.result) {
-        strTable += "<tr><th>";
-        strTable += "host"; // "host"—“‚ğƒe[ƒuƒ‹‚Ìƒ^ƒCƒgƒ‹s‚ÉB
-        strTable += "</th><th>";
-        strTable += response.result[index].host;
-        strTable += "</th></tr>";
-        for ( var itemname in response.result[index]){
-            if (itemname == "host") { continue };
-            strTable += "<tr><td>";
-            strTable += itemname;
-            strTable += "</td><td>";
-            if (typeof(response.result[index][itemname]) == "object"){
-                strTable += JSON.stringify(response.result[index][itemname]);
-            } else {
-                strTable += response.result[index][itemname];
-            }
-            strTable += "</td></tr>";
-        }
-    }
-    strTable += "</table><br>";
-    document.getElementById("datatable").innerHTML = strTable;
-}
-*/
