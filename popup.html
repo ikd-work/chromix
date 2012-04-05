@@ -65,11 +65,16 @@ function Login(){
   }
 }
 
+//getTab();
 for( var key in localStorage ){
   var token = JSON.parse(localStorage.getItem(key)).token;
   var checktime = JSON.parse(localStorage.getItem(key)).checktime;
-  getTriggerList(key,token,checktime);
-  $("#server_url").text(key);
+  if( sessionStorage.getItem("selected") == null ){
+    sessionStorage.setItem("selected",key);
+    getTriggerList(key,token,checktime);
+  }else if( sessionStorage.getItem("selected") == key ){    
+    getTriggerList(key,token,checktime);
+  }
 }
 </script>
 </head>
@@ -105,7 +110,7 @@ for( var key in localStorage ){
     <li><a href="#">efghi</a></li>
 </ul>
 
-<div id="server_url"></div>
+<div id="tab"></div>
 <div id="datatable"></div>
 </body>
 </html>
