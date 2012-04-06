@@ -1,0 +1,40 @@
+#tab {
+width: 100%;
+padding-top: 20px;
+background-color: #ffffff;
+border-bottom: 3px #004080 solid;
+font-size: 80%;
+}
+
+#tab ul {
+width: 99%;
+margin: 10px;
+padding: 3px;
+list-style-type: none;
+text-align: center;
+}
+
+#tab ul li {
+padding-right:10px;
+padding-left:10px;
+float: left;
+}
+
+#tab ul li.selected_tab {
+background-color: #004080;
+color: #ffffff;
+}
+
+#tab ul li.tab {
+background-color: #e0ffff;
+color: #0000cd;
+}
+
+#datatable {
+background-color: #004080;
+color: #ffffff;
+}
+
+#datatable td {
+color: #ffffff
+}

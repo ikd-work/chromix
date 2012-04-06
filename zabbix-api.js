@@ -1,17 +1,39 @@
 function getTab(){
-    var tab_str = ""; 
-    var count = 0;
-    for( var key in localStorage ){
-      tab_str += "<div id=tab" + count + " class=tab onclick=changeTab()>" + key + "</div>";
+	var tab_str = "<ul>"; 
+	var count = 0;
+	for( var key in localStorage ){
+		if( sessionStorage.getItem("selected") == key ){
+			tab_str += "<li id=tab" + count + " class=selected_tab >" + key + "</li>";
+		}else{
+			tab_str += "<li id=tab" + count + " class=tab >" + key + "</li>";
+		}
       count++;
     }
+    tab_str += "</ul>"
     $("#tab").html(tab_str);
+	$("li.tab").click(function(){
+		sessionStorage.setItem("selected",$(this).text());
+		selectedTabView(sessionStorage.getItem("selected"));
+	});
+
 }
 
-function changeTab(){
-  alert($(this).attr('id'));
-  sessionStorage.setItem("selected",$(this).text());
+function selectedTabView(selected_tab){
+	for( var key in localStorage ){
+		var token = JSON.parse(localStorage.getItem(key)).token;
+		var checktime = JSON.parse(localStorage.getItem(key)).checktime;
+		if( sessionStorage.getItem("selected") == null ){
+			sessionStorage.setItem("selected",key);
+			getTriggerList(key,token,checktime);
+			getTab();
+		}else if( sessionStorage.getItem("selected") == key ){    
+			getTriggerList(key,token,checktime);
+			getTab();
+		}
+	}
 }
+
+
 function getTriggerList(url,token,checktime){
     var rpcid = 1;
     var filter = new Object();
@@ -97,7 +119,9 @@ function showResult(response,url){
     }
     strTable += "</table><br>";
     //document.getElementById("datatable").innerHTML = strTable;
-    $("#datatable").html(strTable);
-    getTab();
-//    $("#server_url").text(url);
+	$("#datatable").fadeOut("normal",function(){
+		$("#datatable").html(strTable);
+		$("#datatable").fadeIn();
+	});
+	
 }
