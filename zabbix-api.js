@@ -7,15 +7,14 @@ function getTab(){
 		}else{
 			tab_str += "<li id=tab" + count + " class=tab >" + key + "</li>";
 		}
-      count++;
-    }
-    tab_str += "</ul>"
-    $("#tab").html(tab_str);
+		count++;
+	}
+	tab_str += "</ul>"
+	$("#tab").html(tab_str);
 	$("li.tab").click(function(){
 		sessionStorage.setItem("selected",$(this).text());
 		selectedTabView(sessionStorage.getItem("selected"));
 	});
-
 }
 
 function selectedTabView(selected_tab){
@@ -35,17 +34,29 @@ function selectedTabView(selected_tab){
 
 
 function getTriggerList(url,token,checktime){
-    var rpcid = 1;
-    var filter = new Object();
-        filter.status = 0;
-        //filter.value = 1;
-    var params = new Object();
-        params.output = "extend";
-        params.expandData = 1;
-        params.limit = 100;
-        params.filter = filter;
-   // $("#server_url").text(url);
-    getZabbixData(rpcid, url, token, "trigger.get", params);
+	var rpcid = 1;
+	var filter = new Object();
+		filter.status = 0;
+		filter.value = 1;
+	var params = new Object();
+		params.output = "extend";
+		params.expandData = 1;
+		params.limit = 100;
+		params.filter = filter;
+	getZabbixData(rpcid, url, token, "trigger.get", params);
+}
+
+function unixtimeToDate(ut, TZ) {
+	var tD = new Date( ut * 1000 );
+	tD.setTime( tD.getTime() + (60*60*1000 * TZ) );
+	var yy = tD.getYear();
+	var mm = tD.getMonth() + 1;
+	var dd = tD.getDate();
+	if (yy < 2000) { yy += 1900; }
+	if (mm < 10) { mm = "0" + mm; }
+	if (dd < 10) { dd = "0" + dd; }
+	var time = yy + "/" + mm + "/" + dd + " " + tD.getHours() + ":" + tD.getMinutes() + ":" + tD.getSeconds();
+	return time;
 }
 
 //API Access Authentication
@@ -104,21 +115,30 @@ function getZabbixData(rpcid, url, authid, method, params) { // "params"はJSON形
 
 // 取り出したデータをテーブルとして出力
 function showResult(response,url){
-    var strTable = "";
-    strTable += "<table>";
-    for(var index in response.result) {
-        strTable += "<tr><td>";
-        for ( var itemname in response.result[index]){
-            if (itemname == "hostname" || itemname == "description") {
-               strTable += response.result[index][itemname];
-               strTable += "</td><td>";
-            };
-             
-        }
-        strTable += "</td></tr>";
-    }
-    strTable += "</table><br>";
-    //document.getElementById("datatable").innerHTML = strTable;
+	var strTable = "";
+	strTable += "<table>";
+	if( response.result == null ){
+		strTable += "No Event!";
+	}else{
+		strTable += "<tr><th>Description</th><th>Time</th><th>Host</th>";
+		for(var index in response.result) {
+			strTable += "<tr>";
+			for ( var itemname in response.result[index]){
+				if (itemname == "hostname" || itemname == "description") {
+					strTable += "<td>" + response.result[index][itemname];
+					strTable += "</td>";
+				}else if(itemname == "lastchange"){
+					var TZ = +9;
+					var unixtime = response.result[index][itemname];
+					strTable += "<td>" + unixtimeToDate(parseInt(response.result[index][itemname]),+9);
+					strTable += "</td>";
+				};
+			}
+			strTable += "</tr>";
+		}
+	}
+	strTable += "</table><br>";
+	//document.getElementById("datatable").innerHTML = strTable;
 	$("#datatable").fadeOut("normal",function(){
 		$("#datatable").html(strTable);
 		$("#datatable").fadeIn();
