@@ -1,14 +1,13 @@
 #tab {
 width: 100%;
-padding-top: 20px;
 background-color: #ffffff;
-border-bottom: 3px #004080 solid;
-font-size: 80%;
+border-bottom: 5px #C3BEFD solid;
+font-size: 100%;
 }
 
 #tab ul {
 width: 99%;
-margin: 10px;
+margin: 13px;
 padding: 3px;
 list-style-type: none;
 text-align: center;
@@ -18,23 +17,47 @@ text-align: center;
 padding-right:10px;
 padding-left:10px;
 float: left;
+border-top-left-radius: 8px;
+border-top-right-radius: 8px;
 }
 
 #tab ul li.selected_tab {
-background-color: #004080;
-color: #ffffff;
+background-color: #C3BEFD;
+border-top: 2px #4C3FD6 solid;
+border-left:2px #4C3FD6 solid;
+border-right:2px #4C3FD6 solid;
+color: #0000ff;
 }
 
 #tab ul li.tab {
-background-color: #e0ffff;
+background-color: #EBE9FE;
+border-top: 2px #C3BEFD solid;
+border-left:2px #C3BEFD solid;
+border-right:2px #C3BEFD solid;
+
 color: #0000cd;
 }
 
 #datatable {
-background-color: #004080;
-color: #ffffff;
+background-color: #C3BEFD;
+color: #0000ff;
 }
 
 #datatable td {
-color: #ffffff
+padding-top: 5px;
+padding-bottom: 5px;
+padding-left: 10px;
+padding-right: 10px;
+color: #0000ff;
+border-radius: 5px;
+background-color: #EBE9FE;
+}
+
+#datatable th {
+text-align: left;
+}
+
+#datatable tr {
+border: 10px #ffffff solid;
+border-radius: 10px;
 }
