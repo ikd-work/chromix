@@ -2,6 +2,8 @@
 <head>
 <!-- Theme specific CSS files are loaded later by the ThemeManager -->
 <title>Chromix</title>
+<style type="text/css" src="style.css"></style>
+<link rel="stylesheet" type="text/css" href="style.css" />
 <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="zabbix-api.js"></script>
 <script type="text/javascript">
@@ -65,17 +67,16 @@ function Login(){
   }
 }
 
+$(document).ready(function(){
+	getTab();
+	
+});
+
+
+selectedTabView(sessionStorage.getItem("selected"));
+
 //getTab();
-for( var key in localStorage ){
-  var token = JSON.parse(localStorage.getItem(key)).token;
-  var checktime = JSON.parse(localStorage.getItem(key)).checktime;
-  if( sessionStorage.getItem("selected") == null ){
-    sessionStorage.setItem("selected",key);
-    getTriggerList(key,token,checktime);
-  }else if( sessionStorage.getItem("selected") == key ){    
-    getTriggerList(key,token,checktime);
-  }
-}
+
 </script>
 </head>
 <body>
