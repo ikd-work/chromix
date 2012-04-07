@@ -70,6 +70,28 @@ function Login(){
 
 $(document).ready(function(){
 	getTab();
+	$(function() {
+	$("input").css('color', '#999');
+	var input_val = [];
+	$("input").each(function() {
+		input_val.push($(this).val());
+	});
+	$("input").focus(function() {
+		var chk_num = $("input").index(this);
+		var chk_val = $("input").eq(chk_num).val();
+		if(chk_val == input_val[chk_num]) {
+			var def_val = $(this).val();
+			$(this).val('');
+			$(this).css('color', '#333');
+			$(this).blur(function() {
+				if($(this).val() == '') {
+					$(this).val(def_val);
+					$(this).css('color', '#999');
+				}
+			});
+		}
+	});
+});
 	
 });
 
@@ -85,20 +107,20 @@ selectedTabView(sessionStorage.getItem("selected"));
 </div>
 <div id="login" style="display:none">
 <form>
-<table>
+<table id="loginform">
   <tr>
     <td align="right">URL:</td>
-    <td><input type="text" id="url"></td>
+    <td><input type="text" id="url" value="hostname/zabbix"></td>
   </tr><tr>
     <td align="right">ID:</td>
-    <td><input type="text" id="username"></td>
+    <td><input type="text" id="username" value="admin"></td>
   </tr><tr>
     <td align="right">Password:</td>
     <td><input type="password" id="password"></td>
   </tr>
   <tr>
   <td></td>
-  <td align="right"><a href="#" onclick="Login()">login</a></td>
+  <td align="right"><div id="buttom"><a href="#" onclick="Login()">login</a></div></td>
   </tr>
 </table>
 </form>

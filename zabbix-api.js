@@ -159,7 +159,7 @@ function showResult(response,url){
 		strTable += "No Event!";
 	}else{
 		strTable += "<a href=# onclick=Logout('"+url+"')>Logout</a>";
-		strTable += "<tr><th>Description</th><th>Time</th><th>Host</th>";
+		strTable += "<tr><th class=new></th><th>Description</th><th>Time</th><th>Host</th>";
 		for(var index in response.result) {
 			strTable += "<tr>";
 			for ( var itemname in response.result[index]){
@@ -171,6 +171,13 @@ function showResult(response,url){
 					var TZ = +0;
 					var unixtime = response.result[index][itemname];
 					var time =  unixtimeToDate(parseInt(response.result[index][itemname]),TZ);
+						console.log(unixtime);
+						console.log(JSON.parse(localStorage.getItem(url)).checktime);
+					if( unixtime >= JSON.parse(localStorage.getItem(url)).checktime) {
+						strTable += "<td id=new>new</td>";
+					}else{
+						strTable += "<td id=new></td>";
+					}
 				}else if( itemname == "triggerid"){
 					var pageurl = "http://" + url + "/events.php?triggerid=" + response.result[index][itemname];
 				};
