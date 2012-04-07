@@ -59,6 +59,42 @@ function unixtimeToDate(ut, TZ) {
 	return time;
 }
 
+function getTriggerCount(url, token, ckecktime) { // "params"はJSON形式の文字列リテラルかJSONに変換可能なオブジェクト
+	var rpcid = 1;
+	var filter = new Object();
+	    filter.status = 0;
+	    filter.value = 1;
+	var params = new Object();
+	    params.output = "extend";
+	    params.limit = 100;
+	    params.filter = filter;
+	getZabbixData(rpcid, url, token, "trigger.get", params);
+	var dataRequest = new Object();
+	dataRequest.params = params;
+	dataRequest.auth = token;
+	dataRequest.jsonrpc = '2.0';
+	dataRequest.id = rpcid;
+	dataRequest.method = "trigger.get";
+	var dataJsonRequest = JSON.stringify(dataRequest);
+	var dataNum = 0;
+	var api_url = "http://" + url + "/api_jsonrpc.php";
+	$.ajax({
+		type: 'POST',
+		url: api_url,
+		contentType: 'application/json-rpc',
+		dataType: 'json',
+		processData: false,
+		async: false,
+		data: dataJsonRequest,
+		success: function(response){
+			console.log(response);
+			dataNum = response.result.length;
+		},
+		error: function(response){ alert("failed"); },
+	});
+	console.log(dataNum);
+	return(dataNum);
+}
 //API Access Authentication
 function getAuth(url, user, password) {
     var params = {"user":user, "password":password};
@@ -89,51 +125,57 @@ function getAuth(url, user, password) {
 
 // Access Zabbix API and Get Data
 function getZabbixData(rpcid, url, authid, method, params) { // "params"はJSON形式の文字列リテラルかJSONに変換可能なオブジェクト
-    var dataRequest = new Object();
-        dataRequest.params = params;
-        dataRequest.auth = authid;
-        dataRequest.jsonrpc = '2.0';
-        dataRequest.id = rpcid;
-        dataRequest.method = method;
-    var dataJsonRequest = JSON.stringify(dataRequest);
-    var api_url = "http://" + url + "/api_jsonrpc.php";
-    $.ajax({
-        type: 'POST',
-        url: api_url,
-        contentType: 'application/json-rpc',
-        dataType: 'json',
-        processData: false,
-        data: dataJsonRequest,
-        success: function(response){
-            showResult(response,url);
-        },
-        error: function(response){ alert("failed"); },
-    });
-    //return dataResult;
+	var dataRequest = new Object();
+	dataRequest.params = params;
+	dataRequest.auth = authid;
+	dataRequest.jsonrpc = '2.0';
+	dataRequest.id = rpcid;
+	dataRequest.method = method;
+	var dataJsonRequest = JSON.stringify(dataRequest);
+	var api_url = "http://" + url + "/api_jsonrpc.php";
+	$.ajax({
+		type: 'POST',
+		url: api_url,
+		contentType: 'application/json-rpc',
+		dataType: 'json',
+		processData: false,
+		data: dataJsonRequest,
+		success: function(response){
+			showResult(response,url);
+		},
+		error: function(response){ alert("failed"); },
+	});
 }
 
-
+function Logout(key){
+	localStorage.removeItem(key);
+	location.reload();
+}
 // 取り出したデータをテーブルとして出力
 function showResult(response,url){
 	var strTable = "";
 	strTable += "<table>";
-	if( response.result == null ){
+	if( response.result == "" ){
 		strTable += "No Event!";
 	}else{
+		strTable += "<a href=# onclick=Logout('"+url+"')>Logout</a>";
 		strTable += "<tr><th>Description</th><th>Time</th><th>Host</th>";
 		for(var index in response.result) {
 			strTable += "<tr>";
 			for ( var itemname in response.result[index]){
-				if (itemname == "hostname" || itemname == "description") {
-					strTable += "<td>" + response.result[index][itemname];
-					strTable += "</td>";
-				}else if(itemname == "lastchange"){
-					var TZ = +9;
+				if ( itemname == "hostname"){
+					var hostname = response.result[index][itemname];
+				}else if( itemname == "description") {
+					var description = response.result[index][itemname];
+				}else if( itemname == "lastchange"){
+					var TZ = +0;
 					var unixtime = response.result[index][itemname];
-					strTable += "<td>" + unixtimeToDate(parseInt(response.result[index][itemname]),+9);
-					strTable += "</td>";
+					var time =  unixtimeToDate(parseInt(response.result[index][itemname]),TZ);
+				}else if( itemname == "triggerid"){
+					var pageurl = "http://" + url + "/events.php?triggerid=" + response.result[index][itemname];
 				};
 			}
+			strTable += "<td><a href=" + pageurl + " target=_blank >" + description + "</a></td><td>" + time + "</td><td>" + hostname + "</td>";
 			strTable += "</tr>";
 		}
 	}
