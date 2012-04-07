@@ -50,28 +50,28 @@ function displayLoginBox(){
 }
 
 function Login(){
-  var url = $("#url").val();
-  var username = $("#username").val();
-  var password = $("#password").val();
-  
-  var auth = getAuth(url,username,password);
-  if( auth.result != null ){
-    var data = {
-      token:auth.result,
-      checktime:parseInt((new Date)/1000)
-    };
-    var json_data = JSON.stringify(data);
-    localStorage.setItem(url,json_data);
-    $("#url").val(JSON.parse(json_data).token);
-    $("#username").val(JSON.parse(json_data).checktime);
-  }
+	var url = $("#url").val();
+	var username = $("#username").val();
+	var password = $("#password").val();
+
+	var auth = getAuth(url,username,password);
+	if( auth.result != null ){
+		var data = {
+		token:auth.result,
+		checktime:parseInt((new Date)/1000)
+		};
+		var json_data = JSON.stringify(data);
+		localStorage.setItem(url,json_data);
+		$("#url").val(JSON.parse(json_data).token);
+		$("#username").val(JSON.parse(json_data).checktime);
+		location.reload();
+	}
 }
 
 $(document).ready(function(){
 	getTab();
 	
 });
-
 
 selectedTabView(sessionStorage.getItem("selected"));
 
@@ -106,10 +106,6 @@ selectedTabView(sessionStorage.getItem("selected"));
 <div class="japan-area">
   <div id="form"></div>
 </div>
-  <ul id="list">
-    <li><a href="#">abcde</a></li>
-    <li><a href="#">efghi</a></li>
-</ul>
 
 <div id="tab"></div>
 <div id="datatable"></div>

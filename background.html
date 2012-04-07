@@ -1,16 +1,27 @@
+<!DOCTYPE html>
 <html>
 <head>
-<script>
-    var counter = 0;
-     
-    chrome.browserAction.setBadgeText({text:String(counter)});
-     
-    chrome.browserAction.onClicked.addListener(
-        function(tab){
-            counter++;
-            chrome.browserAction.setBadgeText({text:String(counter)});
-        }
-    );
+<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="zabbix-api.js"></script>
+<script type="text/javascript">
+function checkTriggerCount(){
+	var counter = 0;
+	for( var key in localStorage ){
+		var token = JSON.parse(localStorage.getItem(key)).token;
+		var checktime = JSON.parse(localStorage.getItem(key)).checktime;
+		counter += getTriggerCount(key,token,checktime);
+		console.log(counter);
+	}
+	if( counter == 0 ){
+		chrome.browserAction.setBadgeText({text:""});
+	}else{
+		chrome.browserAction.setBadgeText({text:String(counter)});
+	}
+	setTimeout("checkTriggerCount()",1000*20);
+}
+checkTriggerCount();
 </script>
 </head>
+<body>
+</body>
 </html>
