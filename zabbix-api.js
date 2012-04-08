@@ -17,6 +17,16 @@ function getTab(){
 	});
 }
 
+function updateTime(key){
+	var token = JSON.parse(localStorage.getItem(key)).token;
+	var data = {
+	token:token,
+	checktime:parseInt((new Date)/1000)
+	};
+	var json_data = JSON.stringify(data);
+	localStorage.setItem(key,json_data);
+}
+
 function selectedTabView(selected_tab){
 	for( var key in localStorage ){
 		var token = JSON.parse(localStorage.getItem(key)).token;
@@ -42,6 +52,8 @@ function getTriggerList(url,token,checktime){
 		params.output = "extend";
 		params.expandData = 1;
 		params.limit = 100;
+		params.sortfield = "lastchange";
+		params.sortorder = "DESC";
 		params.filter = filter;
 	getZabbixData(rpcid, url, token, "trigger.get", params);
 }
@@ -59,7 +71,7 @@ function unixtimeToDate(ut, TZ) {
 	return time;
 }
 
-function getTriggerCount(url, token, ckecktime) { // "params"‚ÍJSONŒ`Ž®‚Ì•¶Žš—ñƒŠƒeƒ‰ƒ‹‚©JSON‚É•ÏŠ·‰Â”\‚ÈƒIƒuƒWƒFƒNƒg
+function getAllTrigger(url, token, ckecktime) { // "params"‚ÍJSONŒ`Ž®‚Ì•¶Žš—ñƒŠƒeƒ‰ƒ‹‚©JSON‚É•ÏŠ·‰Â”\‚ÈƒIƒuƒWƒFƒNƒg
 	var rpcid = 1;
 	var filter = new Object();
 	    filter.status = 0;
@@ -68,7 +80,6 @@ function getTriggerCount(url, token, ckecktime) { // "params"‚ÍJSONŒ`Ž®‚Ì•¶Žš—ñƒ
 	    params.output = "extend";
 	    params.limit = 100;
 	    params.filter = filter;
-	getZabbixData(rpcid, url, token, "trigger.get", params);
 	var dataRequest = new Object();
 	dataRequest.params = params;
 	dataRequest.auth = token;
@@ -76,7 +87,7 @@ function getTriggerCount(url, token, ckecktime) { // "params"‚ÍJSONŒ`Ž®‚Ì•¶Žš—ñƒ
 	dataRequest.id = rpcid;
 	dataRequest.method = "trigger.get";
 	var dataJsonRequest = JSON.stringify(dataRequest);
-	var dataNum = 0;
+	var allTrigger = new Object();
 	var api_url = "http://" + url + "/api_jsonrpc.php";
 	$.ajax({
 		type: 'POST',
@@ -87,13 +98,34 @@ function getTriggerCount(url, token, ckecktime) { // "params"‚ÍJSONŒ`Ž®‚Ì•¶Žš—ñƒ
 		async: false,
 		data: dataJsonRequest,
 		success: function(response){
-			console.log(response);
-			dataNum = response.result.length;
+			allTrigger = response;
 		},
 		error: function(response){ alert("failed"); },
 	});
-	console.log(dataNum);
-	return(dataNum);
+	return(allTrigger);
+}
+function refreshTriggerCount(){
+	var counter = 0;
+	for( var key in localStorage ){
+		var token = JSON.parse(localStorage.getItem(key)).token;
+		var checktime = JSON.parse(localStorage.getItem(key)).checktime;
+	//	counter += getTriggerCount(key,token,checktime);
+		var alltrigger = getAllTrigger(key,token,checktime);
+		for(var index in alltrigger.result) {
+			for ( var itemname in alltrigger.result[index]){
+				if( itemname == "lastchange"){
+					if( checktime < alltrigger.result[index][itemname] ){
+						counter++;
+					}
+				}
+			}
+		}
+	}
+	if( counter == 0 ){
+		chrome.browserAction.setBadgeText({text:""});
+	}else{
+		chrome.browserAction.setBadgeText({text:String(counter)});
+	}
 }
 //API Access Authentication
 function getAuth(url, user, password) {
@@ -156,10 +188,10 @@ function showResult(response,url){
 	var strTable = "";
 	strTable += "<table>";
 	if( response.result == "" ){
-		strTable += "No Event!";
+		strTable += "No Trouble!";
 	}else{
 		strTable += "<a href=# onclick=Logout('"+url+"')>Logout</a>";
-		strTable += "<tr><th class=new></th><th>Description</th><th>Time</th><th>Host</th>";
+		strTable += "<tr><th>Description</th><th>Time</th><th>Host</th>";
 		for(var index in response.result) {
 			strTable += "<tr>";
 			for ( var itemname in response.result[index]){
@@ -173,16 +205,15 @@ function showResult(response,url){
 					var time =  unixtimeToDate(parseInt(response.result[index][itemname]),TZ);
 						console.log(unixtime);
 						console.log(JSON.parse(localStorage.getItem(url)).checktime);
-					if( unixtime >= JSON.parse(localStorage.getItem(url)).checktime) {
-						strTable += "<td id=new>new</td>";
-					}else{
-						strTable += "<td id=new></td>";
-					}
 				}else if( itemname == "triggerid"){
 					var pageurl = "http://" + url + "/events.php?triggerid=" + response.result[index][itemname];
 				};
 			}
-			strTable += "<td><a href=" + pageurl + " target=_blank >" + description + "</a></td><td>" + time + "</td><td>" + hostname + "</td>";
+			var class_name = "old";
+			if( unixtime >= JSON.parse(localStorage.getItem(url)).checktime ) {
+				class_name = "new";
+			}
+			strTable += "<td class=" + class_name + "><a href=" + pageurl + " target=_blank >" + description + "</a></td><td class=" + class_name + ">" + time + "</td><td class=" + class_name + ">" + hostname + "</td>";
 			strTable += "</tr>";
 		}
 	}
@@ -192,5 +223,7 @@ function showResult(response,url){
 		$("#datatable").html(strTable);
 		$("#datatable").fadeIn();
 	});
+	updateTime(url);
+	refreshTriggerCount();
 	
 }

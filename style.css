@@ -63,8 +63,12 @@ border: 10px #ffffff solid;
 border-radius: 10px;
 }
 
-#datatable td {
+#datatable td.new {
 border-color: #ff0000;
+}
+
+#datatable td.old {
+border-color: #0000ff;
 }
 
 
