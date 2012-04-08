@@ -203,8 +203,6 @@ function showResult(response,url){
 					var TZ = +0;
 					var unixtime = response.result[index][itemname];
 					var time =  unixtimeToDate(parseInt(response.result[index][itemname]),TZ);
-						console.log(unixtime);
-						console.log(JSON.parse(localStorage.getItem(url)).checktime);
 				}else if( itemname == "triggerid"){
 					var pageurl = "http://" + url + "/events.php?triggerid=" + response.result[index][itemname];
 				};
