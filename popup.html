@@ -62,8 +62,6 @@ function Login(){
 		};
 		var json_data = JSON.stringify(data);
 		localStorage.setItem(url,json_data);
-		$("#url").val(JSON.parse(json_data).token);
-		$("#username").val(JSON.parse(json_data).checktime);
 		location.reload();
 	}
 }

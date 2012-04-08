@@ -9,8 +9,17 @@ function checkTriggerCount(){
 	for( var key in localStorage ){
 		var token = JSON.parse(localStorage.getItem(key)).token;
 		var checktime = JSON.parse(localStorage.getItem(key)).checktime;
-		counter += getTriggerCount(key,token,checktime);
-		console.log(counter);
+	//	counter += getTriggerCount(key,token,checktime);
+		var alltrigger = getAllTrigger(key,token,checktime);
+		for(var index in alltrigger.result) {
+			for ( var itemname in alltrigger.result[index]){
+				if( itemname == "lastchange"){
+					if( checktime < alltrigger.result[index][itemname] ){
+						counter++;
+					}
+				}
+			}
+		}
 	}
 	if( counter == 0 ){
 		chrome.browserAction.setBadgeText({text:""});
