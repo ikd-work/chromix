@@ -1,14 +1,22 @@
+html {
+min-width: 600px;
+max-width: 1200px;
+font-family: cursive,general-family;
+}
+
 #tab {
 width: 100%;
+min-width: 600px;
+max-width: 1200px;
 background-color: #ffffff;
 border-bottom: 5px #C3BEFD solid;
 font-size: 100%;
 }
 
 #tab ul {
-width: 99%;
+width: 100%;
 margin: 13px;
-padding: 3px;
+padding: 12px;
 list-style-type: none;
 text-align: center;
 }
@@ -89,4 +97,14 @@ text-shadow: 0px 1px #fff;
 
 #login a{
 text-decoration: none;
+}
+
+body{
+overflow:visible;
+}
+
+div.nodata{
+font-size: 20px;
+font-weight:bold;
+text-shadow: 3px 3px 5px #00ffff;
 }

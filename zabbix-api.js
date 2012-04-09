@@ -78,7 +78,10 @@ function getAllTrigger(url, token, ckecktime) { // "params"‚ÍJSONŒ`Ž®‚Ì•¶Žš—ñƒŠƒ
 	    filter.value = 1;
 	var params = new Object();
 	    params.output = "extend";
+	    params.expandData = 1;
 	    params.limit = 100;
+   		params.sortfield = "lastchange";
+		params.sortorder = "DESC";
 	    params.filter = filter;
 	var dataRequest = new Object();
 	dataRequest.params = params;
@@ -187,15 +190,15 @@ function Logout(key){
 function showResult(response,url){
 	var strTable = "";
 	strTable += "<table>";
+	strTable += "<a href=# onclick=Logout('"+url+"')>Logout</a><br>";
 	if( response.result == "" ){
-		strTable += "No Trouble!";
+		strTable += "<div class=nodata>No Trouble!</div>";
 	}else{
-		strTable += "<a href=# onclick=Logout('"+url+"')>Logout</a>";
 		strTable += "<tr><th>Description</th><th>Time</th><th>Host</th>";
 		for(var index in response.result) {
 			strTable += "<tr>";
 			for ( var itemname in response.result[index]){
-				if ( itemname == "hostname"){
+				if ( itemname == "host"){
 					var hostname = response.result[index][itemname];
 				}else if( itemname == "description") {
 					var description = response.result[index][itemname];
