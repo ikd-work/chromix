@@ -98,12 +98,13 @@ function getAllTrigger(url, token, ckecktime) { // "params"‚ÍJSONŒ`®‚Ì•¶š—ñƒŠƒ
 		contentType: 'application/json-rpc',
 		dataType: 'json',
 		processData: false,
+		timeout: 10000,
 		async: false,
 		data: dataJsonRequest,
 		success: function(response){
 			allTrigger = response;
 		},
-		error: function(response){ alert("failed"); },
+		error: function(response){  },
 	});
 	return(allTrigger);
 }
@@ -132,28 +133,34 @@ function refreshTriggerCount(){
 }
 //API Access Authentication
 function getAuth(url, user, password) {
-    var params = {"user":user, "password":password};
-    var authRequest = new Object();
-        authRequest.params = params;
-        authRequest.auth = null;
-        authRequest.jsonrpc = '2.0';
-        authRequest.id = 0;
-        authRequest.method = 'user.authenticate';
-    var authJsonRequest = JSON.stringify(authRequest);
-    var authResult = new Object();
-    var api_url = "http://" + url + "/api_jsonrpc.php";
-    $.ajax({
-        url: api_url,
-        contentType: 'application/json-rpc',
-        dataType: 'json',
-        type: 'POST',
-        processData: false,
-        async: false, // ”FØ‚ªI‚í‚ç‚È‚¢‚ÆŸ‚Ìˆ—‚ª‚Å‚«‚È‚¢‚Ì‚ÅA‚±‚±‚Í“¯Šú’ÊM‚ÉB
-        data: authJsonRequest,
-        success: function(response){
-            authResult = response;
-        },
-        error: function(){ alert("failed"); },
+	var params = {"user":user, "password":password};
+	var authRequest = new Object();
+		authRequest.params = params;
+		authRequest.auth = null;
+		authRequest.jsonrpc = '2.0';
+		authRequest.id = 0;
+		authRequest.method = 'user.authenticate';
+	var authJsonRequest = JSON.stringify(authRequest);
+	var authResult = new Object();
+	var api_url = "http://" + url + "/api_jsonrpc.php";
+	$.ajaxSetup({
+		timeout: 2000
+	});
+	$.ajax({
+		url: api_url,
+		contentType: 'application/json-rpc',
+		dataType: 'json',
+		type: 'POST',
+		processData: false,
+		timeout: 2000,
+		async: false, // ”FØ‚ªI‚í‚ç‚È‚¢‚ÆŸ‚Ìˆ—‚ª‚Å‚«‚È‚¢‚Ì‚ÅA‚±‚±‚Í“¯Šú’ÊM‚ÉB
+		data: authJsonRequest,
+		success: function(response){
+			authResult = response;
+		},
+		error: function(response,status,errorThrown){
+			authResult.result = "Connection Error!";
+		},
     });
     return(authResult); // ”FØŒ‹‰Ê‚ğObject‚Æ‚µ‚Ä•Ô‚µ‚Ä"auth.id", "auth.result"‚Åæ‚èo‚·B
 }
@@ -175,10 +182,21 @@ function getZabbixData(rpcid, url, authid, method, params) { // "params"‚ÍJSONŒ`
 		dataType: 'json',
 		processData: false,
 		data: dataJsonRequest,
+		timeout: 10000,
 		success: function(response){
+			clearMsg();
 			showResult(response,url);
 		},
-		error: function(response){ alert("failed"); },
+		error: function(response){
+			outputError("Connection Error!");
+			$("#datatable").fadeOut("normal",function(){
+				var str = "<table><a href=# onclick=Logout('"+url+"')>Logout</a><br>";
+				str += "<div class=noconnection>Not Connected!</div>";
+				str += "</table><br>";
+				$("#datatable").html(str);
+				$("#datatable").fadeIn();
+			});
+		},
 	});
 }
 
@@ -186,6 +204,23 @@ function Logout(key){
 	localStorage.removeItem(key);
 	location.reload();
 }
+
+function clearMsg(){
+	$("#error").fadeOut("slow");
+	$("#message").fadeOut("slow");
+}
+
+function outputError(msg){
+	$("#error").text(msg);
+	$("#error").fadeIn("slow");
+}
+
+function outputMsg(msg){
+	$("#message").text(msg);
+	$("#message").fadeIn("slow");
+}
+
+
 // æ‚èo‚µ‚½ƒf[ƒ^‚ğƒe[ƒuƒ‹‚Æ‚µ‚Äo—Í
 function showResult(response,url){
 	var strTable = "";
