@@ -39,14 +39,14 @@
 <script type="text/javascript">
 
 function displayLoginBox(){
-  if( $("#login").css('display') == "none" ){
-    $("#login").slideDown("slow");
-    $("#add").text("Close Box");
-  }else{
-    $("#login").slideUp("slow");
-    $("#add").text("Add Zabbix");
-  }
-  
+	clearMsg();
+	if( $("#login").css('display') == "none" ){
+		$("#login").slideDown("slow");
+		$("#add").text("Close Box");
+	}else{
+		$("#login").slideUp("slow");
+		$("#add").text("Add Zabbix");
+	}
 }
 
 function Login(){
@@ -56,15 +56,23 @@ function Login(){
 
 	var auth = getAuth(url,username,password);
 	if( auth.result != null ){
-		var data = {
-		token:auth.result,
-		checktime:parseInt((new Date)/1000)
-		};
-		var json_data = JSON.stringify(data);
-		localStorage.setItem(url,json_data);
-		location.reload();
+		if( auth.result == "Connection Error!" ){
+			outputError(auth.result);
+		}else{
+			var data = {
+			token:auth.result,
+			checktime:parseInt((new Date)/1000)
+			};
+			var json_data = JSON.stringify(data);
+			localStorage.setItem(url,json_data);
+			location.reload();
+			outputMsg("Login Success");
+		}
+	}else{
+		outputError("Login Failure!");
 	}
 }
+
 
 $(document).ready(function(){
 	getTab();
@@ -103,6 +111,8 @@ selectedTabView(sessionStorage.getItem("selected"));
 <div align="right">
 <a href="#" id="add" onclick="displayLoginBox()">Add Zabbix</a>
 </div>
+<div id="message" style="display:none" ></div>
+<div id="error" style="display:none"></div>
 <div id="login" style="display:none">
 <form>
 <table id="loginform">
@@ -122,9 +132,6 @@ selectedTabView(sessionStorage.getItem("selected"));
   </tr>
 </table>
 </form>
-</div>
-<div class="japan-area">
-  <div id="form"></div>
 </div>
 
 <div id="tab"></div>

@@ -2,7 +2,7 @@
   "name":"Chromix",
   "version":"1.0",
   "background_page":"background.html",
-  "description":"Zabbix Alert Check Extention",
+  "description":"Zabbix Alert Check Extension",
   "permissions":[
     "notifications",
     "tabs",

@@ -95,7 +95,7 @@ box-shadow: inset 0 0.6em 3px #ffee88, 0 0 0.2em #ffee88;
 text-shadow: 0px 1px #fff;
 }
 
-#login a{
+a{
 text-decoration: none;
 }
 
@@ -107,4 +107,33 @@ div.nodata{
 font-size: 20px;
 font-weight:bold;
 text-shadow: 3px 3px 5px #00ffff;
+}
+
+div.noconnection{
+font-size: 20px;
+font-weight:bold;
+text-shadow: 3px 3px 5px #fffacd;
+color:#ff0000;
+}
+
+#message {
+width:100%;
+height:30px;
+border-top: 2px #00ff7f solid;
+border-bottom: 2px #00ff7f solid;
+background-color:#90ee90;
+text-align: center;
+line-height:30px;
+color: #808080;
+}
+
+#error {
+width:100%;
+height:30px;
+border-top: 2px #dc143c solid;
+border-bottom: 2px #dc143c solid;
+background-color:#ffc0cb;
+text-align: center;
+line-height:30px;
+color: #808080;
 }
