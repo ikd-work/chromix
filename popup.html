@@ -38,72 +38,33 @@
 </script>
 <script type="text/javascript">
 
-function displayLoginBox(){
-	clearMsg();
-	if( $("#login").css('display') == "none" ){
-		$("#login").slideDown("slow");
-		$("#add").text("Close Box");
-	}else{
-		$("#login").slideUp("slow");
-		$("#add").text("Add Zabbix");
-	}
-}
-
-function Login(){
-	var url = $("#url").val();
-	var username = $("#username").val();
-	var password = $("#password").val();
-
-	var auth = getAuth(url,username,password);
-	if( auth.result != null ){
-		if( auth.result == "Connection Error!" ){
-			outputError(auth.result);
-		}else{
-			var data = {
-			token:auth.result,
-			checktime:parseInt((new Date)/1000)
-			};
-			var json_data = JSON.stringify(data);
-			localStorage.setItem(url,json_data);
-			location.reload();
-			outputMsg("Login Success");
-		}
-	}else{
-		outputError("Login Failure!");
-	}
-}
-
-
 $(document).ready(function(){
 	getTab();
 	$(function() {
-	$("input").css('color', '#999');
-	var input_val = [];
-	$("input").each(function() {
-		input_val.push($(this).val());
-	});
-	$("input").focus(function() {
-		var chk_num = $("input").index(this);
-		var chk_val = $("input").eq(chk_num).val();
-		if(chk_val == input_val[chk_num]) {
-			var def_val = $(this).val();
-			$(this).val('');
-			$(this).css('color', '#333');
-			$(this).blur(function() {
-				if($(this).val() == '') {
-					$(this).val(def_val);
-					$(this).css('color', '#999');
-				}
-			});
-		}
-	});
+		$("input").css('color', '#999');
+		var input_val = [];
+		$("input").each(function() {
+			input_val.push($(this).val());
+		});
+		$("input").focus(function() {
+			var chk_num = $("input").index(this);
+			var chk_val = $("input").eq(chk_num).val();
+			if(chk_val == input_val[chk_num]) {
+				var def_val = $(this).val();
+				$(this).val('');
+				$(this).css('color', '#333');
+				$(this).blur(function() {
+					if($(this).val() == '') {
+						$(this).val(def_val);
+						$(this).css('color', '#999');
+					}
+				});
+			}
+		});
+	});	
 });
-	
-});
-
 selectedTabView(sessionStorage.getItem("selected"));
 
-//getTab();
 
 </script>
 </head>
