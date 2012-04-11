@@ -4,6 +4,10 @@ max-width: 1200px;
 font-family: cursive,general-family;
 }
 
+a {
+color:#0000ff;
+}
+
 #tab {
 width: 100%;
 min-width: 600px;
@@ -47,7 +51,10 @@ color: #0000cd;
 
 #datatable {
 background-color: #C3BEFD;
-color: #0000ff;
+color: #696969;
+width:100%;
+min-width: 600px;
+max-width: 1200px;
 }
 
 #datatable td {
@@ -55,12 +62,17 @@ padding-top: 5px;
 padding-bottom: 5px;
 padding-left: 10px;
 padding-right: 10px;
-color: #0000ff;
+color: #555555;
 border-radius: 5px;
 background-color: #EBE9FE;
 border-color: #EBE9FE;
 border: 1px solid;
 }
+
+#datatable a{
+color:#0000ff;
+}
+
 
 #datatable th {
 text-align: left;
@@ -99,6 +111,14 @@ a{
 text-decoration: none;
 }
 
+a:hover{
+color:#ff69b4;
+}
+
+#datatable a:hover{
+color:#ff69b4;
+}
+
 body{
 overflow:visible;
 }
@@ -107,6 +127,7 @@ div.nodata{
 font-size: 20px;
 font-weight:bold;
 text-shadow: 3px 3px 5px #00ffff;
+color:#0000ff;
 }
 
 div.noconnection{
@@ -136,4 +157,8 @@ background-color:#ffc0cb;
 text-align: center;
 line-height:30px;
 color: #808080;
+}
+
+#logout {
+text-align:right;
 }
