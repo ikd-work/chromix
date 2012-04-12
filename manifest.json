@@ -10,7 +10,7 @@
     "https://*/*"
    ],
   "browser_action":{
-    "default_icon": "chromix.png",
+    "default_icon": "chromix_normal_icon.png",
     "popup":"popup.html"
   }
 }

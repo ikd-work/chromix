@@ -136,20 +136,24 @@ function refreshTriggerCount(){
 		var token = JSON.parse(localStorage.getItem(key)).token;
 		var checktime = JSON.parse(localStorage.getItem(key)).checktime;
 		var alltrigger = getAllTrigger(key,token,checktime);
-		for(var index in alltrigger.result) {
-			for ( var itemname in alltrigger.result[index]){
-				if( itemname == "lastchange"){
-					if( checktime < alltrigger.result[index][itemname] ){
-						one_counter++;
+		if( alltrigger == "error" ){
+			changeErrorTab(convertID(key));
+		}else{
+			for(var index in alltrigger.result) {
+				for ( var itemname in alltrigger.result[index]){
+					if( itemname == "lastchange"){
+						if( checktime < alltrigger.result[index][itemname] ){
+							one_counter++;
+						}
 					}
 				}
 			}
+			if(one_counter > 0){
+				changeTabDesign(convertID(key));
+			}
+			counter += one_counter;
+			one_counter = 0;
 		}
-		if(one_counter > 0){
-			changeTabDesign(convertID(key));
-		}
-		counter += one_counter;
-		one_counter = 0;
 	}
 	if( counter == 0 ){
 		chrome.browserAction.setBadgeText({text:""});
@@ -226,6 +230,7 @@ function getZabbixData(rpcid, url, authid, method, params) { // "params"‚ÍJSONŒ`
 		},
 		error: function(response){
 			outputError("Connection Error!");
+			
 			$("#datatable").fadeOut("normal",function(){
 				var str = "<table><div id=logout><a id=logout href=# onclick=Logout('"+url+"')>Logout</a></div>";
 				str += "<div class=noconnection>Not Connected!</div>";
@@ -257,6 +262,13 @@ function changeTabDesign(id){
 	$("#"+id).css('border-left','2px solid #ff69b4');
 	$("#"+id).css('border-top','2px solid #ff69b4');
 	$("#"+id).css('border-right','2px solid #ff69b4');
+}
+
+function changeErrorTab(id){
+	$("#"+id).css('background-color','#a9a9a9');
+	$("#"+id).css('border-left','2px solid #a9a9a9');
+	$("#"+id).css('border-top','2px solid #a9a9a9');
+	$("#"+id).css('border-right','2px solid #a9a9a9');
 }
 
 function convertID(key){
@@ -318,22 +330,29 @@ function getAllTrigger(url, token, ckecktime) { // "params"‚ÍJSONŒ`Ž®‚Ì•¶Žš—ñƒŠƒ
 		success: function(response){
 			allTrigger = response;
 		},
-		error: function(response){  },
+		error: function(response){
+			allTrigger = "error";
+		},
 	});
 	return(allTrigger);
 }
 
 function checkTriggerCount(){
 	var counter = 0;
+	var error_counter = 0;
 	for( var key in localStorage ){
 		var token = JSON.parse(localStorage.getItem(key)).token;
 		var checktime = JSON.parse(localStorage.getItem(key)).checktime;
 		var alltrigger = getAllTrigger(key,token,checktime);
-		for(var index in alltrigger.result) {
-			for ( var itemname in alltrigger.result[index]){
-				if( itemname == "lastchange"){
-					if( checktime < alltrigger.result[index][itemname] ){
-						counter++;
+		if( alltrigger == "error" ){
+			error_counter++;
+		}else{
+			for(var index in alltrigger.result) {
+				for ( var itemname in alltrigger.result[index]){
+					if( itemname == "lastchange"){
+						if( checktime < alltrigger.result[index][itemname] ){
+							counter++;
+						}
 					}
 				}
 			}
@@ -344,5 +363,11 @@ function checkTriggerCount(){
 	}else{
 		chrome.browserAction.setBadgeText({text:String(counter)});
 	}
+	if( error_counter == 0 ){
+		chrome.browserAction.setIcon({path:"chromix_normal_icon.png"});
+	}else{
+		chrome.browserAction.setIcon({path:"chromix_error_icon.png"});
+	}
+	
 	setTimeout("checkTriggerCount()",1000*20);
 }
