@@ -80,7 +80,7 @@ function getTab(){
 		}
 		count++;
 	}
-	tab_str += "</ul>"
+	tab_str += "</ul>";
 	$("#tab").html(tab_str);
 	$("li.tab").click(function(){
 		sessionStorage.setItem("selected",$(this).text());
@@ -169,7 +169,10 @@ function showResult(response,url){
 	var strTable = "";
 	strTable += "<table>";
 	strTable += "<div id=logout><a href=# onclick=Logout('"+url+"')>Logout</a></div>";
-	if( response.result == "" ){
+	if( response.error ){
+		strTable += "<div class=noconnection>Not Connected!</div>";
+		outputError("Not Connected!");
+	}else if( response.result == "" ){
 		strTable += "<div class=nodata>No Trouble!</div>";
 	}else{
 		strTable += "<tr><th>Description</th><th>Time</th><th>Host</th>";
