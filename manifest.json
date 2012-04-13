@@ -1,6 +1,6 @@
 {
   "name":"Chromix",
-  "version":"1.0",
+  "version":"0.5",
   "background_page":"background.html",
   "description":"Zabbix Alert Check Extension",
   "permissions":[
