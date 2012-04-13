@@ -2,7 +2,7 @@ html {
 min-width: 600px;
 max-width: 800px;
 font-family: cursive,general-family;
-font-size: 80%;
+font-size: 13px;
 }
 
 a {
@@ -69,6 +69,7 @@ border-radius: 5px;
 background-color: #EBE9FE;
 border-color: #EBE9FE;
 border: 1px solid;
+font-size:13px;
 }
 
 #datatable a{
@@ -83,6 +84,7 @@ text-align: left;
 #datatable tr {
 border: 10px #ffffff solid;
 border-radius: 10px;
+font-size:18px;
 }
 
 #datatable td.new {
@@ -93,11 +95,15 @@ border-color: #ff0000;
 border-color: #0000ff;
 }
 
+#login td{
+font-size:18px;
+}
 
 #login input{
 border-radius: 8px;
 border-color: #ffb6c1;
 background-color: #add8e6;
+font-size: 18px;
 }
 
 #buttom{
