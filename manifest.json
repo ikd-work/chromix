@@ -3,6 +3,7 @@
   "version":"0.5",
   "background_page":"background.html",
   "description":"Zabbix Alert Check Extension",
+  "options_page":"options.html",
   "permissions":[
     "notifications",
     "tabs",
