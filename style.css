@@ -1,7 +1,8 @@
 html {
 min-width: 600px;
-max-width: 1200px;
+max-width: 800px;
 font-family: cursive,general-family;
+font-size: 80%;
 }
 
 a {
@@ -14,12 +15,11 @@ min-width: 600px;
 max-width: 1200px;
 background-color: #ffffff;
 border-bottom: 5px #C3BEFD solid;
-font-size: 100%;
 }
 
 #tab ul {
 width: 100%;
-margin: 13px;
+margin: 8px;
 padding: 12px;
 list-style-type: none;
 text-align: center;
