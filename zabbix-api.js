@@ -4,8 +4,11 @@ function displayLoginBox(){
 		$("#login").slideDown("slow");
 		$("#add").text("Close Box");
 	}else{
-		$("#login").slideUp("slow");
-		$("#add").text("Add Zabbix");
+		$("#login").slideUp("slow",function(){
+			$("#add").text("Add Zabbix");
+			htmlResize();
+		});
+		
 	}
 }
 
@@ -104,7 +107,7 @@ function selectedTabView(selected_tab){
 }
 
 function getTriggerList(url,token,checktime){
-	var rpcid = 1;
+	var rpcid = 3;
 	var filter = new Object();
 		filter.status = 0;
 		filter.value = 1;
@@ -204,6 +207,7 @@ function showResult(response,url){
 	$("#datatable").fadeOut("normal",function(){
 		$("#datatable").html(strTable);
 		$("#datatable").fadeIn();
+		htmlResize();
 	});
 	updateTime(url);
 	refreshTriggerCount();
@@ -246,6 +250,12 @@ function getZabbixData(rpcid, url, authid, method, params) { // "params"はJSON形
 }
 
 // function
+
+function htmlResize(){
+	var height = $("#datatable").height() + $("#datatable").offset().top;
+	$("html").animate({"height":height},"normal");
+	$("body").animate({"height":height},"normal");
+}
 
 function unixtimeToDate(ut, TZ) {
 	var tD = new Date( ut * 1000 );
@@ -301,7 +311,7 @@ function outputMsg(msg){
 /* for Backend.html */
 
 function getAllTrigger(url, token, ckecktime) { // "params"はJSON形式の文字列リテラルかJSONに変換可能なオブジェクト
-	var rpcid = 1;
+	var rpcid = 2;
 	var filter = new Object();
 	    filter.status = 0;
 	    filter.value = 1;

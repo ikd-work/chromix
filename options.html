@@ -1,5 +1,7 @@
 <html>
-<head><title>My Test Extension Options</title></head>
+<head><title>My Test Extension Options</title>
+<link rel="stylesheet" type="text/css" href="option_style.css" />
+</head>
 <script type="text/javascript">
 
 // Saves options to localStorage.
@@ -36,12 +38,17 @@ function restore_options() {
 
 <body onload="restore_options()">
 
-DesktopNotification:
-<div class="select">
-<ul>
-<li><input type="radio" id="valid" /></li>
-<li><input type="radio" id="invalid" /></li>
-</ul>
+
+<div class="option_menu">
+<dl>
+<dt>DesktopNotification:</dt>
+<dd>
+	<ul>
+		<li><input type="radio" id="valid" /><lavel for="valid">—LŒø</label></li>
+		<li><input type="radio" id="invalid" /><lavel for="invalid">–³Œø</label></li>
+	</ul>
+</dd>
+</dl>
 </div>
 <br>
 <button onclick="save_options()">Save</button>
