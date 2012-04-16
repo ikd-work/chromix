@@ -115,6 +115,15 @@ box-shadow: inset 0 0.6em 3px #ffee88, 0 0 0.2em #ffee88;
 text-shadow: 0px 1px #fff;
 }
 
+#buttom:hover > a{
+color:#ff69b4;
+}
+
+#buttom:hover {
+background-color: #ffee00;
+box-shadow: inset 0 0.6em 3px #ffee44, 0 0 0.2em #ffee44;
+}
+
 a{
 text-decoration: none;
 }

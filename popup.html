@@ -70,7 +70,7 @@ selectedTabView(sessionStorage.getItem("selected"));
 </head>
 <body>
 <div align="right">
-<a href="#" id="add" onclick="displayLoginBox()">Add Zabbix</a>
+<a href="#" id="add" onclick="displayLoginBox()" tabindex="1">Add Zabbix</a>
 </div>
 <div id="message" style="display:none" ></div>
 <div id="error" style="display:none"></div>
@@ -79,17 +79,17 @@ selectedTabView(sessionStorage.getItem("selected"));
 <table id="loginform">
   <tr>
     <td align="right">URL:</td>
-    <td><input type="text" id="url" value="hostname/zabbix"></td>
+    <td><input type="text" id="url" value="hostname/zabbix" tabindex="2"></td>
   </tr><tr>
     <td align="right">ID:</td>
-    <td><input type="text" id="username" value="admin"></td>
+    <td><input type="text" id="username" value="admin" tabindex="3"></td>
   </tr><tr>
     <td align="right">Password:</td>
-    <td><input type="password" id="password"></td>
+    <td><input type="password" id="password" tabindex="4"></td>
   </tr>
   <tr>
   <td></td>
-  <td align="right"><div id="buttom"><a href="#" onclick="Login()">login</a></div></td>
+  <td align="right"><div id="buttom" onclick="Login()"><a href="#" tabindex="5">login</a></div></td>
   </tr>
 </table>
 </form>
