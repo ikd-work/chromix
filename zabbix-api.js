@@ -9,6 +9,7 @@ function displayLoginBox(){
 			htmlResize();
 		});
 		
+		
 	}
 }
 
@@ -207,7 +208,7 @@ function showResult(response,url){
 	$("#datatable").fadeOut("normal",function(){
 		$("#datatable").html(strTable);
 		$("#datatable").fadeIn();
-		htmlResize();
+	//	htmlResize();
 	});
 	updateTime(url);
 	refreshTriggerCount();
@@ -251,10 +252,21 @@ function getZabbixData(rpcid, url, authid, method, params) { // "params"‚ÍJSONŒ`
 
 // function
 
+function Sleep( T ){ 
+   var d1 = new Date().getTime(); 
+   var d2 = new Date().getTime(); 
+   while( d2 < d1+1000*T ){    //T•b‘Ò‚Â 
+       d2=new Date().getTime(); 
+   } 
+   return; 
+} 
+
+
 function htmlResize(){
 	var height = $("#datatable").height() + $("#datatable").offset().top;
-	$("html").animate({"height":height},"normal");
-	$("body").animate({"height":height},"normal");
+	$("html").animate({"height":height},"slow","linear");
+	$("body").animate({"height":height},"slow","linear");
+	console.log(height);
 }
 
 function unixtimeToDate(ut, TZ) {
