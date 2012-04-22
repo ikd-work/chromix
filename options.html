@@ -1,56 +1,69 @@
 <html>
 <head><title>My Test Extension Options</title>
+<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
 <link rel="stylesheet" type="text/css" href="option_style.css" />
 </head>
 <script type="text/javascript">
 
-// Saves options to localStorage.
-function save_options() {
-  var select = document.getElementById("color");
-  var color = select.children[select.selectedIndex].value;
-  localStorage["favorite_color"] = color;
-
-  // Update status to let user know options were saved.
-  var status = document.getElementById("status");
-  status.innerHTML = "Options Saved.";
-  setTimeout(function() {
-    status.innerHTML = "";
-  }, 750);
-}
-
 // Restores select box state to saved value from localStorage.
-function restore_options() {
-  var favorite = localStorage["favorite_color"];
-  if (!favorite) {
-    return;
-  }
-  var select = document.getElementById("color");
-  for (var i = 0; i < select.children.length; i++) {
-    var child = select.children[i];
-    if (child.value == favorite) {
-      child.selected = "true";
-      break;
-    }
-  }
-}
 
+$(document).ready(function(){
+	var options = localStorage.getItem("options");
+	if( options ){
+		var notification = JSON.parse(options).notification;
+		if( notification == "On" ){
+			$("div[name=notification]").removeClass("selected");
+			$("#notification_on").addClass("selected");
+		}else{
+			$("div[name=notification]").removeClass("selected");
+			$("#notification_off").addClass("selected");
+		}
+	}
+	$("div[name=notification]").click( function() {
+		if( !$(this).hasClass("selected") ){
+			var obj = $(this);
+			if( obj.text() == "On" ){
+				if(window.webkitNotifications.requestPermission(function() {
+    					if(window.webkitNotifications.checkPermission() == 0) {
+						var data = {
+							notification:obj.text()
+							};
+						var json_data = JSON.stringify(data);
+						localStorage.setItem("options",json_data);
+						$("div[name=notification]").removeClass("selected");
+						obj.addClass("selected");
+				console.log(json_data);
+				console.log(obj.text());
+
+    					} else {
+    					}
+				}));
+			}else{
+				var data = {
+					notification:$(this).text()
+					};
+				var json_data = JSON.stringify(data);
+				localStorage.setItem("options",json_data);
+				$("div[name=notification]").removeClass("selected");
+				$(this).addClass("selected");
+			}
+		}	
+	});
+});
 </script>
 
-<body onload="restore_options()">
-
-
+<body>
 <div class="option_menu">
 <dl>
 <dt>DesktopNotification:</dt>
 <dd>
 	<ul>
-		<li><input type="radio" id="valid" /><lavel for="valid">—LŒø</label></li>
-		<li><input type="radio" id="invalid" /><lavel for="invalid">–³Œø</label></li>
+		<li><div id="notification_on" class="radio left" name="notification"/><a href=#>On</a></li>
+		<li><div id="notification_off" class="radio selected right" name="notification"/><a href=#>Off</a></li>
 	</ul>
 </dd>
 </dl>
 </div>
 <br>
-<button onclick="save_options()">Save</button>
 </body>
 </html>

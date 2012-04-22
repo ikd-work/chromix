@@ -77,6 +77,9 @@ function getTab(){
 	var tab_str = "<ul>"; 
 	var count = 0;
 	for( var key in localStorage ){
+		if( key == "options" ){
+			continue;
+		}
 		if( sessionStorage.getItem("selected") == key ){
 			tab_str += "<li id=" + convertID(key) + " class=selected_tab >" + "<a href=#>" + key + "</a></li>";
 		}else{
@@ -94,6 +97,9 @@ function getTab(){
 
 function selectedTabView(selected_tab){
 	for( var key in localStorage ){
+		if( key == "options" ){
+			continue;
+		}
 		var token = JSON.parse(localStorage.getItem(key)).token;
 		var checktime = JSON.parse(localStorage.getItem(key)).checktime;
 		if( sessionStorage.getItem("selected") == null ){
@@ -137,6 +143,9 @@ function refreshTriggerCount(){
 	var one_counter = 0;
 	var counter = 0;
 	for( var key in localStorage ){
+		if( key == "options" ){
+			continue;
+		}
 		var token = JSON.parse(localStorage.getItem(key)).token;
 		var checktime = JSON.parse(localStorage.getItem(key)).checktime;
 		var alltrigger = getAllTrigger(key,token,checktime);
@@ -366,6 +375,9 @@ function checkTriggerCount(){
 	var counter = 0;
 	var error_counter = 0;
 	for( var key in localStorage ){
+		if( key == "options" ){
+			continue;
+		}
 		var token = JSON.parse(localStorage.getItem(key)).token;
 		var checktime = JSON.parse(localStorage.getItem(key)).checktime;
 		var alltrigger = getAllTrigger(key,token,checktime);
@@ -386,6 +398,7 @@ function checkTriggerCount(){
 	if( counter == 0 ){
 		chrome.browserAction.setBadgeText({text:""});
 	}else{
+		popupNotification();
 		chrome.browserAction.setBadgeText({text:String(counter)});
 	}
 	if( error_counter == 0 ){
@@ -395,4 +408,14 @@ function checkTriggerCount(){
 	}
 	
 	setTimeout("checkTriggerCount()",1000*20);
+}
+
+function popupNotification(){
+	if( JSON.parse(localStorage.getItem("options")).notification == "On"){
+		window.webkitNotifications.createNotification(
+		"",
+		"WARNING: Alert!",
+		"ERROR"
+		).show();
+	}
 }
