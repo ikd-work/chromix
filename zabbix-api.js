@@ -413,7 +413,7 @@ function checkTriggerCount(){
 function popupNotification(){
 	if( JSON.parse(localStorage.getItem("options")).notification == "On"){
 		window.webkitNotifications.createNotification(
-		"",
+		"warning.png",
 		"WARNING: Alert!",
 		"ERROR"
 		).show();
