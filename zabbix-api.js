@@ -1,8 +1,13 @@
+var background_rate = 20;
+var notification_rate = 20;
+
 function displayLoginBox(){
+	$("html").focus();
 	clearMsg();
 	if( $("#login").css('display') == "none" ){
 		$("#login").slideDown("slow");
 		$("#add").text("Close Box");
+		$("#login").focus();
 	}else{
 		$("#login").slideUp("slow",function(){
 			$("#add").text("Add Zabbix");
@@ -371,6 +376,19 @@ function getAllTrigger(url, token, ckecktime) { // "params"‚ÍJSONŒ`Ž®‚Ì•¶Žš—ñƒŠƒ
 	return(allTrigger);
 }
 
+function notificationCheck(trigger_data){
+	var now = parseInt((new Date)/1000);
+	var last_checktime = now - background_rate;
+	console.log(last_checktime);
+	var msg = "";
+	if(last_checktime < trigger_data["lastchange"] ){
+		msg += trigger_data["host"];
+		msg += ":";
+		msg += trigger_data["description"];
+		popupNotification(msg);
+	}
+}
+
 function checkTriggerCount(){
 	var counter = 0;
 	var error_counter = 0;
@@ -385,6 +403,7 @@ function checkTriggerCount(){
 			error_counter++;
 		}else{
 			for(var index in alltrigger.result) {
+				notificationCheck(alltrigger.result[index]);
 				for ( var itemname in alltrigger.result[index]){
 					if( itemname == "lastchange"){
 						if( checktime < alltrigger.result[index][itemname] ){
@@ -398,7 +417,6 @@ function checkTriggerCount(){
 	if( counter == 0 ){
 		chrome.browserAction.setBadgeText({text:""});
 	}else{
-		popupNotification();
 		chrome.browserAction.setBadgeText({text:String(counter)});
 	}
 	if( error_counter == 0 ){
@@ -407,15 +425,22 @@ function checkTriggerCount(){
 		chrome.browserAction.setIcon({path:"chromix_error_icon.png"});
 	}
 	
-	setTimeout("checkTriggerCount()",1000*20);
+	setTimeout("checkTriggerCount()",1000*background_rate);
 }
 
-function popupNotification(){
-	if( JSON.parse(localStorage.getItem("options")).notification == "On"){
-		window.webkitNotifications.createNotification(
-		"warning.png",
-		"WARNING: Alert!",
-		"ERROR"
-		).show();
+function popupNotification(msg){
+	if( localStorage.getItem("options") ){
+		if( JSON.parse(localStorage.getItem("options")).notification == "On"){
+			var notification = window.webkitNotifications.createNotification(
+			"warning.png",
+			"WARNING!!",
+			msg
+			);
+			
+			setTimeout(function(){
+				notification.cancel();
+			},1000*notification_rate);
+			notification.show()
+		}
 	}
 }
