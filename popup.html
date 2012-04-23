@@ -6,36 +6,10 @@
 <link rel="stylesheet" type="text/css" href="style.css" />
 <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="zabbix-api.js"></script>
-<script type="text/javascript">
-(function ($) {
-  jQuery.expr[':'].Contains = function(a,i,m){
-      return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
-  };
-  function filterList(header, list) {
-    var form = $("<form>").attr({"class":"filterform","action":"#"}),
-        input = $("<input>").attr({"class":"filterinput","type":"text"});
-    $(form).append(input).appendTo(header);
-    $(input)
-      .change( function () {
-        var filter = $(this).val();
-        if(filter) {
-		  $matches = $(list).find('a:Contains(' + filter + ')').parent();
-		  $('li', list).not($matches).slideUp();
-		  $matches.slideDown();
-        } else {
-          $(list).find("li").slideDown();
-        }
-        return false;
-      })
-    .keyup( function () {
-        $(this).change();
-    });
-  }
-  $(function () {
-    filterList($("#form"), $("#list"));
-  });
-}(jQuery));
+<script type="text/javascript" async="">
+$("#add").focus();
 </script>
+
 <script type="text/javascript">
 
 $(document).ready(function(){
@@ -65,6 +39,14 @@ $(document).ready(function(){
 });
 selectedTabView(sessionStorage.getItem("selected"));
 
+$(document).keydown(function(e){
+		//入力キーコード
+		var	keyCode		=	e.keyCode;
+		if( (keyCode == 13) && ( $("#login").css('display') != "none" ) ){
+			$("#button").trigger("click");
+		}
+});
+
 
 </script>
 </head>
@@ -89,7 +71,7 @@ selectedTabView(sessionStorage.getItem("selected"));
   </tr>
   <tr>
   <td></td>
-  <td align="right"><div id="buttom" onclick="Login()"><a href="#" tabindex="5">login</a></div></td>
+  <td align="right"><div id="button" onclick="Login()"><a href="#" tabindex="5">login</a></div></td>
   </tr>
 </table>
 </form>
