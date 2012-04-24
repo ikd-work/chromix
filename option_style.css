@@ -1,6 +1,14 @@
 html{
 background: #eeeeee;
+font-family: cursive,general-family;
+}
 
+a{
+text-decoration:none;
+}
+
+a:hover{
+color:#ff69b4;
 }
 
 div.option_menu{
@@ -38,6 +46,7 @@ box-shadow:0px 1px 3px rgba(000,000,000,0.5),inset 0px 0px 3px rgba(255,255,255,
 }
 
 div.radio.left{
+width:96%;
 border-top-left-radius:10px;
 border-bottom-left-radius:10px;
 border-right:none;
@@ -45,6 +54,7 @@ margin: auto auto 0px auto;
 }
 
 div.radio.right{
+width:96%;
 border-top-right-radius:10px;
 border-bottom-right-radius:10px;
 border-left:none;
@@ -68,6 +78,7 @@ border: 4px solid #cccccc;
 		0px 1px 0px rgba(230,218,230,1);
 }
 
+
 div.option_menu ul{
 width: 100%;
 margin: 3px;
@@ -86,6 +97,9 @@ float: left;
 
 #option_header{
 padding-top: 20px;
+padding-bottom: 30px;
+font-size: 36px;
+
 }
 
 table.options{
@@ -95,9 +109,9 @@ margin:auto;
 }
 
 table.options td.item{
-font-size: 18px;
+font-size: 24px;
 vertical-align: middle;
-text-align:left;
+text-align:right;
 }
 
 table.options td.value{
