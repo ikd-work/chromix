@@ -25,31 +25,55 @@ $(document).ready(function(){
 			if( obj.text() == "On" ){
 				if(window.webkitNotifications.requestPermission(function() {
     					if(window.webkitNotifications.checkPermission() == 0) {
-						var data = {
-							notification:obj.text()
-							};
-						var json_data = JSON.stringify(data);
-						localStorage.setItem("options",json_data);
-						$("div[name=notification]").removeClass("selected");
-						obj.addClass("selected");
-				console.log(json_data);
-				console.log(obj.text());
-
+							changeOption("notification","On");
+							$("div[name=notification]").removeClass("selected");
+							obj.addClass("selected");
     					} else {
     					}
 				}));
 			}else{
-				var data = {
-					notification:$(this).text()
-					};
-				var json_data = JSON.stringify(data);
-				localStorage.setItem("options",json_data);
+				changeOption("notification","Off");
 				$("div[name=notification]").removeClass("selected");
 				$(this).addClass("selected");
 			}
 		}	
 	});
 });
+
+
+function addOption(key,value){
+	var option_data = JSON.parse(localStorage.getItem("options"));
+	if( !option_data ){
+		initOption(key,value);
+		option_data = JSON.parse(localStorage.getItem("options"));
+	}else{
+		option_data[key] = value;
+	}
+	localStorage.setItem("options",JSON.stringify(option_data));
+}
+
+
+function initOption( key , value){
+	var data = {};
+	data[key] = value;
+	localStorage.setItem("options",JSON.stringify(data));
+}
+
+function changeOption(key,new_value){
+	var option_data = JSON.parse(localStorage.getItem("options"));
+	if( !option_data ){
+		initOption(key,new_value);
+		return;
+	}
+	
+	for( var index in option_data ){
+		if( key == index ){
+			option_data[index] = new_value;
+		}
+	}
+	localStorage.setItem("options",JSON.stringify(option_data));
+}
+
 </script>
 
 <body>
