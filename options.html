@@ -8,6 +8,20 @@
 // Restores select box state to saved value from localStorage.
 
 $(document).ready(function(){
+	$("#refreshrate_option").click(function(){
+		if( $("#refreshrate_ul").css('display') == "none" ){
+			$("#refreshrate_ul").slideDown("normal");
+		}else{
+			$("#refreshrate_ul").slideUp("normal");
+		}
+	});
+	$("#displaytime_option").click(function(){
+		if( $("#displaytime_ul").css('display') == "none" ){
+			$("#displaytime_ul").slideDown("normal");
+		}else{
+			$("#displaytime_ul").slideUp("normal");
+		}
+	});
 	var options = localStorage.getItem("options");
 	if( options ){
 		var notification = JSON.parse(options).notification;
@@ -74,6 +88,7 @@ function changeOption(key,new_value){
 	localStorage.setItem("options",JSON.stringify(option_data));
 }
 
+
 </script>
 
 <body>
@@ -85,9 +100,35 @@ Chromix Options
 <tr>
 <td class="item">DesktopNotification:</td>
 <td class="value">
-	<ul>
+	<ul id="notification_flag">
 		<li><div id="notification_on" class="radio left" name="notification"/><a href=#>On</a></li>
 		<li><div id="notification_off" class="radio selected right" name="notification"/><a href=#>Off</a></li>
+	</ul>
+</td>
+</tr>
+<tr>
+<td class="item">Background RefreshRate:</td>
+<td class="value select">
+	<div class="box_title" id="refreshrate_option"><span class="title" id="refreshrate_box">Please RefreshRate</span><span class="allow">Бе</span></div>
+	<ul id="refreshrate_ul" class="dropdown" style="display:none">
+		<li><div class="select_item" name="refreshrate"/>10</div></li>
+		<li><div class="select_item" name="refreshrate"/>20</div></li>
+		<li><div class="select_item" name="refreshrate"/>30</div></li>
+		<li><div class="select_item" name="refreshrate"/>60</div></li>
+		<li><div class="select_item" name="refreshrate"/>300</div></li>
+	</ul>
+</td>
+</tr>
+<tr>
+<td class="item">Notification DisplayTime:</td>
+<td class="value select">
+	<div class="box_title" id="displaytime_option"><span class="title" id="displaytime_box">Please Select DisplayTime</span><span class="allow">Бе</span></div>
+	<ul id="displaytime_ul" class="dropdown" style="display:none">
+		<li><div class="select_item" name="displaytime"/>10</div></li>
+		<li><div class="select_item" name="displaytime"/>20</div></li>
+		<li><div class="select_item" name="displaytime"/>30</div></li>
+		<li><div class="select_item" name="displaytime"/>60</div></li>
+		<li><div class="select_item" name="displaytime"/>300</div></li>
 	</ul>
 </td>
 </tr>
