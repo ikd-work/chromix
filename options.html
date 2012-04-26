@@ -8,23 +8,40 @@
 // Restores select box state to saved value from localStorage.
 
 $(document).ready(function(){
-	$("#refreshrate_option").click(function(){
+	$("#refreshrate_option").hover(function(){
 		if( $("#refreshrate_ul").css('display') == "none" ){
 			$("#refreshrate_ul").slideDown("normal");
 		}else{
 			$("#refreshrate_ul").slideUp("normal");
 		}
 	});
-	$("#displaytime_option").click(function(){
+	$("#displaytime_option").hover(function(){
 		if( $("#displaytime_ul").css('display') == "none" ){
 			$("#displaytime_ul").slideDown("normal");
 		}else{
 			$("#displaytime_ul").slideUp("normal");
 		}
 	});
+	$("div.select_item").click(function(){
+		var name = $(this).attr("name");
+		var value = parseInt($(this).text());
+		addOption(name,value);
+		if(name == "refreshrate"){
+			$("#refreshrate_title").text(value);
+			$("#refreshrate_ul div").removeClass("item_selected");
+			$(this).addClass("item_selected");
+		}else if(name == "displaytime"){
+			$("#displaytime_title").text(value);
+			$("#displaytime_ul div").removeClass("item_selected");
+			$(this).addClass("item_selected");
+		}
+	});
 	var options = localStorage.getItem("options");
 	if( options ){
-		var notification = JSON.parse(options).notification;
+		var option = JSON.parse(options);
+		var notification = option.notification;
+		var refreshrate = option.refreshrate;
+		var displaytime = option.displaytime;
 		if( notification == "On" ){
 			$("div[name=notification]").removeClass("selected");
 			$("#notification_on").addClass("selected");
@@ -32,6 +49,13 @@ $(document).ready(function(){
 			$("div[name=notification]").removeClass("selected");
 			$("#notification_off").addClass("selected");
 		}
+		if( refreshrate ){
+			$("#refreshrate_title").text(refreshrate);
+		}
+		if( displaytime ){
+			$("#displaytime_title").text(displaytime);
+		}
+		
 	}
 	$("div[name=notification]").click( function() {
 		if( !$(this).hasClass("selected") ){
@@ -107,9 +131,10 @@ Chromix Options
 </td>
 </tr>
 <tr>
-<td class="item">Background RefreshRate:</td>
+<td class="item">Background RefreshRate(sec):</td>
 <td class="value select">
-	<div class="box_title" id="refreshrate_option"><span class="title" id="refreshrate_box">Please RefreshRate</span><span class="allow">Бе</span></div>
+	<div id="refreshrate_option">
+	<div id="refreshrate_title" class="box_title">Please Select RefreshRate</div>
 	<ul id="refreshrate_ul" class="dropdown" style="display:none">
 		<li><div class="select_item" name="refreshrate"/>10</div></li>
 		<li><div class="select_item" name="refreshrate"/>20</div></li>
@@ -117,12 +142,14 @@ Chromix Options
 		<li><div class="select_item" name="refreshrate"/>60</div></li>
 		<li><div class="select_item" name="refreshrate"/>300</div></li>
 	</ul>
+	</div>
 </td>
 </tr>
 <tr>
-<td class="item">Notification DisplayTime:</td>
+<td class="item">Notification DisplayTime(sec):</td>
 <td class="value select">
-	<div class="box_title" id="displaytime_option"><span class="title" id="displaytime_box">Please Select DisplayTime</span><span class="allow">Бе</span></div>
+	<div id="displaytime_option">
+	<div id="displaytime_title" class="box_title" >Please Select DisplayTime</div>
 	<ul id="displaytime_ul" class="dropdown" style="display:none">
 		<li><div class="select_item" name="displaytime"/>10</div></li>
 		<li><div class="select_item" name="displaytime"/>20</div></li>
@@ -130,6 +157,7 @@ Chromix Options
 		<li><div class="select_item" name="displaytime"/>60</div></li>
 		<li><div class="select_item" name="displaytime"/>300</div></li>
 	</ul>
+	</div>
 </td>
 </tr>
 </table>

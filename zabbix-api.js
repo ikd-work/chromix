@@ -1,5 +1,5 @@
-var background_rate = 20;
-var notification_rate = 20;
+var background_rate = JSON.parse(localStorage.getItem("options")).refreshrate;
+var notification_rate = JSON.parse(localStorage.getItem("options")).displaytime;
 
 function displayLoginBox(){
 	$("html").focus();

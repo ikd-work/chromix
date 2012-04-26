@@ -13,7 +13,6 @@ color:#ff69b4;
 }
 
 div.option_menu{
-width:80%;
 max-width: 800px;
 text-align:center;
 margin: 40px auto 20px auto;
@@ -105,7 +104,6 @@ font-size: 36px;
 }
 
 table.options{
-width:100%;
 text-align:center;
 margin:auto;
 }
@@ -124,24 +122,38 @@ text-align:left;
 .select{
 padding-left: 15px;
 padding-top: 8px;
+width:50%;
 }
 
 ul.dropdown{
+width:280px;
 list-style-type:none;
 margin:0px;
-padding:0px;
+margin-left: 2px;
+padding-left:0px;
 }
 
 ul.dropdown div{
-width: 60%;
+width: 250px;
 padding: 6px;
 text-align:center;
 background: #f5f5f5;
 border: 1px #d2d2d2 solid;
 }
 
+ul.dropdown div:hover{
+color:#ff69b4;
+background: #e6e6fa;
+}
+
+ul.dropdown div.item_selected{
+color:#ff69b4;
+background: #e6e6fa;
+}
+
+
 td.select div.box_title{
-width: 60%;
+width: 250px;
 text-align:center;
 background: #000080;
 color: #ffffff;
@@ -161,6 +173,12 @@ padding-left: 5px;
 padding-right: 5px;
 }
 
+#refreshrate_option{
+width:250px;
+}
 
+#displaytime_option{
+width:250px;
+}
 
 
