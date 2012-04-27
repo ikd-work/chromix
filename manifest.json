@@ -1,6 +1,6 @@
 {
   "name":"Chromix",
-  "version":"0.5",
+  "version":"0.6",
   "background_page":"background.html",
   "description":"Zabbix Alert Check Extension",
   "options_page":"options.html",
@@ -15,3 +15,5 @@
     "popup":"popup.html"
   }
 }
+
+

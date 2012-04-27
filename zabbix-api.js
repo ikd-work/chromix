@@ -1,5 +1,24 @@
-var background_rate = JSON.parse(localStorage.getItem("options")).refreshrate;
-var notification_rate = JSON.parse(localStorage.getItem("options")).displaytime;
+var background_rate;
+var notification_rate;
+function setOptions(){
+	var options = JSON.parse(localStorage.getItem("options"));
+	
+	if(options){
+		if(typeof options.refreshrate == 'undefined'){
+			background_rate = 20;
+		}else{
+			background_rate = JSON.parse(localStorage.getItem("options")).refreshrate;
+		}
+		if(typeof options.displaytime == 'undefined'){
+			notification_rate = 20;
+		}else{
+			notification_rate = JSON.parse(localStorage.getItem("options")).displaytime;
+		}
+	}else{
+		background_rate = 20;
+		notification_rate = 20;
+	}
+}
 
 function displayLoginBox(){
 	$("html").focus();
@@ -280,7 +299,6 @@ function htmlResize(){
 	var height = $("#datatable").height() + $("#datatable").offset().top;
 	$("html").animate({"height":height},"slow","linear");
 	$("body").animate({"height":height},"slow","linear");
-	console.log(height);
 }
 
 function unixtimeToDate(ut, TZ) {
@@ -379,7 +397,6 @@ function getAllTrigger(url, token, ckecktime) { // "params"‚ÍJSONŒ`Ž®‚Ì•¶Žš—ñƒŠƒ
 function notificationCheck(trigger_data){
 	var now = parseInt((new Date)/1000);
 	var last_checktime = now - background_rate;
-	console.log(last_checktime);
 	var msg = "";
 	if(last_checktime < trigger_data["lastchange"] ){
 		msg += trigger_data["host"];
@@ -390,6 +407,7 @@ function notificationCheck(trigger_data){
 }
 
 function checkTriggerCount(){
+	setOptions();
 	var counter = 0;
 	var error_counter = 0;
 	for( var key in localStorage ){
