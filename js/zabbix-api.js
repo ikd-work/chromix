@@ -204,7 +204,7 @@ function refreshTriggerCount(){
 
 function showResult(response,url){
 	var strTable = "";
-	strTable += "<table>";
+	strTable += "<table id=main>";
 	strTable += "<div id=logout><a href=# onclick=Logout('"+url+"')>Logout</a></div>";
 	if( response.error ){
 		strTable += "<div class=noconnection>Not Connected!</div>";
