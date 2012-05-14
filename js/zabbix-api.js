@@ -438,9 +438,9 @@ function checkTriggerCount(){
 		chrome.browserAction.setBadgeText({text:String(counter)});
 	}
 	if( error_counter == 0 ){
-		chrome.browserAction.setIcon({path:"chromix_normal_icon.png"});
+		chrome.browserAction.setIcon({path:"image/chromix_normal_icon.png"});
 	}else{
-		chrome.browserAction.setIcon({path:"chromix_error_icon.png"});
+		chrome.browserAction.setIcon({path:"image/chromix_error_icon.png"});
 	}
 	
 	setTimeout("checkTriggerCount()",1000*background_rate);
@@ -450,7 +450,7 @@ function popupNotification(msg){
 	if( localStorage.getItem("options") ){
 		if( JSON.parse(localStorage.getItem("options")).notification == "On"){
 			var notification = window.webkitNotifications.createNotification(
-			"warning.png",
+			"image/warning.png",
 			"WARNING!!",
 			msg
 			);
