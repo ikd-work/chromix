@@ -217,7 +217,7 @@ function refreshTriggerCount(){
 
 // Trigger Table Output
 
-function showResult(response,url){
+function showResult(response,url,https_flag){
 	var strTable = "";
 	strTable += "<table id=main>";
 	strTable += "<div id=logout><a href=# onclick=Logout('"+url+"')>Logout</a></div>";
@@ -240,14 +240,41 @@ function showResult(response,url){
 					var unixtime = response.result[index][itemname];
 					var time =  unixtimeToDate(parseInt(response.result[index][itemname]),TZ);
 				}else if( itemname == "triggerid"){
-					var pageurl = "http://" + url + "/events.php?triggerid=" + response.result[index][itemname];
-				};
+					var pageurl = "";
+					if( https_flag ){
+						pageurl = "https://" + url + "/events.php?triggerid=" + response.result[index][itemname];
+					}else{
+						pageurl = "http://" + url + "/events.php?triggerid=" + response.result[index][itemname];
+					}
+				}else if( itemname == "priority"){
+					var priority = "";
+					switch (response.result[index][itemname]){
+						case "0":
+							priority = "unknown";
+							break;
+						case "1":
+							priority = "information";
+							break;
+						case "2":
+							priority = "warning";
+							break;
+						case "3":
+							priority = "average";
+							break;
+						case "4":
+							priority = "high";
+							break;
+						case "5":
+							priority = "disaster";
+							break;
+					}
+				}
 			}
 			var class_name = "old";
 			if( unixtime >= JSON.parse(localStorage.getItem(url)).checktime ) {
 				class_name = "new";
 			}
-			strTable += "<td class=" + class_name + "><a href=" + pageurl + " target=_blank >" + description + "</a></td><td class=" + class_name + ">" + time + "</td><td class=" + class_name + ">" + hostname + "</td>";
+			strTable += "<td class='" + class_name + " " + priority  + "'><a href=" + pageurl + " target=_blank ><span>Priority:" + priority + "</span>" + description + "</a></td><td class=" + class_name + ">" + time + "</td><td class=" + class_name + ">" + hostname + "</td>";
 			strTable += "</tr>";
 		}
 	}
@@ -290,7 +317,7 @@ function getZabbixData(rpcid, url, authid, method, params, https_flag) { // "par
 		timeout: 10000,
 		success: function(response){
 			clearMsg();
-			showResult(response,url);
+			showResult(response,url,https_flag);
 		},
 		error: function(response){
 			outputError("Connection Error!");
