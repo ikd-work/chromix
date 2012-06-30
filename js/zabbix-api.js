@@ -41,15 +41,17 @@ function Login(){
 	var url = $("#url").val();
 	var username = $("#username").val();
 	var password = $("#password").val();
+	var https_flag = $("#ssl").is(':checked');
 
-	var auth = getAuth(url,username,password);
+	var auth = getAuth(url,username,password,https_flag);
 	if( auth.result != null ){
 		if( auth.result == "Connection Error!" ){
 			outputError(auth.result);
 		}else{
 			var data = {
 			token:auth.result,
-			checktime:parseInt((new Date)/1000)
+			checktime:parseInt((new Date)/1000),
+			https:https_flag
 			};
 			var json_data = JSON.stringify(data);
 			localStorage.setItem(url,json_data);
@@ -62,7 +64,7 @@ function Login(){
 }
 
 //API Access Authentication
-function getAuth(url, user, password) {
+function getAuth(url, user, password, https_flag) {
 	var params = {"user":user, "password":password};
 	var authRequest = new Object();
 		authRequest.params = params;
@@ -72,7 +74,7 @@ function getAuth(url, user, password) {
 		authRequest.method = 'user.authenticate';
 	var authJsonRequest = JSON.stringify(authRequest);
 	var authResult = new Object();
-	var api_url = "http://" + url + "/api_jsonrpc.php";
+	var api_url = getApiUrl(url,https_flag);
 	$.ajaxSetup({
 		timeout: 2000
 	});
@@ -105,9 +107,9 @@ function getTab(){
 			continue;
 		}
 		if( sessionStorage.getItem("selected") == key ){
-			tab_str += "<li id=" + convertID(key) + " class=selected_tab >" + "<a href=#>" + key + "</a></li>";
+			tab_str += "<li id=" + convertID(key) + " class=selected_tab >" + getTabValue(key);
 		}else{
-			tab_str += "<li id=" + convertID(key) + " class=tab >" + "<a href=#>" + key + "</a></li>";
+			tab_str += "<li id=" + convertID(key) + " class=tab >" + getTabValue(key);
 		}
 		count++;
 	}
@@ -119,6 +121,15 @@ function getTab(){
 	});
 }
 
+function getTabValue(key){
+	if( getHttpsFlag(key) ){
+		//return("<a href=#><img width=12px height=12px src='image/secure_icon.gif'>"  + key + "</a></li>");
+		return("<a href=#><img width=12px height=12px src='image/secure.ico'>"  + key + "</a></li>");
+	}else{
+		return("<a href=#>" + key + "</a></li>");
+	}
+}
+
 function selectedTabView(selected_tab){
 	for( var key in localStorage ){
 		if( key == "options" ){
@@ -126,18 +137,19 @@ function selectedTabView(selected_tab){
 		}
 		var token = JSON.parse(localStorage.getItem(key)).token;
 		var checktime = JSON.parse(localStorage.getItem(key)).checktime;
+		var https_flag = getHttpsFlag(key);
 		if( sessionStorage.getItem("selected") == null ){
 			sessionStorage.setItem("selected",key);
-			getTriggerList(key,token,checktime);
+			getTriggerList(key,token,checktime,https_flag);
 			getTab();
 		}else if( sessionStorage.getItem("selected") == key ){    
-			getTriggerList(key,token,checktime);
+			getTriggerList(key,token,checktime,https_flag);
 			getTab();
 		}
 	}
 }
 
-function getTriggerList(url,token,checktime){
+function getTriggerList(url,token,checktime,https_flag){
 	var rpcid = 3;
 	var filter = new Object();
 		filter.status = 0;
@@ -150,14 +162,16 @@ function getTriggerList(url,token,checktime){
 		params.sortfield = "lastchange";
 		params.sortorder = "DESC";
 		params.filter = filter;
-	getZabbixData(rpcid, url, token, "trigger.get", params);
+	getZabbixData(rpcid, url, token, "trigger.get", params, https_flag);
 }
 
 function updateTime(key){
 	var token = JSON.parse(localStorage.getItem(key)).token;
+	var https_flag = getHttpsFlag(key);
 	var data = {
 	token:token,
-	checktime:parseInt((new Date)/1000)
+	checktime:parseInt((new Date)/1000),
+	https:https_flag
 	};
 	var json_data = JSON.stringify(data);
 	localStorage.setItem(key,json_data);
@@ -172,7 +186,8 @@ function refreshTriggerCount(){
 		}
 		var token = JSON.parse(localStorage.getItem(key)).token;
 		var checktime = JSON.parse(localStorage.getItem(key)).checktime;
-		var alltrigger = getAllTrigger(key,token,checktime);
+		var https_flag = getHttpsFlag(key);
+		var alltrigger = getAllTrigger(key,token,checktime, https_flag);
 		if( alltrigger == "error" ){
 			changeErrorTab(convertID(key));
 		}else{
@@ -247,16 +262,24 @@ function showResult(response,url){
 	refreshTriggerCount();
 }
 
+function getApiUrl(url,https_flag){
+	if( https_flag ){
+		return( "https://" + url + "/api_jsonrpc.php" );
+	}else{
+		return( "http://" + url + "/api_jsonrpc.php" );
+	}	
+}
+
 // Access Zabbix API and Get Data
-function getZabbixData(rpcid, url, authid, method, params) { // "params"‚ÍJSONŒ`Ž®‚Ì•¶Žš—ñƒŠƒeƒ‰ƒ‹‚©JSON‚É•ÏŠ·‰Â”\‚ÈƒIƒuƒWƒFƒNƒg
+function getZabbixData(rpcid, url, authid, method, params, https_flag) { // "params"‚ÍJSONŒ`Ž®‚Ì•¶Žš—ñƒŠƒeƒ‰ƒ‹‚©JSON‚É•ÏŠ·‰Â”\‚ÈƒIƒuƒWƒFƒNƒg
 	var dataRequest = new Object();
 		dataRequest.params = params;
 		dataRequest.auth = authid;
 		dataRequest.jsonrpc = '2.0';
 		dataRequest.id = rpcid;
 		dataRequest.method = method;
-	var dataJsonRequest = JSON.stringify(dataRequest);
-	var api_url = "http://" + url + "/api_jsonrpc.php";
+	var dataJsonRequest = JSON.stringify(dataRequest);		
+	var api_url = getApiUrl(url,https_flag);
 	$.ajax({
 		type: 'POST',
 		url: api_url,
@@ -354,7 +377,7 @@ function outputMsg(msg){
 
 /* for Backend.html */
 
-function getAllTrigger(url, token, ckecktime) { // "params"‚ÍJSONŒ`Ž®‚Ì•¶Žš—ñƒŠƒeƒ‰ƒ‹‚©JSON‚É•ÏŠ·‰Â”\‚ÈƒIƒuƒWƒFƒNƒg
+function getAllTrigger(url, token, ckecktime, https_flag) { // "params"‚ÍJSONŒ`Ž®‚Ì•¶Žš—ñƒŠƒeƒ‰ƒ‹‚©JSON‚É•ÏŠ·‰Â”\‚ÈƒIƒuƒWƒFƒNƒg
 	var rpcid = 2;
 	var filter = new Object();
 	    filter.status = 0;
@@ -374,7 +397,7 @@ function getAllTrigger(url, token, ckecktime) { // "params"‚ÍJSONŒ`Ž®‚Ì•¶Žš—ñƒŠƒ
 		dataRequest.method = "trigger.get";
 	var dataJsonRequest = JSON.stringify(dataRequest);
 	var allTrigger = new Object();
-	var api_url = "http://" + url + "/api_jsonrpc.php";
+	var api_url = getApiUrl(url,https_flag);
 	$.ajax({
 		type: 'POST',
 		url: api_url,
@@ -406,6 +429,14 @@ function notificationCheck(trigger_data){
 	}
 }
 
+function getHttpsFlag(key){
+	var https_flag = JSON.parse(localStorage.getItem(key)).https;
+	if( typeof https_flag == "undefined" ){
+		https_flag = false;
+	}
+	return https_flag;
+}
+
 function checkTriggerCount(){
 	setOptions();
 	var counter = 0;
@@ -416,7 +447,8 @@ function checkTriggerCount(){
 		}
 		var token = JSON.parse(localStorage.getItem(key)).token;
 		var checktime = JSON.parse(localStorage.getItem(key)).checktime;
-		var alltrigger = getAllTrigger(key,token,checktime);
+		var https_flag = getHttpsFlag(key);
+		var alltrigger = getAllTrigger(key,token,checktime,https_flag);
 		if( alltrigger == "error" ){
 			error_counter++;
 		}else{
