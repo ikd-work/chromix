@@ -179,3 +179,45 @@ color: #808080;
 #logout {
 text-align:right;
 }
+
+#datatable td.informaion {
+background-color: #D6F6FF;
+}
+
+#datatable td.warning {
+background-color: #FFF6A5;
+}
+
+#datatable td.average {
+background-color: #FFB689;
+}
+
+#datatable td.high {
+background-color: #FF9999;
+}
+
+#datatable td.disaster {
+background-color: #FF3838;
+}
+
+#datatable a span{
+display:none;
+color:#fff;
+background:rgba(51,51,51,0.75);
+padding:8px;
+margin-top:15px;
+border-radius:4px;
+width:120px;
+text-align:center;
+position: absolute;
+left: 50px;
+z-index:10;
+}
+
+#datatable a{
+display:inline-block;
+}
+    
+#datatable a:hover span{
+display:block;
+}
