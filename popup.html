@@ -6,54 +6,13 @@
 <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="js/zabbix-api.js"></script>
 <script type="text/javascript" src="js/jquery.dataTables.js"></script>
-<script type="text/javascript" async="">
-$("#add").focus();
-</script>
+<script type="text/javascript" async="" src="js/focus.js"></script>
 
-<script type="text/javascript">
-
-$(document).ready(function(){
-	setOptions();
-	getTab();
-	$(function() {
-		$("input").css('color', '#999');
-		var input_val = [];
-		$("input").each(function() {
-			input_val.push($(this).val());
-		});
-		$("input").focus(function() {
-			var chk_num = $("input").index(this);
-			var chk_val = $("input").eq(chk_num).val();
-			if(chk_val == input_val[chk_num]) {
-				var def_val = $(this).val();
-				$(this).val('');
-				$(this).css('color', '#333');
-				$(this).blur(function() {
-					if($(this).val() == '') {
-						$(this).val(def_val);
-						$(this).css('color', '#999');
-					}
-				});
-			}
-		});
-	});	
-});
-selectedTabView(sessionStorage.getItem("selected"));
-
-$(document).keydown(function(e){
-		//入力キーコード
-		var	keyCode		=	e.keyCode;
-		if( (keyCode == 13) && ( $("#login").css('display') != "none" ) ){
-			$("#button").trigger("click");
-		}
-});
-
-
-</script>
+<script type="text/javascript" src="js/init.js"></script>
 </head>
 <body>
 <div align="right">
-<a href="#" id="add" onclick="displayLoginBox()" tabindex="1">Add Zabbix</a>
+<a href="#" id="add" tabindex="1">Add Zabbix</a>
 </div>
 <div id="message" style="display:none" ></div>
 <div id="error" style="display:none"></div>
@@ -73,7 +32,7 @@ $(document).keydown(function(e){
   </tr>
   <tr>
   <td></td>
-  <td align="right"><div id="button" onclick="Login()"><a href="#" tabindex="5">login</a></div></td>
+  <td align="right"><div id="button"><a href="#" tabindex="5">login</a></div></td>
   </tr>
 </table>
 </form>
