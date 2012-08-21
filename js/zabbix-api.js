@@ -502,7 +502,7 @@ function checkTriggerCount(){
 		chrome.browserAction.setIcon({path:"image/chromix_error_icon.png"});
 	}
 	
-	setTimeout("checkTriggerCount()",1000*background_rate);
+	setTimeout(function(){ checkTriggerCount(); },1000*background_rate);
 }
 
 function popupNotification(msg){
