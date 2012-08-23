@@ -19,7 +19,7 @@ border-bottom: 5px #C3BEFD solid;
 
 #tab ul {
 width: 100%;
-margin: 3px;
+margin: 8px;
 padding: 12px;
 list-style-type: none;
 text-align: center;
@@ -33,6 +33,7 @@ float: left;
 display:inline-block;
 border-top-left-radius: 8px;
 border-top-right-radius: 8px;
+height: 18px;
 }
 
 #tab ul li.selected_tab {
