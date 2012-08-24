@@ -32,8 +32,6 @@ function displayLoginBox(){
 			$("#add").text("Add Zabbix");
 			htmlResize();
 		});
-		
-		
 	}
 }
 
@@ -220,7 +218,7 @@ function refreshTriggerCount(){
 function showResult(response,url,https_flag){
 	var strTable = "";
 	strTable += "<table id=main>";
-	strTable += "<div id=logout><a href=# onclick=Logout('"+url+"')>Logout</a></div>";
+	strTable += "<div id=logout><a href=# name='"+url+"'>Logout</a></div>";
 	if( response.error ){
 		strTable += "<div class=noconnection>Not Connected!</div>";
 		outputError("Not Connected!");
