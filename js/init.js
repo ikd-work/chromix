@@ -29,6 +29,9 @@ $(document).ready(function(){
 	$("#button").click(function(){
 		Login();
 	});
+	$("#logout").live('click',function(){
+		Logout($(this).children("a").attr("name"));
+	});
 });
 selectedTabView(sessionStorage.getItem("selected"));
 
