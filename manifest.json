@@ -1,6 +1,6 @@
 {
   "name":"Chromix",
-  "version":"1.4",
+  "version":"1.5",
   "manifest_version":2,
   "background":{"page":"background.html"},
   "description":"Zabbix Alert Check Extension",
@@ -19,7 +19,13 @@
     "16": "image/chromix_icon_16x16.png",
     "48": "image/chromix_icon_48x48.png",
     "128": "image/chromix_icon_128x128.png"
-  }
+  },
+  "web_accessible_resources": [
+    "image/chromix_error_icon.png",
+    "image/chromix_normal_icon.png",
+    "image/warning.png",
+    "image/secure.ico"
+  ]
 }
 
 
