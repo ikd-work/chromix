@@ -40,6 +40,7 @@ function Login(){
 	var username = $("#username").val();
 	var password = $("#password").val();
 	var https_flag = $("#ssl").is(':checked');
+	var basic_flag = $("#basic").is(':checked');
 
 	var auth = getAuth(url,username,password,https_flag);
 	if( auth.result != null ){
@@ -51,6 +52,9 @@ function Login(){
 			checktime:parseInt((new Date)/1000),
 			https:https_flag
 			};
+			if( basic_flag ){
+				data["basic"] = {username:username,password:password};
+			}
 			var json_data = JSON.stringify(data);
 			localStorage.setItem(url,json_data);
 			location.reload();
@@ -78,6 +82,8 @@ function getAuth(url, user, password, https_flag) {
 	});
 	$.ajax({
 		url: api_url,
+		username: user,
+		password: password,
 		contentType: 'application/json-rpc',
 		dataType: 'json',
 		type: 'POST',
@@ -121,7 +127,6 @@ function getTab(){
 
 function getTabValue(key){
 	if( getHttpsFlag(key) ){
-		//return("<a href=#><img width=12px height=12px src='image/secure_icon.gif'>"  + key + "</a></li>");
 		return("<a href=#><img width=12px height=12px src='image/secure.ico'>"  + key + "</a></li>");
 	}else{
 		return("<a href=#>" + key + "</a></li>");
@@ -155,6 +160,7 @@ function getTriggerList(url,token,checktime,https_flag){
 	var params = new Object();
 		params.output = "extend";
 		params.expandData = 1;
+		params.expandDescription = 1;
 		params.limit = 100;
 		params.monitored = 1;
 		params.sortfield = "lastchange";
