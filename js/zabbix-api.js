@@ -121,7 +121,6 @@ function getTab(){
 
 function getTabValue(key){
 	if( getHttpsFlag(key) ){
-		//return("<a href=#><img width=12px height=12px src='image/secure_icon.gif'>"  + key + "</a></li>");
 		return("<a href=#><img width=12px height=12px src='image/secure.ico'>"  + key + "</a></li>");
 	}else{
 		return("<a href=#>" + key + "</a></li>");
@@ -155,6 +154,7 @@ function getTriggerList(url,token,checktime,https_flag){
 	var params = new Object();
 		params.output = "extend";
 		params.expandData = 1;
+		params.expandDescription = 1;
 		params.limit = 100;
 		params.monitored = 1;
 		params.sortfield = "lastchange";
