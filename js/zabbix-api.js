@@ -40,7 +40,6 @@ function Login(){
 	var username = $("#username").val();
 	var password = $("#password").val();
 	var https_flag = $("#ssl").is(':checked');
-	var basic_flag = $("#basic").is(':checked');
 
 	var auth = getAuth(url,username,password,https_flag);
 	if( auth.result != null ){
@@ -48,15 +47,12 @@ function Login(){
 			outputError(auth.result);
 		}else{
 			var data = {
-			token:auth.result,
-			checktime:parseInt((new Date)/1000),
-			https:https_flag
-			};
-			if( basic_flag ){
-				data["basic"] = {username:username,password:password};
-			}
-			var json_data = JSON.stringify(data);
-			localStorage.setItem(url,json_data);
+				token:auth.result,
+				checktime:parseInt((new Date)/1000),
+				https:https_flag,
+				account:{username:username,password:password},
+				};
+			setEncryptedData(url,data);
 			location.reload();
 			outputMsg("Login Success");
 		}
@@ -89,7 +85,7 @@ function getAuth(url, user, password, https_flag) {
 		type: 'POST',
 		processData: false,
 		timeout: 2000,
-		async: false, // 認証が終わらないと次の処理ができないので、ここは同期通信に。
+		async: false, 
 		data: authJsonRequest,
 		success: function(response){
 			authResult = response;
@@ -98,7 +94,7 @@ function getAuth(url, user, password, https_flag) {
 			authResult.result = "Connection Error!";
 		},
     });
-    return(authResult); // 認証結果をObjectとして返して"auth.id", "auth.result"で取り出す。
+    return(authResult); 
 }
 
 // Main
@@ -138,21 +134,25 @@ function selectedTabView(selected_tab){
 		if( key == "options" ){
 			continue;
 		}
-		var token = JSON.parse(localStorage.getItem(key)).token;
-		var checktime = JSON.parse(localStorage.getItem(key)).checktime;
+		//var storage_data = des.decrypt(localStorage.getItem(key),"secretkey");
+		var storage_data = getDecryptedData(key);
+		var token = storage_data.token;
+		var checktime = storage_data.checktime;
 		var https_flag = getHttpsFlag(key);
+		var account = storage_data.account;
+		if( !account ){ account = {username:"",password:""}; };
 		if( sessionStorage.getItem("selected") == null ){
 			sessionStorage.setItem("selected",key);
-			getTriggerList(key,token,checktime,https_flag);
+			getTriggerList(key,token,checktime,https_flag,account);
 			getTab();
 		}else if( sessionStorage.getItem("selected") == key ){    
-			getTriggerList(key,token,checktime,https_flag);
+			getTriggerList(key,token,checktime,https_flag,account);
 			getTab();
 		}
 	}
 }
 
-function getTriggerList(url,token,checktime,https_flag){
+function getTriggerList(url,token,checktime,https_flag,account){
 	var rpcid = 3;
 	var filter = new Object();
 		filter.status = 0;
@@ -166,19 +166,22 @@ function getTriggerList(url,token,checktime,https_flag){
 		params.sortfield = "lastchange";
 		params.sortorder = "DESC";
 		params.filter = filter;
-	getZabbixData(rpcid, url, token, "trigger.get", params, https_flag);
+	getZabbixData(rpcid, url, token, "trigger.get", params, https_flag, account);
 }
 
 function updateTime(key){
-	var token = JSON.parse(localStorage.getItem(key)).token;
+	var storage_data = getDecryptedData(key);
+	var token = storage_data.token;
 	var https_flag = getHttpsFlag(key);
+	var account = storage_data.account;
+	if( !account ){ account = {username:"",password:""}; };
 	var data = {
 	token:token,
 	checktime:parseInt((new Date)/1000),
-	https:https_flag
+	https:https_flag,
+	account:account
 	};
-	var json_data = JSON.stringify(data);
-	localStorage.setItem(key,json_data);
+	setEncryptedData(key,data);
 }
 
 function refreshTriggerCount(){
@@ -188,8 +191,11 @@ function refreshTriggerCount(){
 		if( key == "options" ){
 			continue;
 		}
-		var token = JSON.parse(localStorage.getItem(key)).token;
-		var checktime = JSON.parse(localStorage.getItem(key)).checktime;
+		var storage_data = getDecryptedData(key);
+		var token = storage_data.token;
+		//var token = JSON.parse(localStorage.getItem(key)).token;
+		//var checktime = JSON.parse(localStorage.getItem(key)).checktime;
+		var checktime = storage_data.checktime;
 		var https_flag = getHttpsFlag(key);
 		var alltrigger = getAllTrigger(key,token,checktime, https_flag);
 		if( alltrigger == "error" ){
@@ -224,7 +230,7 @@ function refreshTriggerCount(){
 function showResult(response,url,https_flag){
 	var strTable = "";
 	strTable += "<table id=main>";
-	strTable += "<div id=logout><a href=# name='"+url+"'>Logout</a></div>";
+	strTable += "<div id=logout-div><a id=logout href=# name='"+url+"'>Logout</a></div>";
 	if( response.error ){
 		strTable += "<div class=noconnection>Not Connected!</div>";
 		outputError("Not Connected!");
@@ -275,7 +281,7 @@ function showResult(response,url,https_flag){
 				}
 			}
 			var class_name = "old";
-			if( unixtime >= JSON.parse(localStorage.getItem(url)).checktime ) {
+			if( unixtime >= getDecryptedData(url).checktime ) {
 				class_name = "new";
 			}
 			strTable += "<td class='" + class_name + " " + priority  + "'><a href=" + pageurl + " target=_blank ><span>Priority:" + priority + "</span>" + description + "</a></td><td class=" + class_name + ">" + time + "</td><td class=" + class_name + ">" + hostname + "</td>";
@@ -302,7 +308,7 @@ function getApiUrl(url,https_flag){
 }
 
 // Access Zabbix API and Get Data
-function getZabbixData(rpcid, url, authid, method, params, https_flag) { // "params"はJSON形式の文字列リテラルかJSONに変換可能なオブジェクト
+function getZabbixData(rpcid, url, authid, method, params, https_flag, account) { 
 	var dataRequest = new Object();
 		dataRequest.params = params;
 		dataRequest.auth = authid;
@@ -314,6 +320,8 @@ function getZabbixData(rpcid, url, authid, method, params, https_flag) { // "par
 	$.ajax({
 		type: 'POST',
 		url: api_url,
+		username: account.username,
+		password: account.password,
 		contentType: 'application/json-rpc',
 		dataType: 'json',
 		processData: false,
@@ -461,7 +469,7 @@ function notificationCheck(trigger_data){
 }
 
 function getHttpsFlag(key){
-	var https_flag = JSON.parse(localStorage.getItem(key)).https;
+	var https_flag = getDecryptedData(key).https;
 	if( typeof https_flag == "undefined" ){
 		https_flag = false;
 	}
@@ -476,8 +484,9 @@ function checkTriggerCount(){
 		if( key == "options" ){
 			continue;
 		}
-		var token = JSON.parse(localStorage.getItem(key)).token;
-		var checktime = JSON.parse(localStorage.getItem(key)).checktime;
+		var storage_data = getDecryptedData(key);
+		var token = storage_data.token;
+		var checktime = storage_data.checktime;
 		var https_flag = getHttpsFlag(key);
 		var alltrigger = getAllTrigger(key,token,checktime,https_flag);
 		if( alltrigger == "error" ){
@@ -523,4 +532,32 @@ function popupNotification(msg){
 			notification.show();
 		}
 	}
+}
+
+function encryptData(data){
+	var secretkey = "--------";
+	return des.encrypt(data,secretkey);
+}
+
+function decryptData(data){
+	var secretkey = "--------";
+	return des.decrypt(data,secretkey);
+}
+
+function getDecryptedData(key){
+	if(decryptData(localStorage.getItem(key)).indexOf("token") != -1){
+		return jsonParse(decryptData(localStorage.getItem(key)));
+	}else{
+		return jsonParse(localStorage.getItem(key));
+	}
+}
+
+function setEncryptedData(key,data){
+	var json_data = JSON.stringify(data);
+	var enc_json_data = encryptData(json_data);
+	localStorage.setItem(key,enc_json_data);
+}
+
+function jsonParse(data){
+	return JSON.parse(data);
 }

@@ -1,7 +1,7 @@
 html {
 min-width: 600px;
 max-width: 800px;
-font-family: cursive,general-family;
+font-family: 'Chalkboard',cursive,general-family;
 font-size: 13px;
 }
 
@@ -177,7 +177,7 @@ line-height:30px;
 color: #808080;
 }
 
-#logout {
+#logout-div {
 text-align:right;
 }
 

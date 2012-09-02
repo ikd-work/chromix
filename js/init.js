@@ -30,7 +30,7 @@ $(document).ready(function(){
 		Login();
 	});
 	$("#logout").live('click',function(){
-		Logout($(this).children("a").attr("name"));
+		Logout($(this).attr("name"));
 	});
 });
 selectedTabView(sessionStorage.getItem("selected"));
