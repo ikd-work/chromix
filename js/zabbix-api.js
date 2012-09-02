@@ -535,12 +535,12 @@ function popupNotification(msg){
 }
 
 function encryptData(data){
-	var secretkey = "--------";
+	var secretkey = "secretkey";
 	return des.encrypt(data,secretkey);
 }
 
 function decryptData(data){
-	var secretkey = "--------";
+	var secretkey = "secretkey";
 	return des.decrypt(data,secretkey);
 }
 
