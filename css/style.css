@@ -52,7 +52,7 @@ border-right:2px #C3BEFD solid;
 color: #0000cd;
 }
 
-#datatable {
+#datatable1 {
 background-color: #C3BEFD;
 color: #696969;
 width:100%;
@@ -60,7 +60,7 @@ min-width: 600px;
 max-width: 1200px;
 }
 
-#datatable td {
+#datatable1 td {
 padding-top: 5px;
 padding-bottom: 5px;
 padding-left: 10px;
@@ -73,26 +73,26 @@ border: 1px solid;
 font-size:13px;
 }
 
-#datatable a{
+#datatable1 a{
 color:#0000ff;
 }
 
 
-#datatable th {
+#datatable1 th {
 text-align: left;
 }
 
-#datatable tr {
+#datatable1 tr {
 border: 10px #ffffff solid;
 border-radius: 10px;
 font-size:18px;
 }
 
-#datatable td.new {
+#datatable1 td.new {
 border-color: #ff0000;
 }
 
-#datatable td.old {
+#datatable1 td.old {
 border-color: #0000ff;
 }
 
@@ -133,7 +133,7 @@ a:hover{
 color:#ff69b4;
 }
 
-#datatable a:hover{
+#datatable1 a:hover{
 color:#ff69b4;
 }
 
@@ -181,27 +181,27 @@ color: #808080;
 text-align:right;
 }
 
-#datatable td.informaion {
+#datatable1 td.informaion {
 background-color: #D6F6FF;
 }
 
-#datatable td.warning {
+#datatable1 td.warning {
 background-color: #FFF6A5;
 }
 
-#datatable td.average {
+#datatable1 td.average {
 background-color: #FFB689;
 }
 
-#datatable td.high {
+#datatable1 td.high {
 background-color: #FF9999;
 }
 
-#datatable td.disaster {
+#datatable1 td.disaster {
 background-color: #FF3838;
 }
 
-#datatable a span{
+#datatable1 a span{
 display:none;
 color:#fff;
 background:rgba(51,51,51,0.75);
@@ -215,10 +215,10 @@ left: 50px;
 z-index:10;
 }
 
-#datatable a{
+#datatable1 a{
 display:inline-block;
 }
     
-#datatable a:hover span{
+#datatable1 a:hover span{
 display:block;
 }

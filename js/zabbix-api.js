@@ -229,7 +229,7 @@ function refreshTriggerCount(){
 
 function showResult(response,url,https_flag){
 	var strTable = "";
-	strTable += "<table id=main>";
+	strTable += "<table id=main data-filter=#filter class='footable default footable-loaded'>";
 	strTable += "<div id=logout-div><a id=logout href=# name='"+url+"'>Logout</a></div>";
 	if( response.error ){
 		strTable += "<div class=noconnection>Not Connected!</div>";
@@ -237,7 +237,7 @@ function showResult(response,url,https_flag){
 	}else if( response.result == "" ){
 		strTable += "<div class=nodata>No Trouble!</div>";
 	}else{
-		strTable += "<tr><th>Description</th><th>Time</th><th>Host</th>";
+		strTable += "<thead><tr><th>Description</th><th>Time</th><th>Host</th></thead><tbody>";
 		for(var index in response.result) {
 			strTable += "<tr>";
 			for ( var itemname in response.result[index]){
@@ -288,7 +288,7 @@ function showResult(response,url,https_flag){
 			strTable += "</tr>";
 		}
 	}
-	strTable += "</table><br>";
+	strTable += "</tbody></table><br>";
 	//document.getElementById("datatable").innerHTML = strTable;
 	$("#datatable").fadeOut("normal",function(){
 		$("#datatable").html(strTable);

@@ -22,6 +22,7 @@ $(document).ready(function(){
 				});
 			}
 		});
+        $('.footable').footable();
 	});	
 	$("#add").click(function(){
 		displayLoginBox();
