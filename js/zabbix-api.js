@@ -229,7 +229,7 @@ function refreshTriggerCount(){
 
 function showResult(response,url,https_flag){
 	var strTable = "";
-	strTable += "<table id=main data-filter=#filter class='footable default footable-loaded'>";
+	strTable += "<table id=main data-filter=#filter class='footable'>";
 	strTable += "<div id=logout-div><a id=logout href=# name='"+url+"'>Logout</a></div>";
 	if( response.error ){
 		strTable += "<div class=noconnection>Not Connected!</div>";
@@ -237,7 +237,7 @@ function showResult(response,url,https_flag){
 	}else if( response.result == "" ){
 		strTable += "<div class=nodata>No Trouble!</div>";
 	}else{
-		strTable += "<thead><tr><th>Description</th><th>Time</th><th>Host</th></thead><tbody>";
+		strTable += "<thead><tr><th data-class=expand>Description</th><th data-hide=all>Priority</th><th data-hide=all>Comments</th><th data-hide=all>Error</th><th>Time</th><th>Host</th></thead><tbody>";
 		for(var index in response.result) {
 			strTable += "<tr>";
 			for ( var itemname in response.result[index]){
@@ -278,13 +278,17 @@ function showResult(response,url,https_flag){
 							priority = "disaster";
 							break;
 					}
-				}
+				}else if( itemname == "comments"){
+                    var comments = response.result[index][itemname];
+                }else if( itemname == "error"){
+                    var error = response.result[index][itemname];
+                }
 			}
 			var class_name = "old";
 			if( unixtime >= getDecryptedData(url).checktime ) {
 				class_name = "new";
 			}
-			strTable += "<td class='" + class_name + " " + priority  + "'><a href=" + pageurl + " target=_blank ><span>Priority:" + priority + "</span>" + description + "</a></td><td class=" + class_name + ">" + time + "</td><td class=" + class_name + ">" + hostname + "</td>";
+			strTable += "<td class='" + class_name + " " + priority  + "'><a href=" + pageurl + " target=_blank >" + description + "</a></td><td>" + priority +"</td><td>" + comments +"</td><td>" + error + "</td><td class=" + class_name + ">" + time + "</td><td class=" + class_name + ">" + hostname + "</td>";
 			strTable += "</tr>";
 		}
 	}
@@ -293,6 +297,7 @@ function showResult(response,url,https_flag){
 	$("#datatable").fadeOut("normal",function(){
 		$("#datatable").html(strTable);
 		$("#datatable").fadeIn();
+        $('.footable').footable();
 	//	htmlResize();
 	});
 	updateTime(url);
