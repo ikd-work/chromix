@@ -22,6 +22,7 @@ $(document).ready(function(){
 				});
 			}
 		});
+		$("#hostlist").selectbox();
 	});	
 	$("#add").click(function(){
 		displayLoginBox();
