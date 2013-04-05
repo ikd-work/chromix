@@ -98,6 +98,38 @@ function getAuth(url, user, password, https_flag) {
 }
 
 // Main
+function showSelectBox(){
+    var selectbox_str = "<ul id=selectedhost>";
+    var select_itemname = sessionStorage.getItem("selected");
+    selectbox_str += "<li><span id=selected>" + select_itemname + "</span><ul id=hostlist>";
+
+    for( var key in localStorage ){
+        if( key == "options" ){
+            continue;
+        }
+        if( select_itemname == key ){
+            selectbox_str += "<li value=" + convertID(key) + " selected>" + getTitle(key) + "</li>";
+        }else{
+            selectbox_str += "<li value=" + convertID(key) + ">" + getTitle(key) + "</li>";
+        }
+    }
+    selectbox_str += "</ul></li></ul>";
+    $("#select").html(selectbox_str);
+    $("ul#hostlist").hide();
+    $("ul#selectedhost").hover(function(){
+        console.log("on");
+        $("ul:not(:animated)", this).slideDown();
+    },function(){
+        $("ul#hostlist",this).slideUp();
+    });
+    $("ul#hostlist li").click(function(){
+        console.log("click");
+        selected = $(this).text();
+        sessionStorage.setItem("selected",$(this).text());
+        selectedTriggerView(sessionStorage.getItem("selected"));
+        $("#selected").text(selected);
+    });
+}
 
 function getTab(){
 	var tab_str = "<ul>"; 
@@ -117,7 +149,7 @@ function getTab(){
 	$("#tab").html(tab_str);
 	$("li.tab").click(function(){
 		sessionStorage.setItem("selected",$(this).text());
-		selectedTabView(sessionStorage.getItem("selected"));
+		selectedTriggerView(sessionStorage.getItem("selected"));
 	});
 }
 
@@ -129,7 +161,15 @@ function getTabValue(key){
 	}
 }
 
-function selectedTabView(selected_tab){
+function getTitle(key){
+	if( getHttpsFlag(key) ){
+		return("<a href=#><img width=12px height=12px src='image/secure.ico'>"  + key + "</a>");
+	}else{
+		return("<a href=#>" + key + "</a>");
+	}
+}
+
+function selectedTriggerView(selected_tab){
 	for( var key in localStorage ){
 		if( key == "options" ){
 			continue;
@@ -144,10 +184,8 @@ function selectedTabView(selected_tab){
 		if( sessionStorage.getItem("selected") == null ){
 			sessionStorage.setItem("selected",key);
 			getTriggerList(key,token,checktime,https_flag,account);
-			getTab();
 		}else if( sessionStorage.getItem("selected") == key ){    
 			getTriggerList(key,token,checktime,https_flag,account);
-			getTab();
 		}
 	}
 }

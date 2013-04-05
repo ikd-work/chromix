@@ -9,6 +9,11 @@ a {
 color:#0000ff;
 }
 
+#select {
+text-align: left;
+float: right;
+}
+
 #tab {
 width: 100%;
 min-width: 600px;

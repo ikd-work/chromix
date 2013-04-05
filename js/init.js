@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	setOptions();
-	getTab();
+//	getTab();
+    showSelectBox();
 	$(function() {
 		$("input").css('color', '#999');
 		var input_val = [];
@@ -22,7 +23,6 @@ $(document).ready(function(){
 				});
 			}
 		});
-		$("#hostlist").selectbox();
 	});	
 	$("#add").click(function(){
 		displayLoginBox();
@@ -33,8 +33,11 @@ $(document).ready(function(){
 	$("#logout").live('click',function(){
 		Logout($(this).attr("name"));
 	});
+    $("#hostlist").mouseover(function(){
+        console.log("hostlist hover");
+    });
 });
-selectedTabView(sessionStorage.getItem("selected"));
+selectedTriggerView(sessionStorage.getItem("selected"));
 
 $(document).keydown(function(e){
 
