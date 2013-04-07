@@ -33,13 +33,10 @@
   };
 
   function Sortable() {
-      console.log("Exec Sortable()");
     var p = this;
     p.name = 'Footable Sortable';
     p.init = function(ft) {
-    console.log("test");
       if (ft.options.sort == true) {
-          console.log("sort flag true");
         $(ft.table).bind({
           'footable_initialized': function(e) {
             var cls = ft.options.classes.sort, column;
@@ -49,7 +46,6 @@
             $table.find('> thead > tr:last-child > th, > thead > tr:last-child > td').each(function(ec) {
               $th = $(this), column = e.ft.columns[$th.index()];
               if (column.sort.ignore != true) {
-                  console.log("addClass indicator");
                 $th.addClass(cls.sortable);
                 $('<span />').addClass(cls.indicator).appendTo($th);
               }

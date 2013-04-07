@@ -2,10 +2,9 @@
 <head>
 <!-- Theme specific CSS files are loaded later by the ThemeManager -->
 <title>Chromix</title>
-<link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/footable/footable-0.1.css" />
 <link rel="stylesheet" type="text/css" href="css/footable/footable.sortable-0.1.css" />
-<link href="css/selectbox/jquery.selectbox.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
 <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="js/zabbix-api.js"></script>
 <script type="text/javascript" src="js/des.js"></script>
@@ -15,40 +14,44 @@
 <script type="text/javascript" src="js/footable/footable.filter.js"></script>
 <script type="text/javascript" src="js/footable/footable.sortable.js"></script>
 <script type="text/javascript" src="js/init.js"></script>
-<script type="text/javascript" src="js/footable.js"></script>
-<script type="text/javascript" src="js/selectbox/jquery.selectbox-0.2.js"></script>
 </head>
 <body>
-<div align="right">
-<a href="#" id="add" tabindex="1">Add Zabbix</a>
+<div id="head">
+    <div align="right">
+        <a href="#" id="add" tabindex="1">Add Zabbix</a>
+    </div>
+    <div id="message" style="display:none" ></div>
+    <div id="error" style="display:none"></div>
+    <div id="login" style="display:none">
+        <form>
+            <table id="loginform">
+                <tr>
+                    <td align="right">URL:</td>
+                    <td><input type="text" id="url" value="hostname/zabbix" tabindex="2"></td>
+                    <td>SSL?<input type="checkbox" id="ssl"></td>
+                </tr>
+                <tr>
+                    <td align="right">ID:</td>
+                    <td><input type="text" id="username" value="admin" tabindex="3"></td>
+                </tr>
+                <tr>
+                    <td align="right">Password:</td>
+                    <td><input type="password" id="password" tabindex="4"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td align="right"><div id="button"><a href="#" tabindex="5">login</a></div></td>
+                </tr>
+            </table>
+        </form>
+    </div>
 </div>
-<div id="message" style="display:none" ></div>
-<div id="error" style="display:none"></div>
-<div id="login" style="display:none">
-<form>
-<table id="loginform">
-  <tr>
-    <td align="right">URL:</td>
-    <td><input type="text" id="url" value="hostname/zabbix" tabindex="2"></td>
-    <td>SSL?<input type="checkbox" id="ssl"></td>
-  </tr><tr>
-    <td align="right">ID:</td>
-    <td><input type="text" id="username" value="admin" tabindex="3"></td>
-  </tr><tr>
-    <td align="right">Password:</td>
-    <td><input type="password" id="password" tabindex="4"></td>
-  </tr>
-  <tr>
-  <td></td>
-  <td align="right"><div id="button"><a href="#" tabindex="5">login</a></div></td>
-  </tr>
-</table>
-</form>
+<div id="bar">
+    <div id="select"></div>
+    <div id="search">
+        search:<input id="filter" type="text">
+    </div>
 </div>
-
-<div id="tab"></div>
-search:<input id="filter" type="text">
-<div id="select"></div>
 <div id="datatable"></div>
 </body>
 </html>
