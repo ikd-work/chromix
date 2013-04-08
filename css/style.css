@@ -1,14 +1,14 @@
 html {
     min-width: 600px;
     max-width: 800px;
-    font-family: general-family;
+    /*font-family: general-family;*/
+    font-family: "Helvetica Neue", arial, sans-serif;
     font-size: 13px;
     background-color: #e0e0e0;
 }
 
 #head {
     width: 95%;
-    background-color: #ffb640;
 }
 
 #bar {
@@ -117,6 +117,23 @@ span.trash {
     background: url('../image/trash.png') no-repeat center right;
     background-size: contain;
     cursor: pointer;
+}
+
+/* Search box */
+#filter {
+    width: 120px;
+    background-color: #faf9f7;
+    background-image: url('../image/search.png');
+    background-repeat: no-repeat;
+    background-position-x: right;
+    border-right: 2px solid #bebebe;
+    border-left: 1px solid #bebebe;
+    border-top: 1px solid #bebebe;
+    border-bottom: 2px solid #bebebe;
+    margin-left: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    padding-right: 20px;
 }
 
 #datatable table {

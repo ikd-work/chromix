@@ -36,6 +36,12 @@ $(document).ready(function(){
     $("#hostlist").mouseover(function(){
         console.log("hostlist hover");
     });
+    $("#filter").focus(function(){
+        $(this).animate({"width":"200px"},"normal");
+    });
+    $("#filter").blur(function(){
+        $(this).animate({"width":"117px"},"normal");
+    });
 });
 selectedTriggerView(sessionStorage.getItem("selected"));
 
