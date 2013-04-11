@@ -349,7 +349,8 @@ function showResult(response,url,https_flag){
 		$("#datatable").html(strTable);
 		$("#datatable").fadeIn();
         $('.footable').footable();
-	//	htmlResize();
+        $("#datatable table > tbody > tr:odd").addClass("odd");
+        $("#datatable table > tbody > tr:even").addClass("even");
 	});
 	updateTime(url);
 	refreshTriggerCount();

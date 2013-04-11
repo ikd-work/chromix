@@ -8,17 +8,27 @@
   border: solid #ccc 1px;
   -moz-border-radius: 6px;
   -webkit-border-radius: 6px;
-  border-radius: 6px;
+ /* border-radius: 6px;*/
   /*font-family: 'trebuchet MS' , 'Lucida sans' , Arial;*/
   font-family: "Helvetica Neue", arial, sans-serif;
   font-size: 13px;
   /*color: #444;*/
   color: white;
 }
-
+.footable.breakpoint > tbody > tr.even {
+  background-color: #eaeaea;
+}
+.footable.breakpoint > tbody > tr.odd {
+  background-color: #cfcfcf;
+}
 .footable.breakpoint > tbody > tr > td.expand {
   background: url('img/plus.png') no-repeat 5px center;
   padding-left: 40px;
+}
+.footable.breakpoint > tbody > tr > td {
+    color: #446;
+  border-right: 1px solid #aac;
+  border-bottom: 1px solid #aac;
 }
 
 .footable.breakpoint > tbody > tr.footable-detail-show > td.expand {
@@ -38,36 +48,14 @@
 }
 
 .footable > tbody > tr > td, .footable > thead > tr > th {
-  border-left: 1px solid #ccc;
-  border-top: 1px solid #ccc;
-  /*padding: 10px;*/
   padding: 3px;
   text-align: left;
 }
 
 .footable > thead > tr > th, .footable > thead > tr > td {
-  /*background-color: #dce9f9;*/
   background: -webkit-gradient(linear, center bottom, center top, from(#333), to(#777));
- /* background-image: -webkit-gradient(linear, left top, left bottom, from(#ebf3fc), to(#dce9f9));
-  background-image: -webkit-linear-gradient(top, #ebf3fc, #dce9f9);
-  background-image: -moz-linear-gradient(top, #ebf3fc, #dce9f9);
-  background-image: -ms-linear-gradient(top, #ebf3fc, #dce9f9);
-  background-image: -o-linear-gradient(top, #ebf3fc, #dce9f9);
-  background-image: linear-gradient(to bottom, #ebf3fc, #dce9f9);
-  -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
-  -moz-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
-  box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;*/
- /* border-top: 2px solid #53ACD4;*/
   border-top: 2px ridge #e0e0e0;
   text-shadow: 0 1px 0 rgba(255,255,255,.5);
-}
-
-.footable > thead > tr > th:first-child {
-  border-top-left-radius: 10px;
-}
-
-.footable > thead > tr > th:last-child {
-  border-top-right-radius: 10px;
 }
 
 .footable > thead > tr {

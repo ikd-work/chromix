@@ -145,7 +145,7 @@ max-width: 1200px;
 margin: auto;
 margin-top: 4px;
 }
-
+/*
 #datatable1 table td {
 padding-top: 5px;
 padding-bottom: 5px;
@@ -158,7 +158,7 @@ border-color: #EBE9FE;
 border: 1px solid;
 font-size:13px;
 }
-
+*/
 #datatable a{
 color:#0000ff;
 }
@@ -168,17 +168,17 @@ color:#0000ff;
 text-align: left;
 }
 
-#datatable tr {
+/*#datatable tr {
 border: 10px #ffffff solid;
 border-radius: 10px;
-}
+}*/
 
 #datatable td.new {
-border-color: #ff0000;
+/*border-color: #ff0000;*/
 }
 
 #datatable td.old {
-border-color: #0000ff;
+/*border-color: #0000ff;*/
 }
 
 #login td{
@@ -266,29 +266,36 @@ color: #808080;
 text-align:right;
 }
 
-#datatable td.informaion {
-background-color: #D6F6FF;
+#datatable td.information {
+    border-left: 5px solid #D6F6FF;
 }
 
 #datatable td.warning {
-background-color: #FFF6A5;
+    border-left: 5px solid #FFF6A5;
 }
 
 #datatable td.average {
-background-color: #FFB689;
+    border-left: 5px solid #FFB689;
 }
 
 #datatable td.high {
-background-color: #FF9999;
+    border-left: 5px solid #FF9999;
 }
 
 #datatable td.disaster {
-background-color: #FF3838;
+    border-left: 5px solid #FF3838;
 }
+
 #datatable a{
 display:inline-block;
 }
     
 #datatable a:hover span{
 display:block;
+}
+
+#tag {
+    display: inline-block;
+    width: 10px;
+    background-color: red;
 }
