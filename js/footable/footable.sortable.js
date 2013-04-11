@@ -69,6 +69,10 @@
                 $th.removeClass(cls.descending).addClass(cls.sorted);
               }
               e.ft.bindToggleSelectors();
+              $("#datatable table > tbody > tr:odd").removeClass();
+              $("#datatable table > tbody > tr:odd").addClass("odd");
+              $("#datatable table > tbody > tr:even").removeClass();
+              $("#datatable table > tbody > tr:even").addClass("even");
               return false;
             });
 
