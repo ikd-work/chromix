@@ -14,6 +14,7 @@
 <script type="text/javascript" src="js/footable/footable.filter.js"></script>
 <script type="text/javascript" src="js/footable/footable.sortable.js"></script>
 <script type="text/javascript" src="js/init.js"></script>
+<script type="text/javascript" src="js/jquery.lightbox_me.js"></script>
 </head>
 <body>
 <div id="head">
@@ -23,19 +24,26 @@
     <div id="message" style="display:none" ></div>
     <div id="error" style="display:none"></div>
     <div id="login" style="display:none">
+        <a href=# id="close">close</a>
         <form>
             <table id="loginform">
                 <tr>
                     <td align="right">URL:</td>
+                </tr>
+                <tr>
                     <td><input type="text" id="url" value="hostname/zabbix" tabindex="2"></td>
                     <td>SSL?<input type="checkbox" id="ssl"></td>
                 </tr>
                 <tr>
                     <td align="right">ID:</td>
+                </tr>
+                <tr>
                     <td><input type="text" id="username" value="admin" tabindex="3"></td>
                 </tr>
                 <tr>
                     <td align="right">Password:</td>
+                </tr>
+                <tr>
                     <td><input type="password" id="password" tabindex="4"></td>
                 </tr>
                 <tr>

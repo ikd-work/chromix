@@ -25,7 +25,13 @@ $(document).ready(function(){
 		});
 	});	
 	$("#add").click(function(){
-		displayLoginBox();
+        //displayLoginBox();
+        $("#login").lightbox_me({
+            centered: true,
+            onLoad: function(){
+                $("#login").find("input:first").focus()
+            }
+        });
 	});
 	$("#button").click(function(){
 		Login();
@@ -41,6 +47,9 @@ $(document).ready(function(){
     });
     $("#filter").blur(function(){
         $(this).animate({"width":"117px"},"normal");
+    });
+    $("#close").click(function(){
+        $("#login").trigger('close');
     });
 });
 selectedTriggerView(sessionStorage.getItem("selected"));

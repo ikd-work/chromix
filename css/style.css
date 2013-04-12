@@ -181,8 +181,20 @@ border-radius: 10px;
 /*border-color: #0000ff;*/
 }
 
+#login {
+    background-color: #e0e0e0;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 20px;
+    border-radius: 7px;
+    box-shadow: rgba(0,0,0,.6) 0px 2px 12px;
+    border: 1px solid #334488;
+}
+
 #login td{
-font-size:18px;
+font-size:13px;
+text-align: left;
 }
 
 #login input{
@@ -192,6 +204,14 @@ background-color: #add8e6;
 font-size: 18px;
 }
 
+#login > a {
+    display:inline-block;
+    float: right;
+    padding-top: 10px;
+    padding-right: 5px;
+    padding-bottom: 20px;
+}
+
 #button{
 width: 80px;
 text-align:center;
@@ -199,6 +219,7 @@ border-radius: 3px;
 background-color: #ffd700;
 box-shadow: inset 0 0.6em 3px #ffee88, 0 0 0.2em #ffee88;
 text-shadow: 0px 1px #fff;
+border: 1px solid #d2691e;
 }
 
 #button:hover > a{
