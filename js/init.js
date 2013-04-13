@@ -39,9 +39,6 @@ $(document).ready(function(){
 	$("#logout").live('click',function(){
 		Logout($(this).attr("name"));
 	});
-    $("#hostlist").mouseover(function(){
-        console.log("hostlist hover");
-    });
     $("#filter").focus(function(){
         $(this).animate({"width":"200px"},"normal");
     });

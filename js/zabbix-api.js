@@ -123,7 +123,6 @@ function showSelectBox(){
             continue;
         }
         var secure_image = "";
-        console.log(key);
         if( getHttpsFlag(key) ){
             secure_image = "<span align=right><img width=10px height=12px src='image/secure.ico'></span>";
         }
@@ -146,6 +145,7 @@ function showSelectBox(){
         sessionStorage.setItem("selected",selected);
         selectedTriggerView(sessionStorage.getItem("selected"));
         $("#selected").text(substrHostname(selected));
+        $("#selected").parent().attr("title",selected);
     });
     $(".trash").click(function(){
         Logout($(this).prev().text());
@@ -339,7 +339,7 @@ function showResult(response,url,https_flag){
 			if( unixtime >= getDecryptedData(url).checktime ) {
 				class_name = "new";
 			}
-			strTable += "<td class='" + class_name + " " + priority  + "'><a href=" + pageurl + " target=_blank >" + description + "</a></td><td>" + priority +"</td><td>" + comments +"</td><td>" + error + "</td><td class=" + class_name + ">" + time + "</td><td class=" + class_name + ">" + hostname + "</td>";
+			strTable += "<td class='" + class_name + " " + priority  + "'><span id=new_flag>NEW</span><a href=" + pageurl + " target=_blank >" + description + "</a></td><td>" + priority +"</td><td>" + comments +"</td><td>" + error + "</td><td class=" + class_name + ">" + time + "</td><td class=" + class_name + ">" + hostname + "</td>";
 			strTable += "</tr>";
 		}
 	}
