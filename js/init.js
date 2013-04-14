@@ -1,6 +1,5 @@
 $(document).ready(function(){
 	setOptions();
-//	getTab();
     showSelectBox();
 	$(function() {
 		$("input").css('color', '#999');
@@ -25,7 +24,6 @@ $(document).ready(function(){
 		});
 	});	
 	$("#add").click(function(){
-        //displayLoginBox();
         $("#login").lightbox_me({
             centered: true,
             onLoad: function(){
@@ -48,11 +46,13 @@ $(document).ready(function(){
     $("#close").click(function(){
         $("#login").trigger('close');
     });
+    $(".trash").click(function(){
+        Logout($(this).parent("li").attr("title"));
+    });
 });
+
 selectedTriggerView(sessionStorage.getItem("selected"));
-
 $(document).keydown(function(e){
-
 		var keyCode = e.keyCode;
 		if( (keyCode == 13) && ( $("#login").css('display') != "none" ) ){
 			$("#button").trigger("click");

@@ -20,21 +20,6 @@ function setOptions(){
 	}
 }
 
-function displayLoginBox(){
-	$("html").focus();
-	clearMsg();
-	if( $("#login").css('display') == "none" ){
-		$("#login").slideDown("slow");
-		$("#add").text("Close Box");
-		$("#login").focus();
-	}else{
-		$("#login").slideUp("slow",function(){
-			$("#add").text("Add Zabbix");
-			htmlResize();
-		});
-	}
-}
-
 function Login(){
 	var url = $("#url").val();
 	var username = $("#username").val();
@@ -112,74 +97,46 @@ function substrHostname(hostname){
 function showSelectBox(){
     var selectbox_str = "<ul id=selectedhost>";
     var select_itemname = sessionStorage.getItem("selected");
-    if( getHttpsFlag(select_itemname) ){
-        selectbox_str += "<li title=" + select_itemname + "><img width=10px height=12px src='image/secure.ico'><span id=selected>" + substrHostname(select_itemname) + "</span><span id=icon></span><ul id=hostlist>";
-    }else{
-        selectbox_str += "<li title=" + select_itemname + "><span id=selected>" + substrHostname(select_itemname) + "</span><span id=icon></span><ul id=hostlist>";
-    }
-
-    for( var key in localStorage ){
-        if( key == "options" ){
-            continue;
-        }
-        var secure_image = "";
-        if( getHttpsFlag(key) ){
-            secure_image = "<span align=right><img width=10px height=12px src='image/secure.ico'></span>";
-        }
-        if( select_itemname == key ){
-            selectbox_str += "<li value=" + convertID(key) + " title=" + key + " class=selected><a href=#>" + secure_image + substrHostname(key) + "</a><span class=trash title=delete></span></li>";
+    if( select_itemname != null ){
+        if( getHttpsFlag(select_itemname) ){
+            selectbox_str += "<li title=" + select_itemname + "><img width=10px height=12px src='image/secure.ico'><span id=selected>" + substrHostname(select_itemname) + "</span><span id=icon></span><ul id=hostlist>";
         }else{
-            selectbox_str += "<li value=" + convertID(key) + " title=" + key + "><a href=#>" + secure_image + substrHostname(key) + "</a><span class=trash title=delete></span></li>";
+            selectbox_str += "<li title=" + select_itemname + "><span id=selected>" + substrHostname(select_itemname) + "</span><span id=icon></span><ul id=hostlist>";
         }
+
+        for( var key in localStorage ){
+            if( key == "options" ){
+                continue;
+            }
+            var secure_image = "";
+            if( getHttpsFlag(key) ){
+                secure_image = "<span align=right><img width=10px height=12px src='image/secure.ico'></span>";
+            }
+            if( select_itemname == key ){
+                selectbox_str += "<li value=" + convertID(key) + " title=" + key + " class=selected><a href=#>" + secure_image + substrHostname(key) + "</a><span class=trash title=delete></span></li>";
+            }else{
+                selectbox_str += "<li value=" + convertID(key) + " title=" + key + "><a href=#>" + secure_image + substrHostname(key) + "</a><span class=trash title=delete></span></li>";
+            }
+        }
+        selectbox_str += "</ul></li></ul>";
+        $("#select").html(selectbox_str);
+        $("ul#hostlist").hide();
+        $("ul#selectedhost").hover(function(){
+            $("ul:not(:animated)", this).slideDown("fast");
+        },function(){
+            $("ul#hostlist",this).slideUp("fast");
+        });
+        $("ul#hostlist li a").click(function(){
+            selected = $(this).parent("li").attr("title");
+            sessionStorage.setItem("selected",selected);
+            selectedTriggerView(sessionStorage.getItem("selected"));
+            $("#selected").text(substrHostname(selected));
+            $("#selected").parent().attr("title",selected);
+        });
+    }else{
+        selectbox_str += "<li title=nodata>no host</li></ul>";
+        $("#select").html(selectbox_str);
     }
-    selectbox_str += "</ul></li></ul>";
-    $("#select").html(selectbox_str);
-    $("ul#hostlist").hide();
-    $("ul#selectedhost").hover(function(){
-        $("ul:not(:animated)", this).slideDown("fast");
-    },function(){
-        $("ul#hostlist",this).slideUp("fast");
-    });
-    $("ul#hostlist li").click(function(){
-        selected = $(this).attr("title");
-        sessionStorage.setItem("selected",selected);
-        selectedTriggerView(sessionStorage.getItem("selected"));
-        $("#selected").text(substrHostname(selected));
-        $("#selected").parent().attr("title",selected);
-    });
-    $(".trash").click(function(){
-        Logout($(this).prev().text());
-    });
-}
-
-function getTab(){
-	var tab_str = "<ul>"; 
-	var count = 0;
-	for( var key in localStorage ){
-		if( key == "options" ){
-			continue;
-		}
-		if( sessionStorage.getItem("selected") == key ){
-			tab_str += "<li id=" + convertID(key) + " class=selected_tab >" + getTabValue(key);
-		}else{
-			tab_str += "<li id=" + convertID(key) + " class=tab >" + getTabValue(key);
-		}
-		count++;
-	}
-	tab_str += "</ul>";
-	$("#tab").html(tab_str);
-	$("li.tab").click(function(){
-		sessionStorage.setItem("selected",$(this).text());
-		selectedTriggerView(sessionStorage.getItem("selected"));
-	});
-}
-
-function getTabValue(key){
-	if( getHttpsFlag(key) ){
-		return("<a href=#><img width=12px height=12px src='image/secure.ico'>"  + key + "</a></li>");
-	}else{
-		return("<a href=#>" + key + "</a></li>");
-	}
 }
 
 function selectedTriggerView(selected_tab){
@@ -187,7 +144,6 @@ function selectedTriggerView(selected_tab){
 		if( key == "options" ){
 			continue;
 		}
-		//var storage_data = des.decrypt(localStorage.getItem(key),"secretkey");
 		var storage_data = getDecryptedData(key);
 		var token = storage_data.token;
 		var checktime = storage_data.checktime;
@@ -244,8 +200,6 @@ function refreshTriggerCount(){
 		}
 		var storage_data = getDecryptedData(key);
 		var token = storage_data.token;
-		//var token = JSON.parse(localStorage.getItem(key)).token;
-		//var checktime = JSON.parse(localStorage.getItem(key)).checktime;
 		var checktime = storage_data.checktime;
 		var https_flag = getHttpsFlag(key);
 		var alltrigger = getAllTrigger(key,token,checktime, https_flag);
@@ -281,7 +235,6 @@ function refreshTriggerCount(){
 function showResult(response,url,https_flag){
 	var strTable = "";
 	strTable += "<table id=main data-filter=#filter class='footable'>";
-	//strTable += "<div id=logout-div><a id=logout href=# name='"+url+"'>Logout</a></div>";
 	if( response.error ){
 		strTable += "<div class=noconnection>Not Connected!</div>";
 		outputError("Not Connected!");
@@ -344,7 +297,6 @@ function showResult(response,url,https_flag){
 		}
 	}
 	strTable += "</tbody></table><br>";
-	//document.getElementById("datatable").innerHTML = strTable;
 	$("#datatable").fadeOut("normal",function(){
 		$("#datatable").html(strTable);
 		$("#datatable").fadeIn();
@@ -392,7 +344,6 @@ function getZabbixData(rpcid, url, authid, method, params, https_flag, account) 
 			outputError("Connection Error!");
 			
 			$("#datatable").fadeOut("normal",function(){
-				//var str = "<table><div id=logout><a id=logout href=# onclick=Logout('"+url+"')>Logout</a></div>";
 				var str = "<table>";
 				str += "<div class=noconnection>Not Connected!</div>";
 				str += "</table><br>";
@@ -454,7 +405,11 @@ function convertID(key){
 
 function Logout(key){
 	localStorage.removeItem(key);
-	location.reload();
+    sessionStorage.removeItem("selected");
+    if( key == sessionStorage.getItem("selected") ){
+        sessionStorage.removeItem("selected");
+    }
+    location.reload();
 }
 
 function clearMsg(){
