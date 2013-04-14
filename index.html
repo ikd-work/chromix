@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>Chromix by ikd-work</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Chromix</h1>
+        <h2>google chrome extension for Zabbix</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/ikd-work/chromix/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/ikd-work/chromix/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/ikd-work/chromix" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>Chromix</h1>
+
+<p>This tool is a Zabbix Trigger Check tool.<br>
+When Trigger is "PROBLEM", this tool generate Desktop Notification.</p>
+
+<p>This tool uses Zabbix API.</p>
+
+<p>You can register Multi Zabbix Servers to this tool.<br>
+So, when you manage many zabbix server, you may be happy.</p>
+
+<p>I tested the following environments:
+Zabbix Server</p>
+
+<ul>
+<li>ver.1.8.3</li>
+<li>ver.1.9.8</li>
+<li>ver.2.0.0RC2</li>
+<li>ver.2.0.0</li>
+<li>ver.2.0.5</li>
+</ul><p>Chrome</p>
+
+<ul>
+<li>19.0.1084.41 beta-m</li>
+<li>22.0.1229.14 beta</li>
+<li>26.0.1410.43</li>
+</ul><h2>Release note</h2>
+
+<ul>
+<li>ver.1.7 (2013/04/14)
+
+<ul>
+<li>New design</li>
+<li>Add sort function</li>
+<li>Add search function</li>
+</ul>
+</li>
+<li>ver.1.6 (2012/09/02)
+
+<ul>
+<li>Support Basic Auth</li>
+<li>Support Trigger Expand Macro</li>
+</ul>
+</li>
+<li>ver.1.5 (2012/08/27)
+
+<ul>
+<li>Fix the bug which the image icon of popup area didn't show</li>
+</ul>
+</li>
+<li>ver.1.4 (2012/08/24)
+
+<ul>
+<li>Fix Logout bug</li>
+</ul>
+</li>
+<li>ver.1.3 (2012/08/21)
+
+<ul>
+<li>Fix design bug to Chrome for Linux</li>
+<li>Support manifest version 2</li>
+</ul>
+</li>
+<li>ver.1.2 (2012/07/01)
+
+<ul>
+<li>Support https protocol</li>
+<li>Display Trigger priority</li>
+</ul>
+</li>
+<li>ver.1.1 (2012/05/14)
+
+<ul>
+<li>Released at Google Web Store</li>
+</ul>
+</li>
+</ul><h2>How to Use</h2>
+
+<h3>1. Prior Work</h3>
+
+<p>This app is using Zabbix API,<br>
+So, you should give API access authority.</p>
+
+<ul>
+<li>Zabbix 1.8:
+
+<ul>
+<li>Belong to "API access" group the users that you want to access.</li>
+</ul>
+</li>
+<li>Zabbix 2.0:
+
+<ul>
+<li>It is not necessary to the above work.</li>
+<li>You just have to give access to the host to the user.</li>
+</ul>
+</li>
+</ul><p>Please check the official document.<br><a href="http://www.zabbix.com/documentation/">Zabbix Official Manual</a></p>
+
+<h3>2. Installation</h3>
+
+<p>Please install the Chromix from the Chrome Web Store.<br><a href="https://chrome.google.com/webstore/detail/odjpdjeegacmncmodjbeboldofhljjjf,%22Chromix%22">Chromix-Chrome Web Store</a></p>
+
+<h3>3. Registration of Zabbix info</h3>
+
+<ul>
+<li>Click Chromix icon on your chrome tool bar.</li>
+<li>Click "Add Zabbix".</li>
+<li>Fill in data about Zabbix.
+
+<ul>
+<li>If your Zabbix top url is "http://hostname/zabbix", the url column is filled in the box to this format "hostname/zabbix". </li>
+<li>If your Zabbix use "https", please check "SSL?" box.</li>
+</ul>
+</li>
+</ul><h3>4. Check the trigger</h3>
+
+<p>After this configure, chromix start monitoring trigger which status is "problem" automatically .
+(Number of list item is only 100.)</p>
+
+<h3>5. Background</h3>
+
+<p>Chromix count the number of problems that occurred up to the current time from the last check of chromix.<br>
+So, When you check the popup once, the number is reset.</p>
+
+<h3>6. Settings</h3>
+
+<p>At the chromix option page, you can set Desktop Notification feature.<br>
+If you want to use Desktop Notification function, Please Click "On".</p>
+
+<p>At this page, you can also change Background check rate and Notification display time.<br>
+Default setting is 20 seconds.</p>
+
+<h2>License</h2>
+
+<p>Copyright 2012 Daisuke Ikeda (<a href="mailto:dai.ikd123@gmail.com">dai.ikd123@gmail.com</a>)</p>
+
+<pre><code>Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</code></pre>
+      </section>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-15235354-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
