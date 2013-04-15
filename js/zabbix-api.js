@@ -173,6 +173,10 @@ function getTriggerList(url,token,checktime,https_flag,account){
 		params.sortfield = "lastchange";
 		params.sortorder = "DESC";
 		params.filter = filter;
+    var hostgroup_params = new Object();
+        hostgroup_params.output = "extend";
+        hostgroup_params.real_hosts = "true";
+	getZabbixHostgroups(rpcid, url, token, "hostgroup.get", hostgroup_params, https_flag, account);
 	getZabbixData(rpcid, url, token, "trigger.get", params, https_flag, account);
 }
 
@@ -354,6 +358,54 @@ function getZabbixData(rpcid, url, authid, method, params, https_flag, account) 
 	});
 }
 
+function getZabbixHostgroups(rpcid, url, authid, method, params, https_flag, account) { 
+	var dataRequest = new Object();
+		dataRequest.params = params;
+		dataRequest.auth = authid;
+		dataRequest.jsonrpc = '2.0';
+		dataRequest.id = rpcid;
+		dataRequest.method = method;
+	var dataJsonRequest = JSON.stringify(dataRequest);		
+	var api_url = getApiUrl(url,https_flag);
+	$.ajax({
+		type: 'POST',
+		url: api_url,
+		username: account.username,
+		password: account.password,
+		contentType: 'application/json-rpc',
+		dataType: 'json',
+		processData: false,
+		data: dataJsonRequest,
+		timeout: 10000,
+		success: function(response){
+			clearMsg();
+            showHostgroups(response);
+		},
+		error: function(response){
+			outputError("Connection Error!");
+			
+			$("#datatable").fadeOut("normal",function(){
+				var str = "<table>";
+				str += "<div class=noconnection>Not Connected!</div>";
+				str += "</table><br>";
+				$("#datatable").html(str);
+				$("#datatable").fadeIn();
+			});
+		},
+	});
+}
+
+function showHostgroups(response) {
+    var str = ""
+    for(var index in response.result) {
+        str += "<span class='tag target' title="+response.result[index]["groupid"]+">";
+        str += response.result[index]["name"];
+        str += "</span>";
+        console.log(response.result[index]["groupid"]);
+        console.log(response.result[index]["name"]);
+    }
+    $("#hostgroups").html(str);
+}
 // function
 
 function Sleep( T ){ 
