@@ -1,7 +1,7 @@
 html{
 min-width: 800px;
 background: #eeeeee;
-font-family: 'Chalkboard',cursive,general-family;
+font-family: verdana, arial, helvetica, sans-serif;
 }
 
 a{
@@ -23,7 +23,7 @@ box-shadow: 2px 2px 6px 1px #999;
 }
 
 div.radio{
-font-family: Arial, Helvetica, sans-serif;
+font-family: verdana, arial, helvetica, sans-serif;
 font-size: 18px;
 margin:0px;
 width:100%;

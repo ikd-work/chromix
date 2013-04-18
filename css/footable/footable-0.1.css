@@ -10,7 +10,8 @@
   -webkit-border-radius: 6px;
  /* border-radius: 6px;*/
   /*font-family: 'trebuchet MS' , 'Lucida sans' , Arial;*/
-  font-family: "Helvetica Neue", arial, sans-serif;
+  /*font-family: "Helvetica Neue", arial, sans-serif;*/
+  font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
   /*color: #444;*/
   color: white;
