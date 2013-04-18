@@ -437,6 +437,7 @@ function getAllTrigger(url, token, ckecktime, https_flag) { // "params"‚ÍJSONŒ`Ž
 	var params = new Object();
 	    params.output = "extend";
 	    params.expandData = 1;
+	    params.expandDescription = 1;
 	    params.limit = 100;
    		params.sortfield = "lastchange";
 		params.sortorder = "DESC";
