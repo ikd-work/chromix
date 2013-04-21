@@ -26,11 +26,11 @@ Chromix Options
 	<div id="refreshrate_option">
 	<div id="refreshrate_title" class="box_title">Please Select RefreshRate</div>
 	<ul id="refreshrate_ul" class="dropdown" style="display:none">
-		<li><div class="select_item" name="refreshrate"/>10</div></li>
-		<li><div class="select_item" name="refreshrate"/>20</div></li>
-		<li><div class="select_item" name="refreshrate"/>30</div></li>
-		<li><div class="select_item" name="refreshrate"/>60</div></li>
-		<li><div class="select_item" name="refreshrate"/>300</div></li>
+		<li value=10><div class="select_item" name="refreshrate"/>10</div></li>
+		<li value=20><div class="select_item" name="refreshrate"/>20</div></li>
+		<li value=30><div class="select_item" name="refreshrate"/>30</div></li>
+		<li value=60><div class="select_item" name="refreshrate"/>60</div></li>
+		<li value=300><div class="select_item" name="refreshrate"/>300</div></li>
 	</ul>
 	</div>
 </td>
@@ -41,11 +41,27 @@ Chromix Options
 	<div id="displaytime_option">
 	<div id="displaytime_title" class="box_title" >Please Select DisplayTime</div>
 	<ul id="displaytime_ul" class="dropdown" style="display:none">
-		<li><div class="select_item" name="displaytime"/>10</div></li>
-		<li><div class="select_item" name="displaytime"/>20</div></li>
-		<li><div class="select_item" name="displaytime"/>30</div></li>
-		<li><div class="select_item" name="displaytime"/>60</div></li>
-		<li><div class="select_item" name="displaytime"/>300</div></li>
+		<li value=10><div class="select_item" name="displaytime"/>10</div></li>
+		<li value=20><div class="select_item" name="displaytime"/>20</div></li>
+		<li value=30><div class="select_item" name="displaytime"/>30</div></li>
+		<li value=60><div class="select_item" name="displaytime"/>60</div></li>
+		<li value=300><div class="select_item" name="displaytime"/>300</div></li>
+	</ul>
+	</div>
+</td>
+</tr>
+<tr>
+<td class="item">Target Notification level:</td>
+<td class="value select">
+	<div id="target_priority_option">
+	<div id="target_priority_title" class="box_title" >Please Select Notification level</div>
+	<ul id="target_priority_ul" class="dropdown" style="display:none">
+		<li value=0><div class="select_item" name="target_priority"/>Over "UNKNOWN" level</div></li>
+	    <li value=1><div class="select_item" name="target_priority"/>Over "INFORMATION" level</div></li>
+	    <li value=2><div class="select_item" name="target_priority"/>Over "WARNING" level</div></li>
+	    <li value=3><div class="select_item" name="target_priority"/>Over "AVERAGE" level</div></li>
+	    <li value=4><div class="select_item" name="target_priority"/>Over "HIGH" level</div></li>
+	    <li value=5><div class="select_item" name="target_priority"/>Over "DISASTER" level</div></li>
 	</ul>
 	</div>
 </td>

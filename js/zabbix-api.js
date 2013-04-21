@@ -1,5 +1,6 @@
 var background_rate;
 var notification_rate;
+var target_priority;
 function setOptions(){
 	var options = JSON.parse(localStorage.getItem("options"));
 	
@@ -14,9 +15,16 @@ function setOptions(){
 		}else{
 			notification_rate = JSON.parse(localStorage.getItem("options")).displaytime;
 		}
+		if(typeof options.target_priority == 'undefined'){
+			target_priority = 0;
+		}else{
+			target_priority = JSON.parse(localStorage.getItem("options")).target_priority;
+		}
+        
 	}else{
 		background_rate = 20;
 		notification_rate = 20;
+        target_priority = 0;
 	}
 }
 
@@ -458,7 +466,9 @@ function notificationCheck(trigger_data){
 		msg += trigger_data["host"];
 		msg += ":";
 		msg += trigger_data["description"];
-		popupNotification(msg,trigger_data["priority"]);
+        if( target_priority <= parseInt(trigger_data["priority"])){
+		    popupNotification(msg,trigger_data["priority"]);
+        }
 	}
 }
 
