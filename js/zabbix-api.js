@@ -261,27 +261,7 @@ function showResult(response,url,https_flag){
 						pageurl = "http://" + url + "/events.php?triggerid=" + response.result[index][itemname];
 					}
 				}else if( itemname == "priority"){
-					var priority = "";
-					switch (response.result[index][itemname]){
-						case "0":
-							priority = "unknown";
-							break;
-						case "1":
-							priority = "information";
-							break;
-						case "2":
-							priority = "warning";
-							break;
-						case "3":
-							priority = "average";
-							break;
-						case "4":
-							priority = "high";
-							break;
-						case "5":
-							priority = "disaster";
-							break;
-					}
+					var priority = getPriorityString(response.result[index][itemname]);
 				}else if( itemname == "comments"){
                     var comments = response.result[index][itemname];
                 }else if( itemname == "error"){
@@ -478,7 +458,7 @@ function notificationCheck(trigger_data){
 		msg += trigger_data["host"];
 		msg += ":";
 		msg += trigger_data["description"];
-		popupNotification(msg);
+		popupNotification(msg,trigger_data["priority"]);
 	}
 }
 
@@ -531,12 +511,13 @@ function checkTriggerCount(){
 	setTimeout(function(){ checkTriggerCount(); },1000*background_rate);
 }
 
-function popupNotification(msg){
+function popupNotification(msg,priority){
+    var msg_title = getPriorityString(priority).toUpperCase() + " alert!";
 	if( localStorage.getItem("options") ){
 		if( JSON.parse(localStorage.getItem("options")).notification == "On"){
 			var notification = window.webkitNotifications.createNotification(
 			"image/warning.png",
-			"WARNING!!",
+			msg_title,
 			msg
 			);
 			
@@ -575,3 +556,21 @@ function setEncryptedData(key,data){
 function jsonParse(data){
 	return JSON.parse(data);
 }
+
+function getPriorityString(priority){
+    switch (priority){
+        case "0":
+            return "unknown";
+        case "1":
+            return "information";
+        case "2":
+            return "warning";
+        case "3":
+            return "average";
+        case "4":
+            return "high";
+        case "5":
+            return "disaster";
+    }
+}
+    
