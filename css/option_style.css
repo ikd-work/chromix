@@ -181,4 +181,11 @@ width:250px;
 width:250px;
 }
 
+div.box_title { 
+font-size: 15px;
+}
+
+ul.dropdown {
+font-size: 12px;
+}
 

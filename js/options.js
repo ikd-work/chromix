@@ -71,14 +71,14 @@ $(document).ready(function(){
 			if( obj.text() == "On" ){
 				if(window.webkitNotifications.requestPermission(function() {
     					if(window.webkitNotifications.checkPermission() == 0) {
-							changeOption("notification","On");
+							addOption("notification","On");
 							$("div[name=notification]").removeClass("selected");
 							obj.addClass("selected");
     					} else {
     					}
 				}));
 			}else{
-				changeOption("notification","Off");
+				addOption("notification","Off");
 				$("div[name=notification]").removeClass("selected");
 				$(this).addClass("selected");
 			}
@@ -105,25 +105,10 @@ function initOption( key , value){
 	localStorage.setItem("options",JSON.stringify(data));
 }
 
-function changeOption(key,new_value){
-	var option_data = JSON.parse(localStorage.getItem("options"));
-	if( !option_data ){
-		initOption(key,new_value);
-		return;
-	}
-	
-	for( var index in option_data ){
-		if( key == index ){
-			option_data[index] = new_value;
-		}
-	}
-	localStorage.setItem("options",JSON.stringify(option_data));
-}
-
 function getTargetLevelString(level){
     switch (level){
         case 0:
-            return 'Over "UNKNOWN" level';
+            return 'Over "UNKNOWN" level(all level)';
         case 1:
             return 'Over "INFORMATION" level';
         case 2:
