@@ -141,8 +141,8 @@ background: #f5f5f5;
 border: 1px #d2d2d2 solid;
 }
 
-ul.dropdown div:hover{
-color:#ff69b4;
+ul.dropdown div:hover {
+color: #ff69b4;
 background: #e6e6fa;
 }
 
@@ -187,5 +187,7 @@ font-size: 15px;
 
 ul.dropdown {
 font-size: 12px;
+position: absolute;
+z-index: 2;
 }
 

@@ -2,25 +2,19 @@
 
 $(document).ready(function(){
 	$("#refreshrate_option").hover(function(){
-		if( $("#refreshrate_ul").css('display') == "none" ){
-			$("#refreshrate_ul").slideDown("normal");
-		}else{
-			$("#refreshrate_ul").slideUp("normal");
-		}
+        $("ul:not(:animated)",this).slideDown("fast");
+    },function(){
+        $("ul#refreshrate_ul",this).slideUp("fast");
 	});
 	$("#displaytime_option").hover(function(){
-		if( $("#displaytime_ul").css('display') == "none" ){
-			$("#displaytime_ul").slideDown("normal");
-		}else{
-			$("#displaytime_ul").slideUp("normal");
-		}
-	});
-	$("#target_priority_option").hover(function(){
-		if( $("#target_priority_ul").css('display') == "none" ){
-			$("#target_priority_ul").slideDown("normal");
-		}else{
-			$("#target_priority_ul").slideUp("normal");
-		}
+        $("ul:not(:animated)",this).slideDown("fast");
+    },function(){
+        $("ul#displaytime_ul",this).slideUp("fast");
+    });
+    $("#target_priority_option").hover(function(){
+        $("ul:not(:animated)",this).slideDown("fast");
+    },function(){
+        $("ul#target_priority_ul",this).slideUp("fast");
 	});
 	$("div.select_item").click(function(){
 		var name = $(this).attr("name");
