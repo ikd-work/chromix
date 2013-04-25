@@ -102,16 +102,16 @@ function initOption( key , value){
 function getTargetLevelString(level){
     switch (level){
         case 0:
-            return 'Over "UNKNOWN" level(all level)';
+            return 'All level';
         case 1:
-            return 'Over "INFORMATION" level';
+            return '"INFORMATION" or higher level';
         case 2:
-            return 'Over "WARNING" level';
+            return '"WARNING" or higher level';
         case 3:
-            return 'Over "AVERAGE" level';
+            return '"AVERAGE" or higher level';
         case 4:
-            return 'Over "HIGH" level';
+            return '"HIGH" or higher level';
         case 5:
-            return 'Over "DISASTER" level';
+            return 'Only "DISASTER" level';
     }
 }
