@@ -87,6 +87,11 @@ ul#selectedhost li ul {
 ul#hostlist li{
     float:none;
 }
+
+ul#hostlist li.selected > a {
+    color: #ff69b4;
+}
+
 #hostlist li:hover {
     background: -webkit-gradient(linear, center bottom, center top, from(#44c4f3), to(#a2e1f9)); 
 }

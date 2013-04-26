@@ -104,7 +104,7 @@ function substrHostname(hostname){
 // Main
 function showSelectBox(){
     var selectbox_str = "<ul id=selectedhost>";
-    var select_itemname = sessionStorage.getItem("selected");
+    var select_itemname = localStorage.getItem("selected");
     if( select_itemname != null ){
         if( getHttpsFlag(select_itemname) ){
             selectbox_str += "<li title=" + select_itemname + "><img width=10px height=12px src='image/secure.ico'><span id=selected>" + substrHostname(select_itemname) + "</span><span id=icon></span><ul id=hostlist>";
@@ -113,7 +113,7 @@ function showSelectBox(){
         }
 
         for( var key in localStorage ){
-            if( key == "options" ){
+            if( key == "options" || key == "selected" ){
                 continue;
             }
             var secure_image = "";
@@ -135,9 +135,11 @@ function showSelectBox(){
             $("ul#hostlist",this).slideUp("fast");
         });
         $("ul#hostlist li a").click(function(){
+            $("#hostlist li").removeClass("selected");
+            $(this).parent("li").addClass("selected");
             selected = $(this).parent("li").attr("title");
-            sessionStorage.setItem("selected",selected);
-            selectedTriggerView(sessionStorage.getItem("selected"));
+            localStorage.setItem("selected",selected);
+            selectedTriggerView(localStorage.getItem("selected"));
             $("#selected").text(substrHostname(selected));
             $("#selected").parent().attr("title",selected);
         });
@@ -149,7 +151,7 @@ function showSelectBox(){
 
 function selectedTriggerView(selected_tab){
 	for( var key in localStorage ){
-		if( key == "options" ){
+		if( key == "options" || key == "selected" ){
 			continue;
 		}
 		var storage_data = getDecryptedData(key);
@@ -158,10 +160,10 @@ function selectedTriggerView(selected_tab){
 		var https_flag = getHttpsFlag(key);
 		var account = storage_data.account;
 		if( !account ){ account = {username:"",password:""}; };
-		if( sessionStorage.getItem("selected") == null ){
-			sessionStorage.setItem("selected",key);
+		if( localStorage.getItem("selected") == null ){
+			localStorage.setItem("selected",key);
 			getTriggerList(key,token,checktime,https_flag,account);
-		}else if( sessionStorage.getItem("selected") == key ){    
+		}else if( localStorage.getItem("selected") == key ){    
 			getTriggerList(key,token,checktime,https_flag,account);
 		}
 	}
@@ -203,7 +205,7 @@ function refreshTriggerCount(){
 	var one_counter = 0;
 	var counter = 0;
 	for( var key in localStorage ){
-		if( key == "options" ){
+		if( key == "options" || key == "selected" ){
 			continue;
 		}
 		var storage_data = getDecryptedData(key);
@@ -393,9 +395,8 @@ function convertID(key){
 
 function Logout(key){
 	localStorage.removeItem(key);
-    sessionStorage.removeItem("selected");
-    if( key == sessionStorage.getItem("selected") ){
-        sessionStorage.removeItem("selected");
+    if( key == localStorage.getItem("selected") ){
+        localStorage.removeItem("selected");
     }
     location.reload();
 }
@@ -485,7 +486,7 @@ function checkTriggerCount(){
 	var counter = 0;
 	var error_counter = 0;
 	for( var key in localStorage ){
-		if( key == "options" ){
+		if( key == "options" || key == "selected" ){
 			continue;
 		}
 		var storage_data = getDecryptedData(key);

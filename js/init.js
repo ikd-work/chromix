@@ -51,7 +51,7 @@ $(document).ready(function(){
     });
 });
 
-selectedTriggerView(sessionStorage.getItem("selected"));
+selectedTriggerView(localStorage.getItem("selected"));
 $(document).keydown(function(e){
 		var keyCode = e.keyCode;
 		if( (keyCode == 13) && ( $("#login").css('display') != "none" ) ){
