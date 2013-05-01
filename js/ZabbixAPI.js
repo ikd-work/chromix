@@ -8,7 +8,13 @@ var ZabbixAPI = function(api_url,username,password,token,method,params){
     this.execAuth = function(){
         this.setMethod('user.authenticate');
         this.setParams({'user':this.username, 'password':this.password});
-        return this.execAPI();
+        var response = this.execAPI();
+        console.log(response);
+        if( response.error ) {
+            return("error:[code]"+response.error.code+" [data]"+response.error.data+" [message]"+response.error.message);
+        }else if( response.result ){
+            return response.result;
+        }
     };
     this.execAPI = function(){
         var result = new Object();
@@ -49,6 +55,5 @@ var ZabbixAPI = function(api_url,username,password,token,method,params){
         requestParams.id = 0;
         requestParams.method = this.method;
         return JSON.stringify(requestParams);
-
     };
 };
