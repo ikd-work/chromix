@@ -1,7 +1,7 @@
 describe("ZabbixAPI Class",function() {
     var api_url = "http://hostname/zabbix/api_jsonrpc.php";
-    var username = "xxxxxx";
-    var password = "xxxxxx";
+    var username = "xxxxx";
+    var password = "xxxxx";
     var token;
     var method;
     var params;

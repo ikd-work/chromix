@@ -1,25 +1,29 @@
-var ZabbixAPI = function(api_url,username,password,token,method,params){
+/*global console,$*/
+var ZabbixAPI = function (api_url, username, password, token, method, params) {
+    'use strict';
     this.api_url = api_url;
     this.username = username;
     this.password = password;
     this.token = token;
     this.method = method;
     this.params = params;
-    this.execAuth = function(){
+    this.execAuth = function () {
         this.setMethod('user.authenticate');
-        this.setParams({'user':this.username, 'password':this.password});
-        var response = this.execAPI();
+        this.setParams({'user': this.username, 'password': this.password});
+        var response = this.execAPI(),
+            result;
         console.log(response);
-        if( response.error ) {
-            return("error:[code]"+response.error.code+" [data]"+response.error.data+" [message]"+response.error.message);
-        }else if( response.result ){
-            return response.result;
+        if (response.error) {
+            result = "error:[code]" + response.error.code + " [data]" + response.error.data + " [message]" + response.error.message;
+        } else if (response.result) {
+            result = response.result;
         }
+        return result;
     };
-    this.execAPI = function(){
-        var result = new Object();
+    this.execAPI = function () {
+        var result;
         $.ajaxSetup({
-            timeout:2000
+            timeout: 2000
         });
         $.ajax({
             url: this.api_url,
@@ -32,14 +36,14 @@ var ZabbixAPI = function(api_url,username,password,token,method,params){
             timeout: 2000,
             async: false,
             data: this.getRequestParams(),
-            success: function(response){
+            success: function (response) {
                 result = response;
             },
-            error: function(response,status,errorThrown){
+            error: function (response, status, errorThrown) {
                 result.result = 'Connection Error!';
-            },
+            }
         });
-        return(result);
+        return result;
     };
     this.setMethod = function(method){
         this.method = method;
