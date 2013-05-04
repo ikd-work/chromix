@@ -6,12 +6,12 @@
 describe("ZabbixServer Class", function () {
     'use strict';
     var url = "hostname/zabbix",
-        username = "xxxxxx",
-        password = "xxxxx",
+        username = "admin",
+        password = "zabbix",
         token,
         https = false,
         new_trigger_num,
-        checktime,
+        checktime = 1325260400,
         zabbix_server;
 
     beforeEach(function () {
@@ -35,9 +35,20 @@ describe("ZabbixServer Class", function () {
 
     });
 
-    describe("checkNewTriggerCount", function () {
-        it("should get trigger count num", function () {
-            expect(zabbix_server.checkNewTriggerCount()).toBe(Number);
+    describe("Get Trigger Info", function () {
+        beforeEach(function () {
+            username = "admin";
+            zabbix_server = new ZabbixServer(url, username, password, token, https);
+            zabbix_server.login();
+        });
+
+        it("should get triggerlist", function () {
+            expect(typeof(zabbix_server.getTriggerList())).toEqual("object");
+        });
+        it("should get trigger count num from checkNewTriggerCount", function () {
+            zabbix_server.getTriggerList();
+            zabbix_server.updateChecktime(checktime);
+            expect(typeof(zabbix_server.checkNewTriggerCount(null))).toEqual("number");
         });
     });
 });

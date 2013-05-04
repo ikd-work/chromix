@@ -1,7 +1,7 @@
 describe("ZabbixAPI Class",function() {
     var api_url = "http://hostname/zabbix/api_jsonrpc.php";
-    var username = "xxxxx";
-    var password = "xxxxx";
+    var username = "admin";
+    var password = "zabbix";
     var token;
     var method;
     var params;
@@ -11,7 +11,6 @@ describe("ZabbixAPI Class",function() {
     });
 
     it("should get token(32chars) when execute user.authenticate(execAuth) successfully", function() {
-        console.log(zabbix_api.execAuth());
         token = zabbix_api.execAuth();
         expect(token).toMatch(/^[0-9|a-f]{31}/);
     });

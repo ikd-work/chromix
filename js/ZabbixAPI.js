@@ -12,7 +12,6 @@ var ZabbixAPI = function (api_url, username, password, token, method, params) {
         this.setParams({'user': this.username, 'password': this.password});
         var response = this.execAPI(),
             result;
-        console.log(response);
         if (response.error) {
             result = "error:[code]" + response.error.code + " [data]" + response.error.data + " [message]" + response.error.message;
         } else if (response.result) {
