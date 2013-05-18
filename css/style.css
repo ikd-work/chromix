@@ -279,6 +279,10 @@ div.noconnection{
     text-align:right;
 }
 
+#datatable td.unknown {
+    border-left: 5px solid #DBDBDB;
+}
+
 #datatable td.information {
     border-left: 5px solid #D6F6FF;
 }

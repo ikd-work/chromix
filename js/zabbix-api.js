@@ -251,7 +251,7 @@ function showResult(response,url,https_flag){
 	}else if( response.result == "" ){
 		strTable += "<div class=nodata>No Trouble!</div>";
 	}else{
-		strTable += "<thead><tr><th data-class=expand>Description</th><th data-hide=all>Priority</th><th data-hide=all>Comments</th><th data-hide=all>Error</th><th>Time</th><th>Host</th></thead><tbody>";
+		strTable += "<thead><tr><th data-class=expand>Description</th><th data-hide=all>Comments</th><th data-hide=all>Error</th><th>Time</th><th>Host</th><th>Priority</th></thead><tbody>";
 		for(var index in response.result) {
 			strTable += "<tr>";
 			for ( var itemname in response.result[index]){
@@ -282,7 +282,7 @@ function showResult(response,url,https_flag){
 			if( unixtime >= getDecryptedData(url).checktime ) {
 				class_name = "new";
 			}
-			strTable += "<td class='" + class_name + " " + priority  + "'><span id=new_flag>NEW</span><a href=" + pageurl + " target=_blank >" + description + "</a></td><td>" + priority +"</td><td>" + comments +"</td><td>" + error + "</td><td class=" + class_name + ">" + time + "</td><td class=" + class_name + ">" + hostname + "</td>";
+			strTable += "<td class='" + class_name + " " + priority  + "'><span id=new_flag>NEW</span><a href=" + pageurl + " target=_blank >" + description + "</a></td><td>" + comments +"</td><td>" + error + "</td><td class=" + class_name + ">" + time + "</td><td class=" + class_name + ">" + hostname + "</td><td>" + priority +"</td>";
 			strTable += "</tr>";
 		}
 	}

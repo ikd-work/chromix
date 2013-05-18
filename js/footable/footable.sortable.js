@@ -52,6 +52,8 @@
             });
 
             $table.find('> thead > tr:last-child > th.' + cls.sortable + ', > thead > tr:last-child > td.' + cls.sortable).click(function(ec) {
+              $("tr.footable-detail-show").removeClass();
+              $("tr.footable-row-detail").remove();
               $th = $(this), column = e.ft.columns[$th.index()];
               if (column.sort.ignore == true) return true;
               ec.preventDefault();
