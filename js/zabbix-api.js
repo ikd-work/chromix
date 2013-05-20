@@ -271,7 +271,8 @@ function showResult(response,url,https_flag){
 						pageurl = "http://" + url + "/events.php?triggerid=" + response.result[index][itemname];
 					}
 				}else if( itemname == "priority"){
-					var priority = getPriorityString(response.result[index][itemname]);
+                    var priority = response.result[index][itemname];
+					var priority_name = getPriorityString(priority);
 				}else if( itemname == "comments"){
                     var comments = response.result[index][itemname];
                 }else if( itemname == "error"){
@@ -282,7 +283,7 @@ function showResult(response,url,https_flag){
 			if( unixtime >= getDecryptedData(url).checktime ) {
 				class_name = "new";
 			}
-			strTable += "<td class='" + class_name + " " + priority  + "'><span id=new_flag>NEW</span><a href=" + pageurl + " target=_blank >" + description + "</a></td><td>" + comments +"</td><td>" + error + "</td><td class=" + class_name + ">" + time + "</td><td class=" + class_name + ">" + hostname + "</td><td>" + priority +"</td>";
+			strTable += "<td class='" + class_name + " " + priority_name  + "'><span id=new_flag>NEW</span><a href=" + pageurl + " target=_blank >" + description + "</a></td><td>" + comments +"</td><td>" + error + "</td><td class=" + class_name + ">" + time + "</td><td class=" + class_name + ">" + hostname + "</td><td><span style=visibility:hidden>" + priority + "</span>" + priority_name +"</td>";
 			strTable += "</tr>";
 		}
 	}
