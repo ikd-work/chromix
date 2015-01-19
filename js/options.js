@@ -63,14 +63,19 @@ $(document).ready(function(){
 		if( !$(this).hasClass("selected") ){
 			var obj = $(this);
 			if( obj.text() == "On" ){
-				if(window.webkitNotifications.requestPermission(function() {
-    					if(window.webkitNotifications.checkPermission() == 0) {
-							addOption("notification","On");
-							$("div[name=notification]").removeClass("selected");
-							obj.addClass("selected");
-    					} else {
-    					}
-				}));
+                if (window.Notification && Notification.permission !== "denied") {
+                    Notification.requestPermission(function (status) {
+                        if (Notification.permission !== status) {
+                            Notification.permission = status;
+                        }
+                        if (status != "granted") {
+                            return;
+                        }
+                    });
+				} 
+                addOption("notification","On");
+                $("div[name=notification]").removeClass("selected");
+                obj.addClass("selected");
 			}else{
 				addOption("notification","Off");
 				$("div[name=notification]").removeClass("selected");

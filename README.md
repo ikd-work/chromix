@@ -15,10 +15,10 @@ Zabbix Server
  - ver.1.9.8
  - ver.2.0.0RC2
  - ver.2.0.0
+ - ver.2.2.8
 
 Chrome
- - 19.0.1084.41 beta-m
- - 22.0.1229.14 beta
+ - 40
 
 How to Use
 -----------
@@ -67,6 +67,10 @@ If you want to use Desktop Notification function, Please Click "On".
 
 At this page, you can also change Background check rate and Notification display time.  
 Default setting is 20 seconds.
+
+Changelog
+---------
+* version 2.0: Support new Notification API. Author: (Lorenzo Milesi)[https://github.com/maxxer]
 
 License
 -------
