@@ -16,6 +16,7 @@ Zabbix Server
  - ver.2.0.0RC2
  - ver.2.0.0
  - ver.2.2.8
+ - ver.2.4.0
 
 Chrome
  - 40
@@ -30,7 +31,7 @@ So, you should give API access authority.
 
 * Zabbix 1.8:
     * Belong to "API access" group the users that you want to access.
-* Zabbix 2.0:
+* Zabbix over 2.0:
     * It is not necessary to the above work.
     * You just have to give access to the host to the user.
 
@@ -70,8 +71,10 @@ Default setting is 20 seconds.
 
 Changelog
 ---------
-* version 2.0: Support new Notification API. Author: (Lorenzo Milesi)[https://github.com/maxxer]
-
+* version 2.0:
+    * Support new Notification API. Author: (Lorenzo Milesi)[https://github.com/maxxer]
+    * Support Zabbix2.4 API.
+ 
 License
 -------
 Copyright 2012 Daisuke Ikeda (dai.ikd123@gmail.com)
