@@ -526,17 +526,15 @@ function checkTriggerCount(){
 function popupNotification(msg,priority){
     var msg_title = getPriorityString(priority).toUpperCase() + " alert!";
 	if( localStorage.getItem("options") ){
-		if( JSON.parse(localStorage.getItem("options")).notification == "On"){
-			var notification = window.webkitNotifications.createNotification(
-			"image/warning.png",
-			msg_title,
-			msg
+		if( JSON.parse(localStorage.getItem("options")).notification == "On" && Notification.permission === "granted"){
+			var notification = new Notification(msg_title, {
+                icon: "image/warning.png",
+                body: msg}
 			);
 			
 			setTimeout(function(){
-				notification.cancel();
+				notification.close();
 			},1000*notification_rate);
-			notification.show();
 		}
 	}
 }
