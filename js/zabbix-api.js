@@ -62,7 +62,7 @@ function getAuth(url, user, password, https_flag) {
 		authRequest.auth = null;
 		authRequest.jsonrpc = '2.0';
 		authRequest.id = 0;
-		authRequest.method = 'user.authenticate';
+		authRequest.method = 'user.login';
 	var authJsonRequest = JSON.stringify(authRequest);
 	var authResult = new Object();
 	var api_url = getApiUrl(url,https_flag);
