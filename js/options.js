@@ -38,6 +38,7 @@ $(document).ready(function(){
 	if( options ){
 		var option = JSON.parse(options);
 		var notification = option.notification;
+		var maint_notification = option.maintenance_notification;
 		var refreshrate = option.refreshrate;
 		var displaytime = option.displaytime;
         var target_priority = option.target_priority;
@@ -47,6 +48,13 @@ $(document).ready(function(){
 		}else{
 			$("div[name=notification]").removeClass("selected");
 			$("#notification_off").addClass("selected");
+		}
+		if( maint_notification == "On" ){
+			$("div[name=maintenance_notification]").removeClass("selected");
+			$("#maintenance_notification_on").addClass("selected");
+		}else{
+			$("div[name=maintenance_notification]").removeClass("selected");
+			$("#maintenance_notification_off").addClass("selected");
 		}
 		if( refreshrate ){
 			$("#refreshrate_title").text(refreshrate);
@@ -80,6 +88,20 @@ $(document).ready(function(){
 				addOption("notification","Off");
 				$("div[name=notification]").removeClass("selected");
 				$(this).addClass("selected");
+			}
+		}	
+	});
+	$("div[name=maintenance_notification]").click( function() {
+		if( !$(this).hasClass("selected") ){
+			var obj = $(this);
+			if( obj.text() == "On" ){
+                            addOption("maintenance_notification","On");
+                            $("div[name=maintenance_notification]").removeClass("selected");
+                            obj.addClass("selected");
+			}else{
+                            addOption("maintenance_notification","Off");
+                            $("div[name=maintenance_notification]").removeClass("selected");
+                            $(this).addClass("selected");
 			}
 		}	
 	});

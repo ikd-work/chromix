@@ -1,5 +1,6 @@
 var background_rate;
 var notification_rate;
+var maintenance_notification;
 var target_priority;
 function setOptions(){
 	var options = JSON.parse(localStorage.getItem("options"));
@@ -20,11 +21,17 @@ function setOptions(){
 		}else{
 			target_priority = JSON.parse(localStorage.getItem("options")).target_priority;
 		}
+		if(typeof options.maintenance_notification == 'undefined'){
+			maintenance_notification = "On";
+		}else{
+			maintenance_notification = JSON.parse(localStorage.getItem("options")).maintenance_notification;
+		}
         
 	}else{
 		background_rate = 20;
 		notification_rate = 20;
         target_priority = 0;
+                maintenance_notification = "On";
 	}
 }
 
@@ -463,6 +470,9 @@ function notificationCheck(trigger_data){
 	var now = parseInt((new Date)/1000);
 	var last_checktime = now - background_rate;
 	var msg = "";
+        // Check if the users wants to be notified for hosts in maintenance
+        if (maintenance_notification == "Off" && trigger_data["hosts"][0]['host_maintenance'] == "1")
+            return;
 	if(last_checktime < trigger_data["lastchange"] ){
 		msg += trigger_data["host"];
 		msg += ":";
