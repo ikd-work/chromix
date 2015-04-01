@@ -2,8 +2,8 @@
 <head><title>Chromix Options</title>
 <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
 <link rel="stylesheet" type="text/css" href="css/option_style.css" />
+<script type="text/javascript" src="js/options.js" /></script>
 </head>
-<script type="text/javascript" src="js/options.js"></script>
 
 <body>
 <div class="option_menu">
@@ -14,9 +14,18 @@ Chromix Options
 <tr>
 <td class="item">DesktopNotification:</td>
 <td class="value">
-	<ul id="notification_flag">
+	<ul class="notification_flag">
 		<li><div id="notification_on" class="radio left" name="notification"/><a href=#>On</a></li>
 		<li><div id="notification_off" class="radio selected right" name="notification"/><a href=#>Off</a></li>
+	</ul>
+</td>
+</tr>
+<tr>
+<td class="item">Display notification for hosts in maintenance:</td>
+<td class="value">
+	<ul class="notification_flag">
+		<li><div id="maintenance_notification_on" class="radio left" name="maintenance_notification"/><a href=#>On</a></li>
+		<li><div id="maintenance_notification_off" class="radio selected right" name="maintenance_notification"/><a href=#>Off</a></li>
 	</ul>
 </td>
 </tr>

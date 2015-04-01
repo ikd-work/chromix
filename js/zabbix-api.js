@@ -1,5 +1,6 @@
 var background_rate;
 var notification_rate;
+var maintenance_notification;
 var target_priority;
 function setOptions(){
 	var options = JSON.parse(localStorage.getItem("options"));
@@ -20,11 +21,17 @@ function setOptions(){
 		}else{
 			target_priority = JSON.parse(localStorage.getItem("options")).target_priority;
 		}
+		if(typeof options.maintenance_notification == 'undefined'){
+			maintenance_notification = "On";
+		}else{
+			maintenance_notification = JSON.parse(localStorage.getItem("options")).maintenance_notification;
+		}
         
 	}else{
 		background_rate = 20;
 		notification_rate = 20;
         target_priority = 0;
+                maintenance_notification = "On";
 	}
 }
 
@@ -182,6 +189,7 @@ function getTriggerList(url,token,checktime,https_flag,account){
 		params.monitored = 1;
 		params.sortfield = "lastchange";
 		params.sortorder = "DESC";
+                params.selectHosts = ['maintenance_status'];
 		params.filter = filter;
 	getZabbixData(rpcid, url, token, "trigger.get", params, https_flag, account);
 }
@@ -253,10 +261,15 @@ function showResult(response,url,https_flag){
 	}else{
 		strTable += "<thead><tr><th data-class=expand>Description</th><th data-hide=all>Comments</th><th data-hide=all>Error</th><th>Time</th><th>Host</th><th>Priority</th></thead><tbody>";
 		for(var index in response.result) {
+                        var maintenance_icon = "";
 			strTable += "<tr>";
 			for ( var itemname in response.result[index]){
 				if ( itemname == "host"){
 					var hostname = response.result[index][itemname];
+				}else if( itemname == "hosts") {
+                                        var in_maintenance = response.result[index][itemname][0]['maintenance_status'];
+                                        if (in_maintenance == "1")
+                                        maintenance_icon = ' <img width=12px height=12px src="image/wrench12transp.png">';
 				}else if( itemname == "description") {
 					var description = response.result[index][itemname];
 				}else if( itemname == "lastchange"){
@@ -283,7 +296,7 @@ function showResult(response,url,https_flag){
 			if( unixtime >= getDecryptedData(url).checktime ) {
 				class_name = "new";
 			}
-			strTable += "<td class='" + class_name + " " + priority_name  + "'><span id=new_flag>NEW</span><a href=" + pageurl + " target=_blank >" + description + "</a></td><td>" + comments +"</td><td>" + error + "</td><td class=" + class_name + ">" + time + "</td><td class=" + class_name + ">" + hostname + "</td><td><span style=visibility:hidden>" + priority + "</span>" + priority_name +"</td>";
+			strTable += "<td class='" + class_name + " " + priority_name  + "'><span id=new_flag>NEW</span><a href=" + pageurl + " target=_blank >" + description + "</a></td><td>" + comments +"</td><td>" + error + "</td><td class=" + class_name + ">" + time + "</td><td class=" + class_name + ">" + hostname + maintenance_icon + "</td><td><span style=visibility:hidden>" + priority + "</span>" + priority_name +"</td>";
 			strTable += "</tr>";
 		}
 	}
@@ -350,7 +363,7 @@ function getZabbixData(rpcid, url, authid, method, params, https_flag, account) 
 function Sleep( T ){ 
    var d1 = new Date().getTime(); 
    var d2 = new Date().getTime(); 
-   while( d2 < d1+1000*T ){    //T秒待つ 
+   while( d2 < d1+1000*T ){
        d2=new Date().getTime(); 
    } 
    return; 
@@ -412,7 +425,7 @@ function outputMsg(msg){
 
 /* for Backend.html */
 
-function getAllTrigger(url, token, ckecktime, https_flag) { // "params"はJSON形式の文字列リテラルかJSONに変換可能なオブジェクト
+function getAllTrigger(url, token, ckecktime, https_flag) {
 	var rpcid = 2;
 	var filter = new Object();
 	    filter.status = 0;
@@ -457,6 +470,9 @@ function notificationCheck(trigger_data){
 	var now = parseInt((new Date)/1000);
 	var last_checktime = now - background_rate;
 	var msg = "";
+        // Check if the users wants to be notified for hosts in maintenance
+        if (maintenance_notification == "Off" && trigger_data["hosts"][0]['host_maintenance'] == "1")
+            return;
 	if(last_checktime < trigger_data["lastchange"] ){
 		msg += trigger_data["host"];
 		msg += ":";
