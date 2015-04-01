@@ -64,20 +64,26 @@ So, When you check the popup once, the number is reset.
 ### 6. Settings
 
 At the chromix option page, you can set Desktop Notification feature.  
-If you want to use Desktop Notification function, Please Click "On".
+If you want to use Desktop Notification function, Please set "DesktopNotification" to "On".
+And if you want to get Notification between maintenance time, Please set "Display notification for hosts in maintenance" to "On".
+If "Display notirication for hosts in maintenance" set to off, chromix will not generate Notification and not change icon counter.
+
+[Zabbix maintenance time](https://www.zabbix.com/documentation/2.2/manual/maintenance)
 
 At this page, you can also change Background check rate and Notification display time.  
 Default setting is 20 seconds.
 
 Changelog
 ---------
+* version 2.1:
+    * Support Zabbix maintenance time. Author: Author: [Lorenzo Milesi](https://github.com/maxxer)
 * version 2.0:
     * Support new Notification API. Author: [Lorenzo Milesi](https://github.com/maxxer)
     * Support Zabbix2.4 API.
  
 License
 -------
-Copyright 2012 Daisuke Ikeda (dai.ikd123@gmail.com)
+Copyright 2012-2015 Daisuke Ikeda (dai.ikd123@gmail.com)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
