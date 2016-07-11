@@ -23,10 +23,11 @@ function setOptions(){
 		}
 		if(typeof options.maintenance_notification == 'undefined'){
 			maintenance_notification = "On";
+	
 		}else{
 			maintenance_notification = JSON.parse(localStorage.getItem("options")).maintenance_notification;
 		}
-        
+
 	}else{
 		background_rate = 20;
 		notification_rate = 20;
@@ -170,7 +171,7 @@ function selectedTriggerView(selected_tab){
 		if( localStorage.getItem("selected") == null ){
 			localStorage.setItem("selected",key);
 			getTriggerList(key,token,checktime,https_flag,account);
-		}else if( localStorage.getItem("selected") == key ){    
+               }else if( localStorage.getItem("selected") == key ){    
 			getTriggerList(key,token,checktime,https_flag,account);
 		}
 	}
@@ -320,15 +321,70 @@ function getApiUrl(url,https_flag){
 	}	
 }
 
+function addHostInfo(rpcid, url, authid, https_flag, account, triggerres) {
+	var listahost=[];
+	for(var index in triggerres.result) {
+		for ( var host in triggerres.result[index]["hosts"]){
+
+			listahost.push(triggerres.result[index]["hosts"][0].hostid);
+			}
+		}
+
+	var params = new Object();
+		params.output = "extend";
+		params.hostids=listahost;
+	var dataRequest = new Object();
+		dataRequest.params = params;
+		dataRequest.auth = authid;
+		dataRequest.jsonrpc = '2.0';
+		dataRequest.id = rpcid;
+		dataRequest.method = "host.get";
+	var dataJsonRequest = JSON.stringify(dataRequest);
+	var api_url = getApiUrl(url,https_flag);
+	$.ajax({
+		type: 'POST',
+		url: api_url,
+		username: account.username,
+		password: account.password,
+		contentType: 'application/json-rpc',
+		dataType: 'json',
+		processData: false,
+		data: dataJsonRequest,
+		timeout: 10000,
+		success: function(response){
+			for(var index in triggerres.result) {
+				var hostnames="";
+				for ( var host in triggerres.result[index]["hosts"]){
+          pos = response.result.map(function(e) { return e.hostid; }).indexOf(triggerres.result[index]["hosts"][0].hostid);
+					hostnames+= " "+ response.result[pos].host;
+					}
+					triggerres.result[index].host=hostnames;
+				}
+				showResult(triggerres,url,https_flag);
+		},
+		error: function(response){
+			outputError("Connection Error!");
+
+			$("#datatable").fadeOut("normal",function(){
+				var str = "<table>";
+				str += "<div class=noconnection>Not Connected!</div>";
+				str += "</table><br>";
+				$("#datatable").html(str);
+				$("#datatable").fadeIn();
+			});
+		},
+	});
+}
+
 // Access Zabbix API and Get Data
-function getZabbixData(rpcid, url, authid, method, params, https_flag, account) { 
+function getZabbixData(rpcid, url, authid, method, params, https_flag, account) {
 	var dataRequest = new Object();
 		dataRequest.params = params;
 		dataRequest.auth = authid;
 		dataRequest.jsonrpc = '2.0';
 		dataRequest.id = rpcid;
 		dataRequest.method = method;
-	var dataJsonRequest = JSON.stringify(dataRequest);		
+		var dataJsonRequest = JSON.stringify(dataRequest);
 	var api_url = getApiUrl(url,https_flag);
 	$.ajax({
 		type: 'POST',
@@ -342,11 +398,11 @@ function getZabbixData(rpcid, url, authid, method, params, https_flag, account) 
 		timeout: 10000,
 		success: function(response){
 			clearMsg();
-			showResult(response,url,https_flag);
+			addHostInfo(rpcid, url, authid, https_flag, account, response);
 		},
 		error: function(response){
 			outputError("Connection Error!");
-			
+
 			$("#datatable").fadeOut("normal",function(){
 				var str = "<table>";
 				str += "<div class=noconnection>Not Connected!</div>";
@@ -540,7 +596,7 @@ function popupNotification(msg,priority){
                 icon: "image/warning.png",
                 body: msg}
 			);
-			
+
 			setTimeout(function(){
 				notification.close();
 			},1000*notification_rate);
@@ -592,4 +648,3 @@ function getPriorityString(priority){
             return "disaster";
     }
 }
-    
